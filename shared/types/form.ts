@@ -1,4 +1,10 @@
 
+export type FormSingIn = {
+    login: string,
+    loginPerson: string,
+    password: string
+}
+
 export type Form = {
     login: string,
     password: string,

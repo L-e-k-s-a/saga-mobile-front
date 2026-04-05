@@ -1,52 +1,50 @@
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/form-sign-in-and-register';
+import { Form } from '@/shared/types/form';
 import { Button } from '@/shared/ui/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { validateForm } from '../../../shared/lib/validate-form';
+import { validateFormRegister } from '../../../shared/lib/validate-form';
 import { PersonForm } from '../person-form/person-form';
-import { Form } from '@/shared/types/form';
-
 
 export const RegisterForm = () => {
 	const [isVisiblePersonForm, setIsVisiblePersonForm] = useState(false);
 
 	const [message, setMessage] = useState('');
 
-    const [form, setForm] = useState<Form>({
+	const [form, setForm] = useState<Form>({
 		login: '',
 		password: '',
-        loginPerson: '',
-        name: '',
-        surname: '',
-        patronymic: '',
-        fullName: '',
-        role: '',
-        positionInFamily: ''
-    })
+		loginPerson: '',
+		name: '',
+		surname: '',
+		patronymic: '',
+		fullName: '',
+		role: '',
+		positionInFamily: '',
+	});
 
 	const handleFormChange = (field: string, value: any) => {
-		setForm(prev => ({...prev, [field]: value}))
-	}
+		setForm((prev) => ({ ...prev, [field]: value }));
+	};
 
 	const handleAbout = () => {
-		setIsVisiblePersonForm(!isVisiblePersonForm)
-	}
+		setIsVisiblePersonForm(!isVisiblePersonForm);
+	};
 
 	const handleRegister = () => {
-		const { isValid, message } = validateForm(form);
+		const { isValid, message } = validateFormRegister(form);
 		if (!isValid) {
 			setMessage(message);
 			return;
 		}
-		const full_name = form.name + " " + form.surname + " " + form.patronymic
-		handleFormChange('fullName', full_name)
+		const full_name = form.name + ' ' + form.surname + ' ' + form.patronymic;
+		handleFormChange('fullName', full_name);
 		setMessage('');
 	};
-	console.log(form);
 
 	return (
 		<VerLayout styles={styleForm.form}>
@@ -82,7 +80,9 @@ export const RegisterForm = () => {
 				<Typography style={styleForm.btnSecondary}>Заполнить о себе</Typography>
 			</TouchableOpacity>
 			<HorLayout>
-				{message !== '' && <Typography style={styleForm.errorPrimary}>{message}</Typography>}
+				{message !== '' && (
+					<Typography style={styleForm.errorPrimary}>{message}</Typography>
+				)}
 			</HorLayout>
 			<VerLayout styles={styleForm.submitSection}>
 				<Button
@@ -93,7 +93,13 @@ export const RegisterForm = () => {
 					onPress={handleRegister}
 				/>
 			</VerLayout>
-			{isVisiblePersonForm && <PersonForm form={form} onFormChange={handleFormChange} onAbout={handleAbout}/>}
+			{isVisiblePersonForm && (
+				<PersonForm
+					form={form}
+					onFormChange={handleFormChange}
+					onAbout={handleAbout}
+				/>
+			)}
 		</VerLayout>
 	);
 };

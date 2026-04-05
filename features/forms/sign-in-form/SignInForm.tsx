@@ -1,6 +1,6 @@
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { validateForm } from '@/shared/lib/validate-form';
+import { validateFormRegister, validateFormSignIn } from '@/shared/lib/validate-form';
 import { styleForm } from '@/shared/styles/form-sign-in-and-register';
 import { Button } from '@/shared/ui/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
@@ -8,30 +8,19 @@ import { Typography } from '@/shared/ui/Typography/Typography';
 import { useState } from 'react';
 
 export const SignInForm = () => {
-	const [login, setLogin] = useState('');
-	const [password, setPassword] = useState('');
-	const [loginPerson, setLoginPerson] = useState('');
 	const [message, setMessage] = useState('');
 	const [form, setForm] = useState({
-		login,
-		loginPerson,
-		password,
+		login: '',
+		loginPerson: '',
+		password: '',
 	});
 
-	const handleLoginChange = (login: string) => {
-		setLogin(login);
-	};
-
-	const handleLoginPersonChange = (login: string) => {
-		setLoginPerson(login);
-	};
-
-	const handlePasswordChange = (password: string) => {
-		setPassword(password);
+	const handleChangeForm = (field: string, value: string) => {
+		setForm((prev) => ({ ...prev, [field]: value }));
 	};
 
 	const handleSignIn = () => {
-		const { isValid, message } = validateForm(form);
+		const { isValid, message } = validateFormSignIn(form);
 		if (!isValid) {
 			setMessage(message);
 			return;
@@ -48,8 +37,8 @@ export const SignInForm = () => {
 					Логин Вашей семьи
 				</Typography>
 				<Input
-					value={login}
-					onChangeText={handleLoginChange}
+					value={form.login}
+					onChangeText={(text) => handleChangeForm('login', text)}
 					placeholder='Email'
 					style={styleForm.input}
 				/>
@@ -61,8 +50,8 @@ export const SignInForm = () => {
 					Ваш логин
 				</Typography>
 				<Input
-					value={loginPerson}
-					onChangeText={handleLoginPersonChange}
+					value={form.loginPerson}
+					onChangeText={(text) => handleChangeForm('loginPerson', text)}
 					placeholder='Email'
 					style={styleForm.input}
 				/>
@@ -74,8 +63,8 @@ export const SignInForm = () => {
 					Пароль Вашей семьи
 				</Typography>
 				<Input
-					value={password}
-					onChangeText={handlePasswordChange}
+					value={form.password}
+					onChangeText={(text) => handleChangeForm('password', text)}
 					placeholder='Пароль'
 					isPassword={true}
 					style={styleForm.input}
