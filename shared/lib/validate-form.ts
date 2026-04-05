@@ -57,7 +57,7 @@ const validEmptyField = (form: Form) => {
 	Object.keys(form).map((key: string) => form[key as keyof Form] === '');
 };
 
-export const validateFormSignIn = (form: FormSingIn){
+export const validateFormSignIn = (form: FormSingIn) => {
     return {
         isValid: false,
         message: ''
