@@ -12,7 +12,9 @@ export const RoutesForTabs = {
 } as const
 
 export const RoutesForAuth = {
-	AUTH: '/(auth)'
+	AUTH: '/(auth)',
+	SIGN_IN: '/(auth)/signIn',
+	REGISTER: '/(auth)/register'
 } as const
 
 export const Routes = {

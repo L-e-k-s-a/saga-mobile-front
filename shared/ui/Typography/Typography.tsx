@@ -1,3 +1,4 @@
+import { COLORS } from '@/shared/constants/colors';
 import { Variants } from '@/shared/types/typography';
 import { ReactNode } from 'react';
 import {StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
@@ -24,7 +25,7 @@ export const Typography = ({ variant = 'div', children, style }: TypographyProps
 		}
 	}
 
-	return <Text style={[getTag(variant), style]}>{children}</Text>;
+	return <Text style={[getTag(variant), style, {color: COLORS.white}]}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({
