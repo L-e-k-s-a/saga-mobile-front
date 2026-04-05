@@ -9,6 +9,7 @@ export default function AuthLayout() {
         <Stack screenOptions={{ headerShown:  false}}>
             <Stack.Screen 
                 name='index'
+                options={headerSettingsOptions("", false)}
             />
             <Stack.Screen 
                     name='register'

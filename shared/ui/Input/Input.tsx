@@ -4,8 +4,8 @@ type InputProps = {
     style?: StyleProp<ViewStyle>
     value: string,
     placeholder: string,
-    onChangeText?: (value: string) => void;
     isPassword?: boolean
+    onChangeText?: (value: string) => void;
 }
 
 export const Input = ({style, placeholder, value, onChangeText, isPassword}: InputProps) => {

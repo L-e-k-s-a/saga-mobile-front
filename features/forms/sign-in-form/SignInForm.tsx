@@ -1,46 +1,43 @@
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { validateForm } from '@/shared/lib/validate-form';
 import { styleForm } from '@/shared/styles/form-sign-in-and-register';
 import { Button } from '@/shared/ui/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import { useState } from 'react';
-import { validateForm, validateLogin } from '../../shared/lib/validate-form';
 
 export const SignInForm = () => {
 	const [login, setLogin] = useState('');
 	const [password, setPassword] = useState('');
-	const [loginPerson, setLoginPerson] = useState('')
+	const [loginPerson, setLoginPerson] = useState('');
 	const [message, setMessage] = useState('');
 	const [form, setForm] = useState({
 		login,
 		loginPerson,
 		password,
 	});
-	
+
 	const handleLoginChange = (login: string) => {
 		setLogin(login);
 	};
 
-
-
 	const handleLoginPersonChange = (login: string) => {
-		setLoginPerson(login)
-	}
+		setLoginPerson(login);
+	};
 
 	const handlePasswordChange = (password: string) => {
 		setPassword(password);
 	};
 
-		const handleSignIn = () => {
-		const { isValid, message } = validateForm(login, password);
+	const handleSignIn = () => {
+		const { isValid, message } = validateForm(form);
 		if (!isValid) {
 			setMessage(message);
 			return;
 		}
 		setMessage('');
 	};
-
 
 	return (
 		<VerLayout styles={styleForm.form}>
@@ -91,7 +88,7 @@ export const SignInForm = () => {
 
 			<VerLayout styles={styleForm.submitSection}>
 				<Button
-					style={styleForm.btnSignIn}
+					style={styleForm.btnSecondary}
 					textVariant='h3'
 					textStyle={styleForm.label}
 					text='Вперёд'

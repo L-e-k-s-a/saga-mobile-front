@@ -1,4 +1,4 @@
-import { AuthForm } from '@/features/auth-form/auth-form';
+import { AuthForm } from '@/features/forms/auth-form/auth-form';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
 

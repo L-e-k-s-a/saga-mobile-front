@@ -4,16 +4,17 @@ import { useState } from "react"
 import { TouchableOpacity, StyleSheet, View, ScrollView, Modal } from "react-native"
 import { ICON_SIZE } from "@/shared/constants/iconSize"
 import { COLORS } from "@/shared/constants/colors"
-import { HorLayout } from "@/shared/layouts/HorLayout/HorLayout"
 import { BORDER_RADII } from "@/shared/constants/borderRadii"
 import { PADDINGS } from "@/shared/constants/paddings"
 import { FONT_SIZE } from "@/shared/constants/font-size"
 import { capitalize } from "@/shared/lib/capitalize"
+import { Form } from "@/shared/types/form"
 
 type DropDownRegisterFormProps = {
     title: string,
+    form: Form,
     items: Item[],
-    onSelect: (item: Item) => void
+    onFormChange: (field: string, value: any) => void
 }
 
 type Item = {
@@ -21,24 +22,17 @@ type Item = {
     ru: string,
 }
 
-export const DropDownRegisterForm = ({title, items, onSelect}: DropDownRegisterFormProps) => {
+export const DropDownRegisterForm = ({form, title, items, onFormChange}: DropDownRegisterFormProps) => {
     const [isVisible, setIsVisible] = useState<boolean>(false)
-    const [select, setSelect] = useState<Item>()
-    const [buttonPosition, setButtonPosition] = useState({ y: 0, height: 0 })
 
     const handleDropDown = () => {
         setIsVisible(!isVisible)
     }
 
     const handleSelect = (item: Item) => {
-        setSelect(item)
         setIsVisible(false)
-        onSelect?.(item)
-    }
-
-    const onLayout = (event: any) => {
-        const { y, height } = event.nativeEvent.layout
-        setButtonPosition({ y, height })
+        onFormChange('positionInFamily', item.ru)
+        onFormChange('role', item.role)
     }
 
     return(
@@ -47,7 +41,7 @@ export const DropDownRegisterForm = ({title, items, onSelect}: DropDownRegisterF
                 style={styleDropDown.dropDown} 
             >
                 <Typography style={styleDropDown.title} variant="h3">
-                    {select?.ru ? capitalize(select.ru) : capitalize(title)}
+                    {form.positionInFamily ? capitalize(form.positionInFamily) : capitalize(title)}
                 </Typography>
                 <TouchableOpacity style={styleDropDown.icon} onPress={handleDropDown}>
                     <Ionicons 
@@ -73,12 +67,11 @@ export const DropDownRegisterForm = ({title, items, onSelect}: DropDownRegisterF
                         style={[
                             styleDropDown.dropdownList,
                             {
-                                bottom: 140,
+                                bottom: 12,
                                 left: 0,
                                 right: 0,
                             }
                         ]}
-                        onLayout={onLayout}
                     >
                         <ScrollView>
                             {items.map((item: Item) => (

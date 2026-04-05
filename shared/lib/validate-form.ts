@@ -52,7 +52,8 @@ export const validatePassword = (password: string): {isValid: boolean, message: 
     }
 }
 
-export const validateForm = (login: string, password: string) => {
+export const validateForm = (form: any) => {
+    const {login, loginPerson, password} = form
     const loginValidation = validateLogin(login);
     const passwordValidation = validatePassword(password);
     
@@ -60,6 +61,13 @@ export const validateForm = (login: string, password: string) => {
         return loginValidation;
     }
     
+    if(login === loginPerson){
+        return {
+            isValid: false,
+            message: "Извините, Ваша почта не может быть такой же как почта семьи"
+        }
+    }
+
     if(!passwordValidation.isValid){
         return passwordValidation;
     }

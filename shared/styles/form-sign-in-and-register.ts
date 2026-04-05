@@ -4,7 +4,6 @@ import { GAPS } from '@/shared/constants/gaps';
 import { PADDINGS } from '@/shared/constants/paddings';
 import { StyleSheet } from 'react-native';
 
-
 const btnCommon = {
 	color: COLORS.primaryColorText,
 	padding: PADDINGS.primaryButton,
@@ -13,7 +12,6 @@ const btnCommon = {
 	borderWidth: 1,
 	borderColor: COLORS.black,
 } as const;
-
 
 export const styleForm = StyleSheet.create({
 	form: {
@@ -27,6 +25,7 @@ export const styleForm = StyleSheet.create({
 		marginBottom: GAPS.px20,
 	},
 	input: {
+		borderWidth: 0.5,
 		backgroundColor: COLORS.primaryColorBackgroundInput,
 		borderRadius: BORDER_RADII.primary,
 		height: 52,
@@ -45,12 +44,12 @@ export const styleForm = StyleSheet.create({
 		width: '100%',
 		marginTop: GAPS.px16,
 	},
-	btnSignIn: {
+	btnSecondary: {
 		...btnCommon,
 		backgroundColor: COLORS.secondary,
 		width: '100%',
 	},
-	btnRegister: {
+	btnPrimary: {
 		...btnCommon,
 		backgroundColor: COLORS.primary,
 		width: '100%',
@@ -71,4 +70,7 @@ export const styleForm = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '600',
 	},
+	errorPrimary: {
+		color: COLORS.white
+	}
 });
