@@ -25,7 +25,7 @@ export const Typography = ({ variant = 'div', children, style }: TypographyProps
 		}
 	}
 
-	return <Text style={[getTag(variant), style, {color: COLORS.white}]}>{children}</Text>;
+	return <Text style={[getTag(variant), style]}>{children}</Text>;
 };
 
 const styles = StyleSheet.create({

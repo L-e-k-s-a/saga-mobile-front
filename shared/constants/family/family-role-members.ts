@@ -2,12 +2,12 @@
 
 export const FAMILY_MEMBERS_ROLE = [
     {
-        role: 'mother',
-        ru: 'мама'
-    },
-    {
         role: 'father',
         ru: 'папа'
+    },
+    {
+        role: 'mother',
+        ru: 'мама'
     },
     {
         role: 'son',
@@ -16,7 +16,16 @@ export const FAMILY_MEMBERS_ROLE = [
     {
         role: 'daughter',
         ru: 'дочь'
+    },
+    {
+        role: 'grandfather',
+        ru: 'дедушка'
+    },
+    {
+        role: 'grandmother',
+        ru: 'бабушка'
     }
+
 ]
 
 2
