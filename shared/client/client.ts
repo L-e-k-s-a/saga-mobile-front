@@ -1,10 +1,9 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 
-// Замените этот URL на ваш реальный адрес сервера
-// Для локальной разработки используйте IP вашего компьютера, например: http://192.168.1.100:4000/graphql
-const GRAPHQL_URL = 'https://your-graphql-server.com/graphql';
 
-const httpLink = createHttpLink({
+const GRAPHQL_URL = 'http://localhost:3000/graphql';
+
+const httpLink = new HttpLink({  // 👈 используем new HttpLink()
   uri: GRAPHQL_URL,
 });
 
