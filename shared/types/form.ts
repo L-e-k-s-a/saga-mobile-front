@@ -6,8 +6,10 @@ export type FormSingIn = {
 }
 
 export type Form = {
+    nameFamily: string,
     login: string,
     password: string,
+    repeatPassword: string,
     loginPerson: string,
     name: string,
     surname: string,

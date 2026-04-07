@@ -16,8 +16,10 @@ export const RegisterForm = () => {
 	const [message, setMessage] = useState('');
 
 	const [form, setForm] = useState<Form>({
+		nameFamily: '',
 		login: '',
 		password: '',
+		repeatPassword: '',
 		loginPerson: '',
 		name: '',
 		surname: '',
@@ -52,6 +54,20 @@ export const RegisterForm = () => {
 				<Typography
 					variant='h3'
 					style={styleForm.label}>
+					Как Ваша семья будет называться
+				</Typography>
+				<Input
+					value={form.nameFamily}
+					onChangeText={(text) => handleFormChange('nameFamily', text)}
+					placeholder='Название семьи'
+					style={styleForm.input}
+				/>
+			</VerLayout>
+
+			<VerLayout styles={styleForm.section}>
+				<Typography
+					variant='h3'
+					style={styleForm.label}>
 					Логин Вашей семьи
 				</Typography>
 				<Input
@@ -61,7 +77,6 @@ export const RegisterForm = () => {
 					style={styleForm.input}
 				/>
 			</VerLayout>
-
 			<VerLayout styles={styleForm.section}>
 				<Typography
 					variant='h3'
@@ -72,6 +87,20 @@ export const RegisterForm = () => {
 					value={form.password}
 					onChangeText={(text) => handleFormChange('password', text)}
 					placeholder='Пароль'
+					isPassword={true}
+					style={styleForm.input}
+				/>
+			</VerLayout>
+			<VerLayout styles={styleForm.section}>
+				<Typography
+					variant='h3'
+					style={styleForm.label}>
+					Повторить пароль
+				</Typography>
+				<Input
+					value={form.repeatPassword}
+					onChangeText={(text) => handleFormChange('repeatPassword', text)}
+					placeholder='Повторить пароль'
 					isPassword={true}
 					style={styleForm.input}
 				/>
