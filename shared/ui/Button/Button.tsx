@@ -64,7 +64,8 @@ const buttonStyle = StyleSheet.create({
         ...common
     },
     s: {
-        padding: PADDINGS.px10
+        padding: PADDINGS.px10,
+        width: 90
     },
 
     m: {

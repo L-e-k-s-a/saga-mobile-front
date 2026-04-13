@@ -11,5 +11,5 @@ export type Form = {
     login: string,
     password: string,
     repeatPassword: string,
-    familyMembers: FamilyMember[]
+    familyMembers: FamilyMember
 }

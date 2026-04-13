@@ -21,7 +21,15 @@ export const RegisterForm = () => {
 		login: '',
 		password: '',
 		repeatPassword: '',
-		familyMembers: []
+		familyMembers: {
+			loginPerson: '',
+			name: '',
+			surname: '',
+			patronymic: '',
+			fullName: '',
+			role: '',
+			positionInFamily: ''
+		}
 	});
 
 	const handleFormChange = (field: string, value: any) => {
@@ -38,11 +46,12 @@ export const RegisterForm = () => {
 			setMessage(message);
 			return;
 		}
-		const full_name = 
-		form.familyMembers.forEach((person: FamilyMember) => handleFormChange('fullName', person.name + ' ' + person.surname + ' ' + person.patronymic))
+		const full_name = form.familyMembers.name + " " + form.familyMembers.surname + " " + form.familyMembers.patronymic 
 		handleFormChange('fullName', full_name);
 		setMessage('');
 	};
+
+	console.log(form)
 
 	return (
 		<VerLayout styles={styleForm.form}>

@@ -5,10 +5,13 @@ import { FONT_SIZE } from '@/shared/constants/font-size';
 import { PADDINGS } from '@/shared/constants/paddings';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/form-sign-in-and-register';
+import { styleModal } from '@/shared/styles/modal';
+import { FamilyMember } from '@/shared/types/family-member';
 import { Form } from '@/shared/types/form';
 import { DropDownRegisterForm } from '@/shared/ui/drop-down/drop-down-register-form';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
+import { useState } from 'react';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 
@@ -21,12 +24,26 @@ type PersonFormProps = {
 
 export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => {
 
+	const [memberFamily, setMemberFamily] = useState<FamilyMember>({
+		loginPerson: '',
+		name: '',
+		surname: '',
+		patronymic: '',
+		fullName: '',
+		role: '',
+		positionInFamily: ''
+	})
+
+	const handleMemberFamilyChange = (field: string, value: string) => {
+		setMemberFamily((prev) => ({...prev, [field]: value}))
+	}
+	onFormChange("familyMembers", memberFamily)
 	return (
 		<Modal
 			transparent={true}
 			animationType='fade'>
-			<View style={styles.modalOverlay}>
-				<View style={styles.modalContent}>
+			<View style={styleModal.modalOverlay}>
+				<View style={styleModal.modalContent}>
 					<VerLayout styles={styleForm.section}>
 						<Typography
 							variant='h3'
@@ -34,8 +51,8 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 							Ваш логин
 						</Typography>
 						<Input
-							value={form.loginPerson}
-							onChangeText={(text) => onFormChange('loginPerson', text)}
+							value={memberFamily.loginPerson}
+							onChangeText={(text) => handleMemberFamilyChange('loginPerson', text)}
 							placeholder='Email'
 							style={styleForm.input}
 						/>
@@ -47,8 +64,8 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 							Имя
 						</Typography>
 						<Input
-							value={form.name}
-							onChangeText={(text) => onFormChange('name', text)}
+							value={form.familyMembers.name}
+							onChangeText={(text) => handleMemberFamilyChange('name', text)}
 							placeholder='Имя'
 							style={styleForm.input}
 						/>
@@ -60,8 +77,8 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 							Фамилия
 						</Typography>
 						<Input
-							value={form.surname}
-							onChangeText={(text) => onFormChange('surname', text)}
+							value={memberFamily.surname}
+							onChangeText={(text) => handleMemberFamilyChange('surname', text)}
 							placeholder='Фамилия'
 							style={styleForm.input}
 						/>
@@ -73,8 +90,8 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 							Отчество
 						</Typography>
 						<Input
-							value={form.patronymic}
-							onChangeText={(text) => onFormChange('patronymic', text)}
+							value={memberFamily.patronymic}
+							onChangeText={(text) => handleMemberFamilyChange('patronymic', text)}
 							placeholder='Отчество'
 							style={styleForm.input}
 						/>
@@ -90,7 +107,7 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
                             form={form}
 							title='Положение в семье'
 							items={FAMILY_MEMBERS_ROLE}
-							onFormChange={onFormChange}
+							onFormChange={handleMemberFamilyChange}
 						/>
 					</VerLayout>
 
@@ -106,20 +123,6 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 };
 
 const styles = StyleSheet.create({
-	modalOverlay: {
-		flex: 1,
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
-		justifyContent: 'center',
-		padding: PADDINGS.px32,
-	},
-	modalContent: {
-		backgroundColor: COLORS.white,
-		borderRadius: BORDER_RADII.primary,
-		paddingHorizontal: PADDINGS.px16,
-		paddingTop: PADDINGS.px16,
-		paddingBottom: PADDINGS.px32,
-		maxHeight: '90%',
-	},
 	header: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
