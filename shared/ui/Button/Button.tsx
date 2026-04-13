@@ -50,9 +50,9 @@ export const Button = ({text, onPress, style, textVariant, textStyle, variant = 
 const common = {
     borderRadius: BORDER_RADII.px10,
     borderWidth: 1,
-    width: 150
-
-}
+    width: 150,
+    alignItems: 'center'
+} as const
 
 const buttonStyle = StyleSheet.create({
     primary: {
@@ -61,7 +61,7 @@ const buttonStyle = StyleSheet.create({
     },
     secondary: {
         backgroundColor: COLORS.secondary,
-        ...common
+        ...common,
     },
     s: {
         padding: PADDINGS.px10,

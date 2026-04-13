@@ -1,3 +1,4 @@
+import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleModal } from '@/shared/styles/modal';
 import { NoteFamilyDiaryType } from '@/shared/types/note-family-diary';
@@ -17,6 +18,10 @@ export const NoteFamilyDiary = () => {
 	};
 
 	const handlerClose = () => {
+		setIsModalVisible(!isModalVisible)
+	}
+
+	const handleSave = () => {
 		setIsModalVisible(!isModalVisible)
 	}
 
@@ -43,12 +48,14 @@ export const NoteFamilyDiary = () => {
 				>
 					<VerLayout styles={styleModal.modalContent}>
 						<VerLayout styles={styleFamilyDiary.inner}>
-							<Button text="Закрыть" size='s' variant='secondary' onPress={handlerClose}/>
 							<TextInput 
 							style={styleFamilyDiary.textArea}
 							multiline={true}
 							/>
-							<Button text="Сохранить" size='s' variant='secondary' onPress={handlerClose}/>
+							<HorLayout style={styleFamilyDiary.btns}>
+								<Button text="Закрыть" size='s' variant='secondary' onPress={handlerClose}/>
+								<Button text="Сохранить" size='s' variant='secondary' onPress={handleSave}/>
+							</HorLayout>
 						</VerLayout>
 					</VerLayout>
 				</VerLayout>
@@ -69,9 +76,14 @@ const styleFamilyDiary = StyleSheet.create({
 	},
 	textArea: {
 		height: 400,
-		borderWidth: 1
+		borderWidth: 1,
+		padding: 5,
+		fontSize: 16
 	},
 	inner: {
 		gap: 15
+	},
+	btns: {
+		justifyContent: 'space-between'
 	}
 });
