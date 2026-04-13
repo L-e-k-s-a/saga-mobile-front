@@ -72,7 +72,7 @@ const styleFamilyDiary = StyleSheet.create({
 		position: 'absolute',
 		bottom: 85,
 		right: 0,
-		width: 95,
+		width: 100,
 	},
 	textArea: {
 		height: 400,
