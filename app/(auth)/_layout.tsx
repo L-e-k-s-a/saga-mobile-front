@@ -1,5 +1,5 @@
 import { COLORS } from '@/shared/constants/colors';
-import { headerSettingsOptions } from '@/shared/lib/auth/header-settings-options';
+import { headerSettingsOptions } from '@/shared/lib/settings-screen/header-settings-options';
 import { Stack } from 'expo-router';
 
 

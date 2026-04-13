@@ -1,11 +1,13 @@
+import { headerSettingsOptions } from '@/shared/lib/settings-screen/header-settings-options';
 import { Stack } from 'expo-router';
 
 export default function FamilyDiaryLayout() {
 	return (
-		<Stack.Screen
-			options={{
-				title: 'Семейный дневник',
-			}}
-		/>
+		<Stack screenOptions={{headerShown: false}}>
+			<Stack.Screen
+				name="index"
+				options={headerSettingsOptions("Дневник")}
+			/>
+		</Stack>
 	);
 }

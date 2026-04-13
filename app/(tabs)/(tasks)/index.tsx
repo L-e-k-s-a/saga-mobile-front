@@ -1,10 +1,11 @@
 
-import { View } from "react-native";
+import { Tasks } from "@/widget/Tasks/Tasks";
+import { View, Text } from "react-native";
 
 
 
 export default function TasksScreen(){
     return (
-        <View>Tasks</View>
+        <Tasks />
     )
 }

@@ -1,3 +1,4 @@
+import { FamilyMember } from "./family-member"
 
 export type FormSingIn = {
     login: string,
@@ -10,11 +11,5 @@ export type Form = {
     login: string,
     password: string,
     repeatPassword: string,
-    loginPerson: string,
-    name: string,
-    surname: string,
-    patronymic: string,
-    fullName: string,
-    role: string,
-    positionInFamily: string,
+    familyMembers: FamilyMember[]
 }

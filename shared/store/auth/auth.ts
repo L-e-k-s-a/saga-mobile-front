@@ -2,12 +2,19 @@ import { create } from 'zustand'
 
 
 type AuthStore = {
-    isAuth: boolean
+    isAuth: boolean,
+    user: any,
+    role: string,
 }
 
 export const useAuthStore = create<AuthStore>()((set, get) => ({
-    isAuth: false,
+    isAuth: true,
+    user: null,
+    role: '',
+
 
     setIsAuth: (val: boolean) => set({isAuth: val}),
-    login: () => set({isAuth: true})
+    login: () => set({isAuth: true}),
+    // setUser: (value) => set({user, ...value}),
+    // setRole: (value) => set({role: value})
 }))

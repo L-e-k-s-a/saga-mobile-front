@@ -18,7 +18,8 @@ export const RoutesForAuth = {
 } as const
 
 export const Routes = {
-	
+	RoutesForTabs,
+	RoutesForAuth
 } as const
 
 export type TypeRoutesForTabs = typeof RoutesForTabs[keyof typeof RoutesForTabs]

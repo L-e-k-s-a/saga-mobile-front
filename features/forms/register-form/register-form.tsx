@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { validateFormRegister } from '../../../shared/lib/validate-form';
 import { PersonForm } from '../person-form/person-form';
+import { FamilyMember } from '@/shared/types/family-member';
 
 export const RegisterForm = () => {
 	const [isVisiblePersonForm, setIsVisiblePersonForm] = useState(false);
@@ -20,13 +21,7 @@ export const RegisterForm = () => {
 		login: '',
 		password: '',
 		repeatPassword: '',
-		loginPerson: '',
-		name: '',
-		surname: '',
-		patronymic: '',
-		fullName: '',
-		role: '',
-		positionInFamily: '',
+		familyMembers: []
 	});
 
 	const handleFormChange = (field: string, value: any) => {
@@ -43,7 +38,8 @@ export const RegisterForm = () => {
 			setMessage(message);
 			return;
 		}
-		const full_name = form.name + ' ' + form.surname + ' ' + form.patronymic;
+		const full_name = 
+		form.familyMembers.forEach((person: FamilyMember) => handleFormChange('fullName', person.name + ' ' + person.surname + ' ' + person.patronymic))
 		handleFormChange('fullName', full_name);
 		setMessage('');
 	};

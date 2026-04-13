@@ -44,7 +44,7 @@ export default function TabsLayout() {
 			/>
 
 			<Tabs.Screen
-				name='favorite'
+				name='(navPanel)/favorite'
 				options={{
 					title: 'Избранное',
 					tabBarIcon: ({ color, size }) => (
@@ -57,7 +57,7 @@ export default function TabsLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='profile'
+				name='(navPanel)/profile'
 				options={{
 					title: 'Профиль',
 					tabBarIcon: ({ color, size }) => (
@@ -70,7 +70,7 @@ export default function TabsLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='settings'
+				name='(navPanel)/settings'
 				options={{
 					title: 'Настройки',
 					tabBarIcon: ({ color, size }) => (
@@ -104,6 +104,7 @@ export default function TabsLayout() {
 				name='(familyDiary)'
 				options={{
 					href: null,
+					headerShown: false
 				}}
 			/>
 			<Tabs.Screen
@@ -128,6 +129,7 @@ export default function TabsLayout() {
 				name='(tasks)'
 				options={{
 					href: null,
+					headerShown: false
 				}}
 			/>
 			<Tabs.Screen
