@@ -18,7 +18,6 @@ export const styleForm = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingHorizontal: PADDINGS.px32,
 	},
 	section: {
 		width: '100%',

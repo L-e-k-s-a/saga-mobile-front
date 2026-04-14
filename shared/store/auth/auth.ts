@@ -5,10 +5,12 @@ type AuthStore = {
     isAuth: boolean,
     user: any,
     role: string,
+
+    login: () => void
 }
 
 export const useAuthStore = create<AuthStore>()((set, get) => ({
-    isAuth: true,
+    isAuth: false,
     user: null,
     role: '',
 

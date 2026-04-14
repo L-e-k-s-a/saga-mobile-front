@@ -4,42 +4,33 @@ import { FAMILY_MEMBERS_ROLE } from '@/shared/constants/family/family-role-membe
 import { FONT_SIZE } from '@/shared/constants/font-size';
 import { PADDINGS } from '@/shared/constants/paddings';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { styleForm } from '@/shared/styles/form-sign-in-and-register';
+import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
 import { FamilyMember } from '@/shared/types/family-member';
-import { Form } from '@/shared/types/form';
+import { FormRegister } from '@/shared/types/form';
 import { DropDownRegisterForm } from '@/shared/ui/drop-down/drop-down-register-form';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import { useState } from 'react';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-
-
 type PersonFormProps = {
-    form: Form,
+	form: FormRegister;
+	isVisiblePersonForm: boolean;
 	onAbout: () => void;
-    onFormChange: (field: string, value: any) => void
+	onFormChange: (field: string, value: any) => void;
 };
 
-export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => {
+export const PersonForm = ({
+	form,
+	onFormChange,
+	isVisiblePersonForm,
+	onAbout,
+}: PersonFormProps) => {
 
-	const [memberFamily, setMemberFamily] = useState<FamilyMember>({
-		loginPerson: '',
-		name: '',
-		surname: '',
-		patronymic: '',
-		fullName: '',
-		role: '',
-		positionInFamily: ''
-	})
-
-	const handleMemberFamilyChange = (field: string, value: string) => {
-		setMemberFamily((prev) => ({...prev, [field]: value}))
-	}
-	onFormChange("familyMembers", memberFamily)
 	return (
 		<Modal
+			visible={isVisiblePersonForm}
 			transparent={true}
 			animationType='fade'>
 			<View style={styleModal.modalOverlay}>
@@ -48,24 +39,11 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 						<Typography
 							variant='h3'
 							style={styles.label}>
-							Ваш логин
-						</Typography>
-						<Input
-							value={memberFamily.loginPerson}
-							onChangeText={(text) => handleMemberFamilyChange('loginPerson', text)}
-							placeholder='Email'
-							style={styleForm.input}
-						/>
-					</VerLayout>
-					<VerLayout styles={styleForm.section}>
-						<Typography
-							variant='h3'
-							style={styles.label}>
 							Имя
 						</Typography>
 						<Input
-							value={form.familyMembers.name}
-							onChangeText={(text) => handleMemberFamilyChange('name', text)}
+							value={form.name}
+							onChangeText={(text) => onFormChange('name', text)}
 							placeholder='Имя'
 							style={styleForm.input}
 						/>
@@ -77,8 +55,8 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 							Фамилия
 						</Typography>
 						<Input
-							value={memberFamily.surname}
-							onChangeText={(text) => handleMemberFamilyChange('surname', text)}
+							value={form.surname}
+							onChangeText={(text) => onFormChange('surname', text)}
 							placeholder='Фамилия'
 							style={styleForm.input}
 						/>
@@ -90,8 +68,10 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 							Отчество
 						</Typography>
 						<Input
-							value={memberFamily.patronymic}
-							onChangeText={(text) => handleMemberFamilyChange('patronymic', text)}
+							value={form.patronymic}
+							onChangeText={(text) =>
+								onFormChange('patronymic', text)
+							}
 							placeholder='Отчество'
 							style={styleForm.input}
 						/>
@@ -104,10 +84,10 @@ export const PersonForm = ({ form, onFormChange, onAbout }: PersonFormProps) => 
 							Кто Вы?
 						</Typography>
 						<DropDownRegisterForm
-                            form={form}
+							form={form}
 							title='Положение в семье'
 							items={FAMILY_MEMBERS_ROLE}
-							onFormChange={handleMemberFamilyChange}
+							onFormChange={onFormChange}
 						/>
 					</VerLayout>
 

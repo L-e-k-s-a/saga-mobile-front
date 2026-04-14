@@ -37,9 +37,12 @@ export default function TabsLayout() {
 						<Ionicons
 							name='home-outline'
 							size={size}
-							color={color}
+							color={COLORS.white}
 						/>
 					),
+										tabBarLabelStyle: {
+						color: COLORS.white, 
+					},
 				}}
 			/>
 
@@ -51,9 +54,12 @@ export default function TabsLayout() {
 						<Ionicons
 							name='heart-outline'
 							size={size}
-							color={color}
+							color={COLORS.white}
 						/>
 					),
+										tabBarLabelStyle: {
+						color: COLORS.white, 
+					},
 				}}
 			/>
 			<Tabs.Screen
@@ -64,9 +70,12 @@ export default function TabsLayout() {
 						<Ionicons
 							name='person-outline'
 							size={size}
-							color={color}
+							color={COLORS.white}
 						/>
 					),
+					tabBarLabelStyle: {
+						color: COLORS.white, 
+					},
 				}}
 			/>
 			<Tabs.Screen
@@ -77,9 +86,12 @@ export default function TabsLayout() {
 						<Ionicons
 							name='settings-outline'
 							size={size}
-							color={color}
+							color={COLORS.white}
 						/>
 					),
+										tabBarLabelStyle: {
+						color: COLORS.white, 
+					},
 				}}
 			/>
 			<Tabs.Screen
@@ -104,7 +116,7 @@ export default function TabsLayout() {
 				name='(familyDiary)'
 				options={{
 					href: null,
-					headerShown: false
+					headerShown: false,
 				}}
 			/>
 			<Tabs.Screen
@@ -129,7 +141,7 @@ export default function TabsLayout() {
 				name='(tasks)'
 				options={{
 					href: null,
-					headerShown: false
+					headerShown: false,
 				}}
 			/>
 			<Tabs.Screen

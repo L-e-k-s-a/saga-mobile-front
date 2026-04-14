@@ -1,35 +1,33 @@
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { styleForm } from '@/shared/styles/form-sign-in-and-register';
-import { Form } from '@/shared/types/form';
+import { styleForm } from '@/shared/styles/forms';
+import { FormRegister } from '@/shared/types/form';
 import { Button } from '@/shared/ui/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { validateFormRegister } from '../../../shared/lib/validate-form';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { PersonForm } from '../person-form/person-form';
-import { FamilyMember } from '@/shared/types/family-member';
+import { auth } from '@/firebase/firebase';
+import { router } from 'expo-router';
+import { Routes, RoutesForAuth } from '@/shared/routes/routes';
 
 export const RegisterForm = () => {
 	const [isVisiblePersonForm, setIsVisiblePersonForm] = useState(false);
 
 	const [message, setMessage] = useState('');
 
-	const [form, setForm] = useState<Form>({
-		nameFamily: '',
-		login: '',
-		password: '',
-		repeatPassword: '',
-		familyMembers: {
-			loginPerson: '',
-			name: '',
-			surname: '',
-			patronymic: '',
-			fullName: '',
-			role: '',
-			positionInFamily: ''
-		}
+	const [form, setForm] = useState<FormRegister>({
+		loginPerson: '',
+		passwordPerson: '',
+		repeatPasswordPerson: '',
+		name: '',
+		surname: '',
+		patronymic: '',
+		fullName: '',
+		role: '',
+		positionInFamily: '',
 	});
 
 	const handleFormChange = (field: string, value: any) => {
@@ -40,71 +38,52 @@ export const RegisterForm = () => {
 		setIsVisiblePersonForm(!isVisiblePersonForm);
 	};
 
-	const handleRegister = () => {
-		const { isValid, message } = validateFormRegister(form);
-		if (!isValid) {
-			setMessage(message);
-			return;
+	const handleClearForm = () => {
+		setForm({
+		loginPerson: '',
+		passwordPerson: '',
+		repeatPasswordPerson: '',
+		name: '',
+		surname: '',
+		patronymic: '',
+		fullName: '',
+		role: '',
+		positionInFamily: '',
+	})
+	router.navigate(RoutesForAuth.SIGN_IN)
+	}
+
+	const handleRegister = async () => {
+		try{
+			const candidate = await createUserWithEmailAndPassword(auth, form.loginPerson, form.passwordPerson)
+			console.log("create", candidate)
+			handleClearForm()
+		}catch(err){
+			console.log(err)
 		}
-		const full_name = form.familyMembers.name + " " + form.familyMembers.surname + " " + form.familyMembers.patronymic 
-		handleFormChange('fullName', full_name);
-		setMessage('');
 	};
 
-	console.log(form)
+	console.log(form);
 
 	return (
 		<VerLayout styles={styleForm.form}>
 			<VerLayout styles={styleForm.section}>
-				<Typography
-					variant='h3'
-					style={styleForm.label}>
-					Как Ваша семья будет называться
-				</Typography>
 				<Input
-					value={form.nameFamily}
-					onChangeText={(text) => handleFormChange('nameFamily', text)}
-					placeholder='Название семьи'
+					value={form.loginPerson}
+					onChangeText={(text) => handleFormChange('loginPerson', text)}
+					placeholder='Логин'
 					style={styleForm.input}
 				/>
-			</VerLayout>
-
-			<VerLayout styles={styleForm.section}>
-				<Typography
-					variant='h3'
-					style={styleForm.label}>
-					Логин Вашей семьи
-				</Typography>
 				<Input
-					value={form.login}
-					onChangeText={(text) => handleFormChange('login', text)}
-					placeholder='Email'
-					style={styleForm.input}
-				/>
-			</VerLayout>
-			<VerLayout styles={styleForm.section}>
-				<Typography
-					variant='h3'
-					style={styleForm.label}>
-					Пароль Вашей семьи
-				</Typography>
-				<Input
-					value={form.password}
-					onChangeText={(text) => handleFormChange('password', text)}
+					value={form.passwordPerson}
+					onChangeText={(text) => handleFormChange('passwordPerson', text)}
 					placeholder='Пароль'
 					isPassword={true}
 					style={styleForm.input}
 				/>
-			</VerLayout>
-			<VerLayout styles={styleForm.section}>
-				<Typography
-					variant='h3'
-					style={styleForm.label}>
-					Повторить пароль
-				</Typography>
 				<Input
-					value={form.repeatPassword}
-					onChangeText={(text) => handleFormChange('repeatPassword', text)}
+					value={form.repeatPasswordPerson}
+					onChangeText={(text) => handleFormChange('repeatPasswordPerson', text)}
 					placeholder='Повторить пароль'
 					isPassword={true}
 					style={styleForm.input}
@@ -123,7 +102,7 @@ export const RegisterForm = () => {
 					style={styleForm.btnPrimary}
 					textVariant='h3'
 					textStyle={styleForm.label}
-					text='Зарегистрировать'
+					text='Зарегистрироваться'
 					onPress={handleRegister}
 				/>
 			</VerLayout>
@@ -131,6 +110,7 @@ export const RegisterForm = () => {
 				<PersonForm
 					form={form}
 					onFormChange={handleFormChange}
+					isVisiblePersonForm={isVisiblePersonForm}
 					onAbout={handleAbout}
 				/>
 			)}

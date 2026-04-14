@@ -1,4 +1,4 @@
-import { Form, FormSingIn } from '../types/form';
+import { FormRegister, FormSingIn } from '../types/form';
 
 export const validateLogin = (
 	login: string,
@@ -53,18 +53,20 @@ export const validatePassword = (
 	};
 };
 
-const validEmptyField = (form: Form) => {
-	Object.keys(form).map((key: string) => form[key as keyof Form] === '');
+const validEmptyField = (form: FormRegister) => {
+	Object.keys(form).map(
+		(key: string) => form[key as keyof FormRegister] === '',
+	);
 };
 
 export const validateFormSignIn = (form: FormSingIn) => {
-    return {
-        isValid: false,
-        message: ''
-    }
-}
+	return {
+		isValid: false,
+		message: '',
+	};
+};
 
-export const validateFormRegister = (form: Form) => {
+export const validateFormRegister = (form: FormRegister) => {
 	const { login, loginPerson, password } = form;
 	const loginFamily = validateLogin(login);
 	const passwordFamily = validatePassword(password);

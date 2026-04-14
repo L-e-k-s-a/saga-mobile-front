@@ -1,5 +1,5 @@
 
-import { SignInForm } from '@/features/forms/sign-in-form/SignInForm';
+import { SignInForm } from '@/features/forms';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
 

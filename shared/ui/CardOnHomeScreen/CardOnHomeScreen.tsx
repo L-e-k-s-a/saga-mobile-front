@@ -11,6 +11,7 @@ import { HorLayout } from '../../layouts/HorLayout/HorLayout';
 import { TypeRoutesForTabs } from '../../routes/routes';
 import { Card } from '../Card/Card';
 import { Typography } from '../Typography/Typography';
+import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 
 type CardOnHomeScreeenProps = {
 	title: string;
@@ -32,12 +33,14 @@ export const CardOnHomeScreeen = ({
 			style={styles.card}
 			onPress={handleClickCard}>
 			<Card>
-				<HorLayout>
-					<Typography variant='h3'>{title}</Typography>
-					<Image
-						style={styles.image}
-						source={image}
-					/>
+				<HorLayout style={styles.tile}>
+					<Typography style={styles.containerTitle} variant='h3'>{title}</Typography>
+					<VerLayout styles={styles.containerImage}>
+						<Image
+							style={styles.image}
+							source={image}
+						/>
+					</VerLayout>
 				</HorLayout>
 			</Card>
 		</TouchableOpacity>
@@ -45,6 +48,11 @@ export const CardOnHomeScreeen = ({
 };
 
 const styles = StyleSheet.create({
+	tile: {
+		justifyContent: 'space-between',
+		gap: 5,
+		padding: 8
+	},
 	card: {
 		width: '48%',
 		height: '17%',
@@ -53,8 +61,15 @@ const styles = StyleSheet.create({
 		color: COLORS.white,
 		borderRadius: BORDER_RADII.px10,
 	},
+	containerTitle: {
+		width: '70%',
+		color: COLORS.white
+	},
+	containerImage: {
+		width: '30%'
+	},
 	image: {
-		width: 40,
-		height: 40,
+		width: 45,
+		height: 45,
 	},
 });
