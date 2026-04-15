@@ -1,15 +1,12 @@
-import { headerSettingsOptions } from '@/shared/lib/settings-screen/header-settings-options';
-import { HeaderBackButton } from '@react-navigation/elements';
+import { stackHeaderSettingsOptions } from '@/shared/lib/settings-screen/stack-header-settings-options';
 import { Stack } from 'expo-router';
 
 export default function TasksLayout() {
 	return (
-		<Stack screenOptions={{headerShown: false}}>
+		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Screen
-				name="index"
-				options={
-					headerSettingsOptions('Задачи')
-				}
+				name='index'
+				options={stackHeaderSettingsOptions('Задачи')}
 			/>
 		</Stack>
 	);

@@ -1,11 +1,13 @@
+import { stackHeaderSettingsOptions } from '@/shared/lib/settings-screen/stack-header-settings-options';
 import { Stack } from 'expo-router';
 
 export default function CalendarLayout() {
 	return (
+		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Screen
-				options={{
-					title: 'Календарь',
-				}}
+				name='index'
+				options={stackHeaderSettingsOptions('Календарь')}
 			/>
+		</Stack>
 	);
 }

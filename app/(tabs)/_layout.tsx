@@ -1,6 +1,7 @@
 import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
 import { MARGINS } from '@/shared/constants/margins';
+import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
@@ -40,8 +41,8 @@ export default function TabsLayout() {
 							color={COLORS.white}
 						/>
 					),
-										tabBarLabelStyle: {
-						color: COLORS.white, 
+					tabBarLabelStyle: {
+						color: COLORS.white,
 					},
 				}}
 			/>
@@ -57,8 +58,8 @@ export default function TabsLayout() {
 							color={COLORS.white}
 						/>
 					),
-										tabBarLabelStyle: {
-						color: COLORS.white, 
+					tabBarLabelStyle: {
+						color: COLORS.white,
 					},
 				}}
 			/>
@@ -74,7 +75,7 @@ export default function TabsLayout() {
 						/>
 					),
 					tabBarLabelStyle: {
-						color: COLORS.white, 
+						color: COLORS.white,
 					},
 				}}
 			/>
@@ -89,8 +90,8 @@ export default function TabsLayout() {
 							color={COLORS.white}
 						/>
 					),
-										tabBarLabelStyle: {
-						color: COLORS.white, 
+					tabBarLabelStyle: {
+						color: COLORS.white,
 					},
 				}}
 			/>
@@ -108,47 +109,31 @@ export default function TabsLayout() {
 			/>
 			<Tabs.Screen
 				name='(clubByInterest)'
-				options={{
-					href: null,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 			<Tabs.Screen
 				name='(familyDiary)'
-				options={{
-					href: null,
-					headerShown: false,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 			<Tabs.Screen
 				name='(genealogy)'
-				options={{
-					href: null,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 			<Tabs.Screen
 				name='(pets)'
-				options={{
-					href: null,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 			<Tabs.Screen
 				name='(products)'
-				options={{
-					href: null,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 			<Tabs.Screen
 				name='(tasks)'
-				options={{
-					href: null,
-					headerShown: false,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 			<Tabs.Screen
 				name='(calendar)'
-				options={{
-					href: null,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 		</Tabs>
 	);
