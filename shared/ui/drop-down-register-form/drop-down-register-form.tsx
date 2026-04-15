@@ -124,7 +124,7 @@ const styleDropDown = StyleSheet.create({
 	},
 	modalOverlay: {
 		flex: 1,
-		backgroundColor: 'rgba(0,0,0,0.3)', // Полупрозрачный фон
+		backgroundColor: 'rgba(0,0,0,0.3)',
 	},
 	dropdownList: {
 		position: 'absolute',
@@ -132,7 +132,7 @@ const styleDropDown = StyleSheet.create({
 		borderRadius: BORDER_RADII.primary,
 		borderWidth: 1,
 		maxHeight: 200,
-		marginHorizontal: PADDINGS.px16, // Отступы по бокам
+		marginHorizontal: PADDINGS.px16,
 		zIndex: 1000,
 		elevation: 1000,
 		shadowColor: '#000',

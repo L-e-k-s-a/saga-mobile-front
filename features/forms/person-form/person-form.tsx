@@ -8,7 +8,7 @@ import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
 import { FamilyMember } from '@/shared/types/family-member';
 import { FormRegister } from '@/shared/types/form';
-import { DropDownRegisterForm } from '@/shared/ui/drop-down/drop-down-register-form';
+import { DropDownRegisterForm } from '@/shared/ui/drop-down-register-form/drop-down-register-form';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import { useState } from 'react';

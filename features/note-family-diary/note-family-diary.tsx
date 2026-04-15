@@ -10,6 +10,7 @@ import { Modal, StyleSheet, TextInput, TouchableOpacity, View } from 'react-nati
 import { ButtonAdd } from '@/shared/ui/button-add/button-add';
 
 export const NoteFamilyDiary = () => {
+	const [note, setNote] = useState('')
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const notes: NoteFamilyDiaryType[] = [];
