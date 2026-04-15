@@ -50,7 +50,7 @@ export const NoteFamilyDiary = () => {
 							/>
 							<HorLayout style={styleFamilyDiary.btns}>
 								<Button text="Закрыть" size='s' variant='secondary' onPress={handlerClose}/>
-								<Button text="Сохранить" size='s' variant='secondary' onPress={handleSave}/>
+								<Button text="Сохранить" size='m' variant='secondary' onPress={handleSave}/>
 							</HorLayout>
 						</VerLayout>
 					</VerLayout>

@@ -21,6 +21,6 @@ const styleButtonAdd = StyleSheet.create({
 		position: 'absolute',
 		bottom: 85,
 		right: 0,
-		width: 100,
+		width: 120,
 	},
 })
