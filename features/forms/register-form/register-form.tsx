@@ -27,7 +27,6 @@ export const RegisterForm = () => {
 		patronymic: '',
 		fullName: '',
 		role: '',
-		positionInFamily: '',
 	});
 
 	const handleFormChange = (field: string, value: any) => {
@@ -48,7 +47,6 @@ export const RegisterForm = () => {
 		patronymic: '',
 		fullName: '',
 		role: '',
-		positionInFamily: '',
 	})
 	router.navigate(RoutesForAuth.SIGN_IN)
 	}

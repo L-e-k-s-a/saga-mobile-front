@@ -15,5 +15,4 @@ export type FormRegister = {
     patronymic: string,
     fullName: string,
     role: string,
-    positionInFamily: string,
 };

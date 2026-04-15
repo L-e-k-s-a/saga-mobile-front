@@ -1,11 +1,9 @@
 import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
 import { FONT_SIZE } from '@/shared/constants/font-size';
-import { ICON_SIZE } from '@/shared/constants/iconSize';
 import { PADDINGS } from '@/shared/constants/paddings';
 import { capitalize } from '@/shared/lib/capitalize';
-import { FormRegister } from '@/shared/types/form';
-import { Ionicons } from '@expo/vector-icons';
+import { CreateFamilyFormType } from '@/shared/types/create-family-form';
 import { useState } from 'react';
 import {
 	Modal,
@@ -18,7 +16,7 @@ import { Typography } from '../Typography/Typography';
 
 type DropDownRegisterFormProps = {
 	title: string;
-	form: FormRegister;
+	form: CreateFamilyFormType;
 	items: Item[];
 	onFormChange: (field: string, value: any) => void;
 };
@@ -28,7 +26,7 @@ type Item = {
 	ru: string;
 };
 
-export const DropDownRegisterForm = ({
+export const DropDownPositionInFamily = ({
 	form,
 	title,
 	items,
@@ -48,25 +46,6 @@ export const DropDownRegisterForm = ({
 
 	return (
 		<>
-			<View style={styleDropDown.dropDown}>
-				<Typography
-					style={styleDropDown.title}
-					variant='h3'>
-					{form.positionInFamily
-						? capitalize(form.positionInFamily)
-						: capitalize(title)}
-				</Typography>
-				<TouchableOpacity
-					style={styleDropDown.icon}
-					onPress={handleDropDown}>
-					<Ionicons
-						name={isVisible ? 'arrow-up' : 'arrow-down'}
-						size={ICON_SIZE.primary}
-						color={COLORS.secondary}
-					/>
-				</TouchableOpacity>
-			</View>
-
 			<Modal
 				visible={isVisible}
 				transparent={true}

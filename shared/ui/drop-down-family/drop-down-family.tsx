@@ -17,6 +17,12 @@ export const DropDowmFamily = ({ isVisible }: DropDowmFamilyProps) => {
 							text='Создать семью'
 							onPress={() => {}}
 						/>
+                        <Button
+							style={styleDropDownFamily.item}
+							variant='secondary'
+							text='Добавить'
+							onPress={() => {}}
+						/>
 						<Button
 							style={styleDropDownFamily.item}
 							variant='secondary'

@@ -6,12 +6,10 @@ import { PADDINGS } from '@/shared/constants/paddings';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
-import { FamilyMember } from '@/shared/types/family-member';
 import { FormRegister } from '@/shared/types/form';
-import { DropDownRegisterForm } from '@/shared/ui/drop-down-register-form/drop-down-register-form';
+import { DropDownPositionInFamily } from '@/shared/ui/drop-down-register-form/drop-down-register-form';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
-import { useState } from 'react';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type PersonFormProps = {
@@ -27,7 +25,6 @@ export const PersonForm = ({
 	isVisiblePersonForm,
 	onAbout,
 }: PersonFormProps) => {
-
 	return (
 		<Modal
 			visible={isVisiblePersonForm}
@@ -69,25 +66,9 @@ export const PersonForm = ({
 						</Typography>
 						<Input
 							value={form.patronymic}
-							onChangeText={(text) =>
-								onFormChange('patronymic', text)
-							}
+							onChangeText={(text) => onFormChange('patronymic', text)}
 							placeholder='Отчество'
 							style={styleForm.input}
-						/>
-					</VerLayout>
-
-					<VerLayout styles={styleForm.section}>
-						<Typography
-							variant='h3'
-							style={styles.label}>
-							Кто Вы?
-						</Typography>
-						<DropDownRegisterForm
-							form={form}
-							title='Положение в семье'
-							items={FAMILY_MEMBERS_ROLE}
-							onFormChange={onFormChange}
 						/>
 					</VerLayout>
 

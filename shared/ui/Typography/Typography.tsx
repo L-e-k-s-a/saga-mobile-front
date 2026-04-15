@@ -1,15 +1,19 @@
 import { COLORS } from '@/shared/constants/colors';
-import { Variants } from '@/shared/types/typography';
+import { VariantTypography } from '@/shared/types/variant-typography';
 import { ReactNode } from 'react';
-import {StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
 
 export type TypographyProps = {
 	children: ReactNode;
-	variant?: Variants;
-	style?: StyleProp<TextStyle>
+	variant?: VariantTypography;
+	style?: StyleProp<TextStyle>;
 };
 
-export const Typography = ({ variant = 'div', children, style }: TypographyProps) => {
+export const Typography = ({
+	variant = 'div',
+	children,
+	style,
+}: TypographyProps) => {
 	function getTag(variant: string) {
 		switch (variant) {
 			case 'h1':
@@ -29,31 +33,31 @@ export const Typography = ({ variant = 'div', children, style }: TypographyProps
 };
 
 const common = {
-	color: COLORS.white
-}
+	color: COLORS.white,
+};
 
 const styles = StyleSheet.create({
 	h1: {
 		fontSize: 32,
 		fontWeight: 'bold',
 		marginBottom: 16,
-		...common
+		...common,
 	},
 	h2: {
 		fontSize: 24,
 		fontWeight: '600',
 		marginBottom: 12,
-		...common
+		...common,
 	},
 	h3: {
 		fontSize: 18,
 		fontWeight: '500',
 		marginBottom: 8,
-		...common
+		...common,
 	},
 	div: {
 		fontSize: 14,
 		marginBottom: 4,
-		...common
+		...common,
 	},
 });
