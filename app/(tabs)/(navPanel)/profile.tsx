@@ -1,4 +1,3 @@
-import { ProfileView } from "@/features/profile/ProfileView/ProfileView";
 import { ProfileWidget } from "@/widget/Profile/Profile";
 
 

@@ -1,5 +1,4 @@
 import { FavoriteWidget } from "@/widget/Favorite/Favorite";
-import { View, Text } from "react-native";
 
 
 

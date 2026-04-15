@@ -1,6 +1,5 @@
 
 import { SettingsWidget } from "@/widget/Settings/Settings";
-import { View, Text } from "react-native";
 
 
 
