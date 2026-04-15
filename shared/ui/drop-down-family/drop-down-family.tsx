@@ -31,7 +31,7 @@ export const DropDowmFamily = ({ isVisible }: DropDowmFamilyProps) => {
 const styleDropDownFamily = StyleSheet.create({
 	dropDown: {
 		position: 'absolute',
-		top: 50,
+		top: 90,
 		left: 0,
 		right: 0,
 		backgroundColor: COLORS.white,
