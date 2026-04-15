@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
 		borderRadius: BORDER_RADII.px10,
 	},
 	containerTitle: {
-		width: '70%',
+		width: '71%',
 		color: COLORS.white
 	},
 	containerImage: {
-		width: '30%'
+		width: '29%'
 	},
 	image: {
 		width: 45,
