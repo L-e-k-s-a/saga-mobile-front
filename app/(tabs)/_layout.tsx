@@ -97,15 +97,11 @@ export default function TabsLayout() {
 			/>
 			<Tabs.Screen
 				name='(album)'
-				options={{
-					href: null,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 			<Tabs.Screen
 				name='(chat)'
-				options={{
-					href: null,
-				}}
+				options={tabsSettingsOptions()}
 			/>
 			<Tabs.Screen
 				name='(clubByInterest)'

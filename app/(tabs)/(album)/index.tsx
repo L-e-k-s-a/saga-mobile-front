@@ -1,9 +1,9 @@
-import { View } from "react-native";
+import { AlbumWidget } from "@/widget/Album/AlbumWidget";
 
 
 
 export default function AlbumScreen(){
     return (
-        <View>Album</View>
+        <AlbumWidget />
     )
 }
