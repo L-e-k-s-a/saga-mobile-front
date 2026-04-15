@@ -28,24 +28,32 @@ export const Typography = ({ variant = 'div', children, style }: TypographyProps
 	return <Text style={[getTag(variant), ...[style]]}>{children}</Text>;
 };
 
+const common = {
+	color: COLORS.white
+}
+
 const styles = StyleSheet.create({
 	h1: {
 		fontSize: 32,
 		fontWeight: 'bold',
 		marginBottom: 16,
+		...common
 	},
 	h2: {
 		fontSize: 24,
 		fontWeight: '600',
 		marginBottom: 12,
+		...common
 	},
 	h3: {
 		fontSize: 18,
 		fontWeight: '500',
 		marginBottom: 8,
+		...common
 	},
 	div: {
 		fontSize: 14,
 		marginBottom: 4,
+		...common
 	},
 });

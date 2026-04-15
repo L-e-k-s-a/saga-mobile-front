@@ -3,10 +3,11 @@ import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleModal } from '@/shared/styles/modal';
 import { NoteFamilyDiaryType } from '@/shared/types/note-family-diary';
 import { Button } from '@/shared/ui/Button/Button';
-import { EmptyState } from '@/shared/ui/empty-state/empty-state';
 import { Note } from '@/shared/ui/note/note';
+import { NoData } from '@/shared/ui/no-data/no-data';
 import { useState } from 'react';
 import { Modal, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { ButtonAdd } from '@/shared/ui/button-add/button-add';
 
 export const NoteFamilyDiary = () => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
@@ -30,14 +31,8 @@ export const NoteFamilyDiary = () => {
 			{notes.length > 0 ? (
 				notes.map((note: NoteFamilyDiaryType) => <Note text={note.text} />)
 			) : (
-				<EmptyState text='Быстрее добавьте хотя бы одну запись!' />
+				<NoData title="Ничего нет" desctiption='Быстрее добавьте хотя бы одну запись!' />
 			)}
-			<Button
-				text='Добавить'
-				variant='secondary'
-				onPress={handleClickAddNote}
-				style={styleFamilyDiary.add}
-			/>
 			<Modal
 				visible={isModalVisible}
 				animationType='fade'
@@ -60,6 +55,7 @@ export const NoteFamilyDiary = () => {
 					</VerLayout>
 				</VerLayout>
 			</Modal>
+			<ButtonAdd action={handleClickAddNote}/>
 		</VerLayout>
 	);
 };
@@ -67,12 +63,6 @@ export const NoteFamilyDiary = () => {
 const styleFamilyDiary = StyleSheet.create({
 	container: {
 		flex: 1,
-	},
-	add: {
-		position: 'absolute',
-		bottom: 85,
-		right: 0,
-		width: 100,
 	},
 	textArea: {
 		height: 400,
