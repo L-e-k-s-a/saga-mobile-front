@@ -11,7 +11,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { PersonForm } from '../person-form/person-form';
 import { auth } from '@/firebase/firebase';
 import { router } from 'expo-router';
-import { Routes, RoutesForAuth } from '@/shared/routes/routes';
+import { RoutesForAuth } from '@/shared/routes/routes';
 
 export const RegisterForm = () => {
 	const [isVisiblePersonForm, setIsVisiblePersonForm] = useState(false);
@@ -26,7 +26,6 @@ export const RegisterForm = () => {
 		surname: '',
 		patronymic: '',
 		fullName: '',
-		role: '',
 	});
 
 	const handleFormChange = (field: string, value: any) => {
@@ -39,15 +38,14 @@ export const RegisterForm = () => {
 
 	const handleClearForm = () => {
 		setForm({
-		loginPerson: '',
-		passwordPerson: '',
-		repeatPasswordPerson: '',
-		name: '',
-		surname: '',
-		patronymic: '',
-		fullName: '',
-		role: '',
-	})
+			loginPerson: '',
+			passwordPerson: '',
+			repeatPasswordPerson: '',
+			name: '',
+			surname: '',
+			patronymic: '',
+			fullName: '',
+		})
 	router.navigate(RoutesForAuth.SIGN_IN)
 	}
 
