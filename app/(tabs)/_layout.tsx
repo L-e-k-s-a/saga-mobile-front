@@ -1,20 +1,31 @@
+import { CreateFamilyForm } from '@/features/forms/create-family-form/create-family-form';
 import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
 import { MARGINS } from '@/shared/constants/margins';
-import { useCreateFamily } from '@/shared/lib/use-create-family';
 import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
+import { useActionWithFamily } from '@/shared/lib/use-action-with-family';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 export default function TabsLayout() {
-	const createFamilyModal = useCreateFamily();
+	const [isVisibleCreateFamilyForm, setIsVisibleCreateFamilyForm] =
+		useState(false);
+
+	const createFamilyModal = useActionWithFamily(setIsVisibleCreateFamilyForm);
 
 	return (
 		<>
 			{createFamilyModal.Modal()}
-
+			{isVisibleCreateFamilyForm && (
+				<CreateFamilyForm
+					isVisible={isVisibleCreateFamilyForm}
+					setIsVisible={setIsVisibleCreateFamilyForm}
+					setIsVisibleActionFamily={createFamilyModal.handleModalVisible}
+				/>
+			)}
 			<Tabs
 				screenOptions={{
 					tabBarInactiveTintColor: 'gray',

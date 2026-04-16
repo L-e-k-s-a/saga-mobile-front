@@ -13,6 +13,9 @@ import {
 	View,
 } from 'react-native';
 import { Typography } from '../Typography/Typography';
+import { Ionicons } from '@expo/vector-icons';
+import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { Button } from '../Button/Button';
 
 type DropDownRegisterFormProps = {
 	title: string;
@@ -46,11 +49,17 @@ export const DropDownPositionInFamily = ({
 
 	return (
 		<>
+			<HorLayout>
+				<Typography style={styleDropDown.text}>{title}</Typography>
+				<TouchableOpacity onPress={handleDropDown}>
+					{isVisible ? <Ionicons style={styleDropDown.icon} name='chevron-up'/> : <Ionicons style={styleDropDown.icon} name='chevron-down'/>}
+				</TouchableOpacity>
+			</HorLayout>
 			<Modal
 				visible={isVisible}
 				transparent={true}
 				animationType='fade'
-				onRequestClose={() => setIsVisible(false)}>
+				>
 				<TouchableOpacity
 					style={styleDropDown.modalOverlay}
 					activeOpacity={1}
@@ -93,9 +102,6 @@ const styleDropDown = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: COLORS.white,
 		zIndex: 1,
-	},
-	title: {
-		paddingLeft: PADDINGS.px16,
 	},
 	icon: {
 		padding: PADDINGS.px10,

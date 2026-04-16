@@ -5,34 +5,32 @@ import { Button } from '../Button/Button';
 
 type DropDowmFamilyProps = {
 	isVisible: boolean;
+	handleCreateFamily: (isVisible: boolean) => void;
 };
 
-export const DropDowmFamily = ({ isVisible }: DropDowmFamilyProps) => {
-
-
-
+export const DropDownFamily = ({ isVisible, handleCreateFamily }: DropDowmFamilyProps) => {
 	return (
 		isVisible && (
-				<VerLayout styles={styleDropDownFamily.dropDown}>
-						<Button
-							style={styleDropDownFamily.item}
-							variant='secondary'
-							text='Создать семью'
-							onPress={() => {}}
-						/>
-                        <Button
-							style={styleDropDownFamily.item}
-							variant='secondary'
-							text='Добавить'
-							onPress={() => {}}
-						/>
-						<Button
-							style={styleDropDownFamily.item}
-							variant='secondary'
-							text='Присоединиться'
-							onPress={() => {}}
-						/>
-					</VerLayout>
+			<VerLayout styles={styleDropDownFamily.dropDown}>
+				<Button
+					style={styleDropDownFamily.item}
+					variant='secondary'
+					text='Создать семью'
+					onPress={() => handleCreateFamily(true)}
+				/>
+				<Button
+					style={styleDropDownFamily.item}
+					variant='secondary'
+					text='Добавить'
+					onPress={() => {}}
+				/>
+				<Button
+					style={styleDropDownFamily.item}
+					variant='secondary'
+					text='Присоединиться'
+					onPress={() => {}}
+				/>
+			</VerLayout>
 		)
 	);
 };
@@ -47,9 +45,9 @@ const styleDropDownFamily = StyleSheet.create({
 		paddingVertical: 20,
 		borderBottomLeftRadius: 10,
 		borderBottomRightRadius: 10,
-        zIndex: 5,
-        gap: 10,
-        paddingHorizontal: 10,
+		zIndex: 5,
+		gap: 10,
+		paddingHorizontal: 10,
 	},
 	item: {
 		width: '100%',

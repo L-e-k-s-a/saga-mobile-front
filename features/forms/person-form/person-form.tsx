@@ -1,13 +1,11 @@
 import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
-import { FAMILY_MEMBERS_ROLE } from '@/shared/constants/family/family-role-members';
 import { FONT_SIZE } from '@/shared/constants/font-size';
 import { PADDINGS } from '@/shared/constants/paddings';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
 import { FormRegister } from '@/shared/types/form';
-import { DropDownPositionInFamily } from '@/shared/ui/drop-down-register-form/drop-down-register-form';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';

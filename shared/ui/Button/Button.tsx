@@ -16,13 +16,14 @@ type VariantsBtn = 'primary' | 'secondary';
 type Size = 's' | 'm' | 'l';
 
 type ButtonProps = {
-	text: string;
+	text?: string;
 	variant?: VariantsBtn;
 	size?: Size;
 	style?: StyleProp<ViewStyle>;
 	textVariant?: VariantTypography;
 	textStyle?: StyleProp<TextStyle>;
 	onPress: () => void;
+	
 };
 
 export const Button = ({
