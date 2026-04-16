@@ -35,6 +35,7 @@ export const DropDownPositionInFamily = ({
 	items,
 	onFormChange,
 }: DropDownRegisterFormProps) => {
+
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 
 	const handleDropDown = () => {
@@ -50,7 +51,7 @@ export const DropDownPositionInFamily = ({
 	return (
 		<>
 			<HorLayout>
-				<Typography style={styleDropDown.text}>{title}</Typography>
+				<Typography style={styleDropDown.text}>{form.positionInFamily ? capitalize(form.positionInFamily) : title}</Typography>
 				<TouchableOpacity onPress={handleDropDown}>
 					{isVisible ? <Ionicons style={styleDropDown.icon} name='chevron-up'/> : <Ionicons style={styleDropDown.icon} name='chevron-down'/>}
 				</TouchableOpacity>
