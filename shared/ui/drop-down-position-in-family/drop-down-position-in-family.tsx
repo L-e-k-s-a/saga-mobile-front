@@ -15,11 +15,11 @@ import {
 import { Typography } from '../Typography/Typography';
 import { Ionicons } from '@expo/vector-icons';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { FAMILY_MEMBERS_ROLE } from '@/shared/constants/family/family-role-members';
 
 type DropDownRegisterFormProps = {
 	title: string;
 	form: CreateFamilyFormType;
-	items: Item[];
 	onFormChange: (field: string, value: any) => void;
 };
 
@@ -31,7 +31,6 @@ type Item = {
 export const DropDownPositionInFamily = ({
 	form,
 	title,
-	items,
 	onFormChange,
 }: DropDownRegisterFormProps) => {
 
@@ -74,7 +73,7 @@ export const DropDownPositionInFamily = ({
 							},
 						]}>
 						<ScrollView>
-							{items.map((item: Item) => (
+							{FAMILY_MEMBERS_ROLE.map((item: Item) => (
 								<TouchableOpacity
 									key={item.role}
 									onPress={() => handleSelect(item)}
