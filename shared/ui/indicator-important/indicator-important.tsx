@@ -8,7 +8,11 @@ type Indicator = {
     color: string
 }
 
-export const IndicatorImportant = () => {
+type IndicatorImportantProps = {
+    setIndicator: (value: string) => void
+}
+
+export const IndicatorImportant = ({setIndicator}: IndicatorImportantProps) => {
 	const indicators = [
 		{ importance: 'hardImportant', color: COLORS.black },
 		{ importance: 'middleImportant', color: COLORS.ligthGray },
@@ -20,12 +24,14 @@ export const IndicatorImportant = () => {
 
 	const handlePress = (indicator: Indicator) => {
         setActiveIndicator(indicator)
+        setIndicator(indicator.importance)
     };
 
 	return (
 		<HorLayout style={styleIndicatorImportant.buttons}>
 			{indicators.map((indicator: Indicator) => (
 				<TouchableOpacity
+                    key={indicator.importance}
 					style={[
 						styleIndicatorImportant.radio,
                         {backgroundColor: indicator.color},
