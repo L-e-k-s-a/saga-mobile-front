@@ -15,7 +15,6 @@ import {
 import { Typography } from '../Typography/Typography';
 import { Ionicons } from '@expo/vector-icons';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
-import { Button } from '../Button/Button';
 
 type DropDownRegisterFormProps = {
 	title: string;
@@ -50,7 +49,7 @@ export const DropDownPositionInFamily = ({
 
 	return (
 		<>
-			<HorLayout>
+			<HorLayout style={styleDropDown.dropDown}>
 				<Typography style={styleDropDown.text}>{form.positionInFamily ? capitalize(form.positionInFamily) : title}</Typography>
 				<TouchableOpacity onPress={handleDropDown}>
 					{isVisible ? <Ionicons style={styleDropDown.icon} name='chevron-up'/> : <Ionicons style={styleDropDown.icon} name='chevron-down'/>}
@@ -69,7 +68,7 @@ export const DropDownPositionInFamily = ({
 						style={[
 							styleDropDown.dropdownList,
 							{
-								bottom: 12,
+								bottom: 210,
 								left: 0,
 								right: 0,
 							},
@@ -96,6 +95,7 @@ export const DropDownPositionInFamily = ({
 const styleDropDown = StyleSheet.create({
 	dropDown: {
 		flexDirection: 'row',
+		width: "80%",
 		justifyContent: 'space-between',
 		borderRadius: BORDER_RADII.primary,
 		height: 52,
@@ -107,6 +107,7 @@ const styleDropDown = StyleSheet.create({
 	icon: {
 		padding: PADDINGS.px10,
 		paddingRight: PADDINGS.px16,
+		fontSize: 24
 	},
 	modalOverlay: {
 		flex: 1,

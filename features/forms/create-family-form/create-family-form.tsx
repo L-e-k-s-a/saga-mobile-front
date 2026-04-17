@@ -43,7 +43,6 @@ export const CreateFamilyForm = ({
 						style={styleForm.input}
 						onChangeText={(text) => handleFormFamilyChange('nameFamily', text)}
 					/>
-					<Typography variant='h3'>Кто Вы?</Typography>
 					<DropDownPositionInFamily
 						form={formFamily}
 						title='Положение в семье'
@@ -68,5 +67,6 @@ export const CreateFamilyForm = ({
 const styleCreateFamilyForm = StyleSheet.create({
 	content: {
 		alignItems: 'center',
+		gap: 10
 	},
 });
