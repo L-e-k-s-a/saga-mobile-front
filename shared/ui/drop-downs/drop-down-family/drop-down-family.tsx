@@ -1,7 +1,7 @@
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { StyleSheet } from 'react-native';
-import { Button } from '../Button/Button';
+import { Button } from '../../Button/Button';
 
 type DropDowmFamilyProps = {
 	isVisible: boolean;

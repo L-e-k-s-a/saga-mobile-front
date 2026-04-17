@@ -6,7 +6,6 @@ import { CreateFamilyFormType } from '@/shared/types/create-family-form';
 import { Button } from '@/shared/ui/Button/Button';
 import { DropDownPositionInFamily } from '@/shared/ui/drop-down-position-in-family/drop-down-position-in-family';
 import { Input } from '@/shared/ui/Input/Input';
-import { Typography } from '@/shared/ui/Typography/Typography';
 import { useState } from 'react';
 import { Modal, StyleSheet } from 'react-native';
 
@@ -46,7 +45,6 @@ export const CreateFamilyForm = ({
 					<DropDownPositionInFamily
 						form={formFamily}
 						title='Положение в семье'
-						items={FAMILY_MEMBERS_ROLE}
 						onFormChange={handleFormFamilyChange}
 					/>
 					<Button

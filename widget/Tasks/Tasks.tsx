@@ -1,3 +1,4 @@
+import { CreateTaskForm } from '@/features/tasks/create-task-form/create-task-form';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
 import { ButtonAdd } from '@/shared/ui/button-add/button-add';
@@ -12,6 +13,7 @@ export const TasksWidget = () => {
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
+				<CreateTaskForm />
 				<ButtonAdd action={handleCreateTask}/>
 			</AlignContainer>
 		</BackgroundContainer>
