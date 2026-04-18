@@ -6,7 +6,8 @@ import { useMe } from '@/shared/store/me/useMe';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
 import { CreateFamilyFormType } from '@/shared/types/create-family-form-type';
-import { Button } from '@/shared/ui/Button/Button';
+import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
+import { Button } from '@/shared/ui/buttons/Button/Button';
 import { DropDownPositionInFamily } from '@/shared/ui/drop-down-position-in-family/drop-down-position-in-family';
 import { Input } from '@/shared/ui/Input/Input';
 import { addDoc, collection } from 'firebase/firestore';
@@ -64,15 +65,7 @@ export const CreateFamilyForm = ({
 			<VerLayout styles={[styleForm.section, styleModal.modalOverlay]}>
 				<VerLayout
 					styles={[styleModal.modalContent, styleCreateFamilyForm.content]}>
-					<HorLayout style={styleCreateFamilyForm.crossContainer}>
-						<Button
-							textStyle={styleCreateFamilyForm.sizeCross}
-							variant='secondary'
-							text='x'
-							onPress={() => setIsVisible(false)}
-							style={styleCreateFamilyForm.cross}
-						/>
-					</HorLayout>
+					<ButtonCross close={setIsVisible}/>
 					<Input
 						placeholder='Название семьи'
 						value={formFamily.nameFamily}

@@ -1,18 +1,18 @@
+import { auth, db } from '@/firebase/firebase';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { RoutesForAuth } from '@/shared/routes/routes';
 import { styleForm } from '@/shared/styles/forms';
 import { FormRegister } from '@/shared/types/form';
-import { Button } from '@/shared/ui/Button/Button';
+import { Button } from '@/shared/ui/buttons/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
+import { router } from 'expo-router';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { PersonForm } from '../person-form/person-form';
-import { auth, db } from '@/firebase/firebase';
-import { router } from 'expo-router';
-import { RoutesForAuth } from '@/shared/routes/routes';
-import { doc, setDoc } from 'firebase/firestore';
 
 export const RegisterForm = () => {
 	const [isVisiblePersonForm, setIsVisiblePersonForm] = useState(false);
@@ -44,26 +44,30 @@ export const RegisterForm = () => {
 			name: '',
 			surname: '',
 			patronymic: '',
-		})
-		router.navigate(RoutesForAuth.SIGN_IN)
-	}
+		});
+		router.navigate(RoutesForAuth.SIGN_IN);
+	};
 
 	const handleRegister = async () => {
-		try{
-			const candidate = await createUserWithEmailAndPassword(auth, form.loginPerson, form.passwordPerson)
-			const user = candidate.user
-			await setDoc(doc(db, "users", user.uid), {
+		try {
+			const candidate = await createUserWithEmailAndPassword(
+				auth,
+				form.loginPerson,
+				form.passwordPerson,
+			);
+			const user = candidate.user;
+			await setDoc(doc(db, 'users', user.uid), {
 				email: form.loginPerson,
 				name: form.name,
 				surname: form.surname,
 				patronymic: form.patronymic,
 				fullName: `${form.surname} ${form.name} ${form.patronymic}`,
 				createAt: new Date(),
-				families: []
-			})
-			handleClearForm()
-		}catch(err){
-			console.log(err)
+				families: [],
+			});
+			handleClearForm();
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
@@ -85,7 +89,9 @@ export const RegisterForm = () => {
 				/>
 				<Input
 					value={form.repeatPasswordPerson}
-					onChangeText={(text) => handleFormChange('repeatPasswordPerson', text)}
+					onChangeText={(text) =>
+						handleFormChange('repeatPasswordPerson', text)
+					}
 					placeholder='Повторить пароль'
 					isPassword={true}
 					style={styleForm.input}

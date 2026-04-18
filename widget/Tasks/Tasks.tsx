@@ -1,16 +1,15 @@
 import { CreateTaskModal } from '@/features/tasks';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
-import { ButtonAdd } from '@/shared/ui/button-add/button-add';
+import { ButtonAdd } from '@/shared/ui/buttons/button-add/button-add';
 import { useState } from 'react';
 
 export const TasksWidget = () => {
-
 	const [isVisibleModalCreateTask, setIsVisibleModalCreateTask] =
 		useState(false);
 
 	const handleCreateTask = () => {
-		setIsVisibleModalCreateTask(true)
+		setIsVisibleModalCreateTask(true);
 	};
 
 	return (

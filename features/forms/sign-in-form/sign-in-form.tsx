@@ -1,21 +1,20 @@
+import { auth } from '@/firebase/firebase';
+import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { RoutesForAuth } from '@/shared/routes/routes';
+import { useAuthStore } from '@/shared/store';
 import { styleForm } from '@/shared/styles/forms';
-import { Button } from '@/shared/ui/Button/Button';
+import { Button } from '@/shared/ui/buttons/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import { router } from 'expo-router';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/firebase/firebase';
-import { COLORS } from '@/shared/constants/colors';
-import { useAuthStore } from '@/shared/store';
-
 
 export const SignInForm = () => {
-	const { login } = useAuthStore()
-	const [validFormMessage, setValidFormMessage] = useState('')
+	const { login } = useAuthStore();
+	const [validFormMessage, setValidFormMessage] = useState('');
 	const [signInForm, setSignInForm] = useState({
 		login: '',
 		password: '',
@@ -26,11 +25,15 @@ export const SignInForm = () => {
 	};
 
 	const handleSignIn = async () => {
-		try{
-			const candidate = await signInWithEmailAndPassword(auth, signInForm.login, signInForm.password)
-			login()
-		}catch(err){
-			setValidFormMessage(String(err))
+		try {
+			const candidate = await signInWithEmailAndPassword(
+				auth,
+				signInForm.login,
+				signInForm.password,
+			);
+			login();
+		} catch (err) {
+			setValidFormMessage(String(err));
 		}
 	};
 
@@ -59,7 +62,11 @@ export const SignInForm = () => {
 					style={styleForm.input}
 					isPassword={true}
 				/>
-				{validFormMessage && <Typography style={{color: COLORS.white}}>{validFormMessage}</Typography>}
+				{validFormMessage && (
+					<Typography style={{ color: COLORS.white }}>
+						{validFormMessage}
+					</Typography>
+				)}
 				<Button
 					style={styleForm.btnSecondary}
 					textVariant='h3'

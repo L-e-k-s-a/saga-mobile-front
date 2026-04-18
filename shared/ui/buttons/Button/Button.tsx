@@ -9,7 +9,7 @@ import {
 	TouchableOpacity,
 	ViewStyle,
 } from 'react-native';
-import { Typography } from '../Typography/Typography';
+import { Typography } from '../../Typography/Typography';
 
 type VariantsBtn = 'primary' | 'secondary';
 
@@ -23,7 +23,6 @@ type ButtonProps = {
 	textVariant?: VariantTypography;
 	textStyle?: StyleProp<TextStyle>;
 	onPress: () => void;
-	
 };
 
 export const Button = ({
@@ -69,6 +68,7 @@ const common = {
 	borderWidth: 1,
 	width: 150,
 	alignItems: 'center',
+	justifyContent: 'center',
 } as const;
 
 const buttonStyle = StyleSheet.create({

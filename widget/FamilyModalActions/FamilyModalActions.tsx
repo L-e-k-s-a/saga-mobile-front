@@ -5,6 +5,7 @@ import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { capitalize } from '@/shared/lib/capitalize';
 import { FamilyUserType } from '@/shared/types/families-user-type';
+import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spiner/spiner';
 import { Typography } from '@/shared/ui/Typography/Typography';
@@ -33,11 +34,13 @@ export const FamilyModalActions = ({
 	return (
 		isVisibleModal && <VerLayout styles={styleFamilyModal.modal}>
 			{families.length !== 0 ? (
-				families.map((family: FamilyUserType) => (
-					<HorLayout style={styleFamilyModal.family}>
-						<Typography style={styleFamilyModal.text} key={family.inviteCode}>{capitalize(family.nameFamily)}</Typography>
-					</HorLayout>
-				))
+				<DinamicScrollView maxHeight={400}>
+					{families.map((family: FamilyUserType) => (
+						<HorLayout style={styleFamilyModal.family} key={family.inviteCode}>
+							<Typography style={styleFamilyModal.text}>{capitalize(family.nameFamily)}</Typography>
+						</HorLayout>
+					))}
+				</DinamicScrollView>
 			) : (
 				<NoData
 					title='Беда!'
