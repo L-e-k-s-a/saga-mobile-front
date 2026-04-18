@@ -1,5 +1,7 @@
+import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
+import { Button } from '@/shared/ui/Button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
@@ -13,9 +15,12 @@ type CreateTaskFormType = {
 	executor: string[];
 };
 
+type CreateTaskFormProps = {
+	setIsVisible: (isVisible: boolean) => void
+}
+
 //добавить dropdowm с именами в семье чтобы можно было заполнять исполнителей
-export const CreateTaskForm = () => {
-    const [indicator, setIndicator] = useState('')
+export const CreateTaskForm = ({setIsVisible}: CreateTaskFormProps) => {
 	const [form, setForm] = useState<CreateTaskFormType>({
 		title: '',
 		description: '',
@@ -32,8 +37,6 @@ export const CreateTaskForm = () => {
         setForm(prev => ({ ...prev, indicator: value }));
     };
 
-    console.log(form)
-
 	return (
 		<VerLayout styles={styleCreateTaskForm.form}>
 			<Input
@@ -43,7 +46,7 @@ export const CreateTaskForm = () => {
                 onChangeText={(text) => handleChangeCreateTaskForm("title", text)}
 			/>
 			<VerLayout styles={styleCreateTaskForm.indicator}>
-				<Typography>Важность задачи</Typography>
+				<Typography style={styleCreateTaskForm.text}>Важность задачи</Typography>
 				<IndicatorImportant setIndicator={handleSetIndicator}/>
 			</VerLayout>
 			<Input
@@ -52,6 +55,7 @@ export const CreateTaskForm = () => {
 				style={styleForm.input}
                 onChangeText={(text) => handleChangeCreateTaskForm("description", text)}
 			/>
+			<Button text='Сохранить' variant='secondary' size='s' onPress={() => setIsVisible(false)}/>
 		</VerLayout>
 	);
 };
@@ -64,4 +68,7 @@ const styleCreateTaskForm = StyleSheet.create({
 	indicator: {
 		gap: 5,
 	},
+	text: {
+		color: COLORS.black
+	}
 });

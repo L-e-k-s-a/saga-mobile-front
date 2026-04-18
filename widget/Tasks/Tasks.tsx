@@ -1,20 +1,26 @@
-import { CreateTaskForm } from '@/features/tasks/create-task-form/create-task-form';
+import { CreateTaskModal } from '@/features/tasks';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
 import { ButtonAdd } from '@/shared/ui/button-add/button-add';
-import { Button } from '@/shared/ui/Button/Button';
+import { useState } from 'react';
 
 export const TasksWidget = () => {
 
-	const handleCreateTask = () => {
+	const [isVisibleModalCreateTask, setIsVisibleModalCreateTask] =
+		useState(false);
 
-	}
+	const handleCreateTask = () => {
+		setIsVisibleModalCreateTask(true)
+	};
 
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
-				<CreateTaskForm />
-				<ButtonAdd action={handleCreateTask}/>
+				<CreateTaskModal
+					isVisible={isVisibleModalCreateTask}
+					setIsVisible={setIsVisibleModalCreateTask}
+				/>
+				<ButtonAdd action={handleCreateTask} />
 			</AlignContainer>
 		</BackgroundContainer>
 	);

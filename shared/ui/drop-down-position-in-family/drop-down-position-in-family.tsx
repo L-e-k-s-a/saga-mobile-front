@@ -1,9 +1,12 @@
 import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
+import { FAMILY_MEMBERS_ROLE } from '@/shared/constants/family/family-role-members';
 import { FONT_SIZE } from '@/shared/constants/font-size';
 import { PADDINGS } from '@/shared/constants/paddings';
+import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { capitalize } from '@/shared/lib/capitalize';
-import { CreateFamilyFormType } from '@/shared/types/create-family-form';
+import { CreateFamilyFormType } from '@/shared/types/create-family-form-type';
+import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import {
 	Modal,
@@ -13,9 +16,6 @@ import {
 	View,
 } from 'react-native';
 import { Typography } from '../Typography/Typography';
-import { Ionicons } from '@expo/vector-icons';
-import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
-import { FAMILY_MEMBERS_ROLE } from '@/shared/constants/family/family-role-members';
 
 type DropDownRegisterFormProps = {
 	title: string;
@@ -33,7 +33,6 @@ export const DropDownPositionInFamily = ({
 	title,
 	onFormChange,
 }: DropDownRegisterFormProps) => {
-
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 
 	const handleDropDown = () => {
@@ -49,16 +48,27 @@ export const DropDownPositionInFamily = ({
 	return (
 		<>
 			<HorLayout style={styleDropDown.dropDown}>
-				<Typography style={styleDropDown.text}>{form.positionInFamily ? capitalize(form.positionInFamily) : title}</Typography>
+				<Typography style={styleDropDown.text}>
+					{form.positionInFamily ? capitalize(form.positionInFamily) : title}
+				</Typography>
 				<TouchableOpacity onPress={handleDropDown}>
-					{isVisible ? <Ionicons style={styleDropDown.icon} name='chevron-up'/> : <Ionicons style={styleDropDown.icon} name='chevron-down'/>}
+					{isVisible ? (
+						<Ionicons
+							style={styleDropDown.icon}
+							name='chevron-up'
+						/>
+					) : (
+						<Ionicons
+							style={styleDropDown.icon}
+							name='chevron-down'
+						/>
+					)}
 				</TouchableOpacity>
 			</HorLayout>
 			<Modal
 				visible={isVisible}
 				transparent={true}
-				animationType='fade'
-				>
+				animationType='fade'>
 				<TouchableOpacity
 					style={styleDropDown.modalOverlay}
 					activeOpacity={1}
@@ -94,7 +104,7 @@ export const DropDownPositionInFamily = ({
 const styleDropDown = StyleSheet.create({
 	dropDown: {
 		flexDirection: 'row',
-		width: "80%",
+		width: '80%',
 		justifyContent: 'space-between',
 		borderRadius: BORDER_RADII.primary,
 		height: 52,
@@ -106,7 +116,7 @@ const styleDropDown = StyleSheet.create({
 	icon: {
 		padding: PADDINGS.px10,
 		paddingRight: PADDINGS.px16,
-		fontSize: 24
+		fontSize: 24,
 	},
 	modalOverlay: {
 		flex: 1,

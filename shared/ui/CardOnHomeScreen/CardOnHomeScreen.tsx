@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 	},
 	containerTitle: {
 		width: '71%',
-		color: COLORS.white
+		color: COLORS.white,
 	},
 	containerImage: {
 		width: '29%'

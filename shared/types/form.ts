@@ -13,5 +13,4 @@ export type FormRegister = {
     name: string,
     surname: string,
     patronymic: string,
-    fullName: string,
 };

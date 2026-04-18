@@ -14,9 +14,9 @@ type IndicatorImportantProps = {
 
 export const IndicatorImportant = ({setIndicator}: IndicatorImportantProps) => {
 	const indicators = [
-		{ importance: 'hardImportant', color: COLORS.black },
-		{ importance: 'middleImportant', color: COLORS.ligthGray },
-		{ importance: 'lowImportant', color: COLORS.white },
+		{ importance: 'hardImportant', color: COLORS.brown },
+		{ importance: 'middleImportant', color: COLORS.yellow },
+		{ importance: 'lowImportant', color: COLORS.green },
 	];
 
     const [activeIndicator, setActiveIndicator] = useState<Indicator | null>(indicators[0]);

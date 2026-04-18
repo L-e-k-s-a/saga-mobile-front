@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { DropDownFamily } from '../ui/drop-downs/drop-down-family/drop-down-family';
+import { FamilyActions } from '../../features/family-actions/family-actions';
+import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 
-export const useActionWithFamily = (handleCreateFamily: (isVisible: boolean) => void) => {
+export const useActionWithFamily = (
+	handleCreateFamily: (isVisible: boolean) => void,
+) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const handleModalVisible = () => {
@@ -11,8 +14,9 @@ export const useActionWithFamily = (handleCreateFamily: (isVisible: boolean) => 
 	return {
 		handleModalVisible,
 		Modal: () => (
-			<DropDownFamily
-				isVisible={isModalVisible}
+			<FamilyModalActions
+				isVisibleModal={isModalVisible}
+				setIsVisibleModal={setIsModalVisible}
 				handleCreateFamily={handleCreateFamily}
 			/>
 		),

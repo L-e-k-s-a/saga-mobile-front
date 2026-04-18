@@ -1,11 +1,14 @@
-import { FAMILY_MEMBERS_ROLE } from '@/shared/constants/family/family-role-members';
+import { auth, db } from '@/firebase/firebase';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { generateInviteCode } from '@/shared/lib/generate-invate-code';
+import { useMe } from '@/shared/store/me/useMe';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
-import { CreateFamilyFormType } from '@/shared/types/create-family-form';
+import { CreateFamilyFormType } from '@/shared/types/create-family-form-type';
 import { Button } from '@/shared/ui/Button/Button';
 import { DropDownPositionInFamily } from '@/shared/ui/drop-down-position-in-family/drop-down-position-in-family';
 import { Input } from '@/shared/ui/Input/Input';
+import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
 import { Modal, StyleSheet } from 'react-native';
 
@@ -24,6 +27,20 @@ export const CreateFamilyForm = ({
 		nameFamily: '',
 		positionInFamily: '',
 	});
+	const user = useMe()
+
+	const handleSaveFamily = async () => {
+		const familyRef = await addDoc(collection(db, 'families'), {
+			nameFamily: formFamily.nameFamily,
+			inviteCode: generateInviteCode(),
+		});
+
+		await addDoc(collection(db, 'familyMembers'), {
+			familyId: familyRef.id,
+			userId: user?.uid,
+			positionInFamily: formFamily.positionInFamily,
+		});
+	};
 
 	const handleFormFamilyChange = (field: string, value: string) => {
 		setFormFamily((prev) => ({ ...prev, [field]: value }));
@@ -52,6 +69,7 @@ export const CreateFamilyForm = ({
 						size='m'
 						text='Сохранить'
 						onPress={() => {
+							handleSaveFamily();
 							setIsVisible(false);
 							setIsVisibleActionFamily();
 						}}
@@ -65,6 +83,6 @@ export const CreateFamilyForm = ({
 const styleCreateFamilyForm = StyleSheet.create({
 	content: {
 		alignItems: 'center',
-		gap: 10
+		gap: 10,
 	},
 });

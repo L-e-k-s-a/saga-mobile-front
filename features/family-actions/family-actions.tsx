@@ -1,17 +1,18 @@
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { StyleSheet } from 'react-native';
-import { Button } from '../../Button/Button';
+import { Button } from '../../shared/ui/Button/Button';
 
-type DropDowmFamilyProps = {
-	isVisible: boolean;
+type FamilyActionsProps = {
 	handleCreateFamily: (isVisible: boolean) => void;
 };
 
-export const DropDownFamily = ({ isVisible, handleCreateFamily }: DropDowmFamilyProps) => {
+export const FamilyActions = ({
+	handleCreateFamily,
+}: FamilyActionsProps) => {
 	return (
-		isVisible && (
-			<VerLayout styles={styleDropDownFamily.dropDown}>
+		(
+			<VerLayout styles={styleDropDownFamily.actions}>
 				<Button
 					style={styleDropDownFamily.item}
 					variant='secondary'
@@ -36,18 +37,8 @@ export const DropDownFamily = ({ isVisible, handleCreateFamily }: DropDowmFamily
 };
 
 const styleDropDownFamily = StyleSheet.create({
-	dropDown: {
-		position: 'absolute',
-		top: 90,
-		left: 0,
-		right: 0,
-		backgroundColor: COLORS.white,
-		paddingVertical: 20,
-		borderBottomLeftRadius: 10,
-		borderBottomRightRadius: 10,
-		zIndex: 5,
-		gap: 10,
-		paddingHorizontal: 10,
+	actions: {
+		gap: 8
 	},
 	item: {
 		width: '100%',

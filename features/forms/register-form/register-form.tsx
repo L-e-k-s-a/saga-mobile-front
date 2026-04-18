@@ -9,9 +9,10 @@ import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { PersonForm } from '../person-form/person-form';
-import { auth } from '@/firebase/firebase';
+import { auth, db } from '@/firebase/firebase';
 import { router } from 'expo-router';
 import { RoutesForAuth } from '@/shared/routes/routes';
+import { doc, setDoc } from 'firebase/firestore';
 
 export const RegisterForm = () => {
 	const [isVisiblePersonForm, setIsVisiblePersonForm] = useState(false);
@@ -25,7 +26,6 @@ export const RegisterForm = () => {
 		name: '',
 		surname: '',
 		patronymic: '',
-		fullName: '',
 	});
 
 	const handleFormChange = (field: string, value: any) => {
@@ -44,22 +44,28 @@ export const RegisterForm = () => {
 			name: '',
 			surname: '',
 			patronymic: '',
-			fullName: '',
 		})
-	router.navigate(RoutesForAuth.SIGN_IN)
+		router.navigate(RoutesForAuth.SIGN_IN)
 	}
 
 	const handleRegister = async () => {
 		try{
 			const candidate = await createUserWithEmailAndPassword(auth, form.loginPerson, form.passwordPerson)
-			console.log("create", candidate)
+			const user = candidate.user
+			await setDoc(doc(db, "users", user.uid), {
+				email: form.loginPerson,
+				name: form.name,
+				surname: form.surname,
+				patronymic: form.patronymic,
+				fullName: `${form.surname} ${form.name} ${form.patronymic}`,
+				createAt: new Date(),
+				families: []
+			})
 			handleClearForm()
 		}catch(err){
 			console.log(err)
 		}
 	};
-
-	console.log(form);
 
 	return (
 		<VerLayout styles={styleForm.form}>

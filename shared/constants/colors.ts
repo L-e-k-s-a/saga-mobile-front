@@ -8,5 +8,13 @@ export const COLORS = {
     primary: "#293133",
     secondary: "#677178",
     primaryColorText: "#F8F9FA",
-    primaryColorBackgroundInput: "#F8F9FA" 
+    primaryColorBackgroundInput: "#F8F9FA",
+    yellow: "#ffd500",
+    green: "#00CC29",
+    brown: "#560000",
+    turquoise: "#0EDBDF",
+    violet: '#56165C',
+    blue: '#0C0AAF'
+
+
 }
