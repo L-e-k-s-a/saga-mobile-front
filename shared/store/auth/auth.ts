@@ -5,12 +5,12 @@ type AuthStore = {
     isAuth: boolean,
     user: User | null,
     role: string,
-    loading: boolean,  // Добавляем loading
+    loading: boolean,  
     login: () => void,
-    logout: () => void,  // Добавляем logout
-    setUser: (user: User | null) => void,  // Меняем тип на null тоже
+    logout: () => void, 
+    setUser: (user: User | null) => void, 
     setRole: (role: string) => void,
-    setLoading: (loading: boolean) => void,  // Добавляем setLoading
+    setLoading: (loading: boolean) => void,
     setIsAuth: (val: boolean) => void
 }
 

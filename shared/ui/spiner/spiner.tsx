@@ -20,7 +20,7 @@ export const Spinner = ({width, height, style}: SpinnerProps) => {
 
     return(
         <View style={[styles.container, getSize(), style]}>
-            <ActivityIndicator size="large" color={COLORS.secondary} />
+            <ActivityIndicator size="large" color={COLORS.white} />
         </View>
     )
 }

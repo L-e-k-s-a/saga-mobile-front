@@ -11,7 +11,7 @@ import { Slider } from '../Slider/Slider';
 import { StyleSheet, View } from 'react-native';
 
 export const Home = () => {
-	const { user, setUser, loading, setLoading, setIsAuth, setRole } =
+	const { user, setUser, loading, setLoading, logout } =
 		useAuthStore();
 	const [error, setError] = useState<Error | null>(null);
 
@@ -37,15 +37,12 @@ export const Home = () => {
 					}
 
 					setUser(user);
-					setIsAuth(true);
 
 					// Если нужно получить роль из Firestore
 					// const userRole = await getUserRole(authUser.uid);
 					// setRole(userRole);
 				} else {
-					setUser(null);
-					setIsAuth(false);
-					setRole('');
+					logout()
 				}
 			} catch (err) {
 				setError(err as Error);

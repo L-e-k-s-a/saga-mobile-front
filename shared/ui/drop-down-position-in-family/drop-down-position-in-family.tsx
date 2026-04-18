@@ -104,7 +104,7 @@ export const DropDownPositionInFamily = ({
 const styleDropDown = StyleSheet.create({
 	dropDown: {
 		flexDirection: 'row',
-		width: '80%',
+		width: '100%',
 		justifyContent: 'space-between',
 		borderRadius: BORDER_RADII.primary,
 		height: 52,
