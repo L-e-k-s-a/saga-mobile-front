@@ -1,4 +1,5 @@
-import { auth, db } from '@/firebase/firebase';
+import { db } from '@/firebase/firebase';
+import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { generateInviteCode } from '@/shared/lib/generate-invate-code';
 import { useMe } from '@/shared/store/me/useMe';
@@ -27,9 +28,19 @@ export const CreateFamilyForm = ({
 		nameFamily: '',
 		positionInFamily: '',
 	});
-	const user = useMe()
+	const user = useMe();
+
+	const valid = () => {
+		if (formFamily.nameFamily === '' || formFamily.positionInFamily == '') {
+			return false;
+		}
+	};
 
 	const handleSaveFamily = async () => {
+		if (!valid()) {
+			return;
+		}
+
 		const familyRef = await addDoc(collection(db, 'families'), {
 			nameFamily: formFamily.nameFamily,
 			inviteCode: generateInviteCode(),
@@ -53,6 +64,15 @@ export const CreateFamilyForm = ({
 			<VerLayout styles={[styleForm.section, styleModal.modalOverlay]}>
 				<VerLayout
 					styles={[styleModal.modalContent, styleCreateFamilyForm.content]}>
+					<HorLayout style={styleCreateFamilyForm.crossContainer}>
+						<Button
+							textStyle={styleCreateFamilyForm.sizeCross}
+							variant='secondary'
+							text='x'
+							onPress={() => setIsVisible(false)}
+							style={styleCreateFamilyForm.cross}
+						/>
+					</HorLayout>
 					<Input
 						placeholder='Название семьи'
 						value={formFamily.nameFamily}
@@ -84,5 +104,17 @@ const styleCreateFamilyForm = StyleSheet.create({
 	content: {
 		alignItems: 'center',
 		gap: 10,
+	},
+	crossContainer: {
+		width: '100%',
+		height: '15%',
+		justifyContent: 'flex-end',
+	},
+	cross: {
+		padding: 5,
+		width: '15%',
+	},
+	sizeCross: {
+		fontSize: 24,
 	},
 });
