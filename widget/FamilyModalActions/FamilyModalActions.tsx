@@ -9,7 +9,7 @@ import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scrol
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spiner/spiner';
 import { Typography } from '@/shared/ui/Typography/Typography';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 type FamilyModalActionsProps = {
 	isVisibleModal: boolean;
@@ -30,15 +30,15 @@ export const FamilyModalActions = ({
 	if (loading) {
 		return <Spinner />;
 	}
-
+// у семьи можно получить uid и закинуть в человека при клике
 	return (
 		isVisibleModal && <VerLayout styles={styleFamilyModal.modal}>
 			{families.length !== 0 ? (
 				<DinamicScrollView maxHeight={400}>
 					{families.map((family: FamilyUserType) => (
-						<HorLayout style={styleFamilyModal.family} key={family.inviteCode}>
+						<TouchableOpacity style={styleFamilyModal.family} key={family.inviteCode}>
 							<Typography style={styleFamilyModal.text}>{capitalize(family.nameFamily)}</Typography>
-						</HorLayout>
+						</TouchableOpacity>
 					))}
 				</DinamicScrollView>
 			) : (

@@ -11,7 +11,6 @@ import { Button } from '../../shared/ui/buttons/Button/Button';
 
 type FamilyActionsProps = {
 	handleCreateFamily: (isVisible: boolean) => void;
-	handleJoinToFamily: (isJoin: boolean) => void;
 };
 
 export const FamilyActions = ({ handleCreateFamily }: FamilyActionsProps) => {
