@@ -13,7 +13,8 @@ import { CreateFamilyForm } from '../forms/create-family-form/create-family-form
 export const FamilyActions = () => {
 	const [isJoin, setIsJoin] = useState(false);
 	const [isCreate, setIsCreate] = useState(false);
-	const [code, setCode] = useState('');
+	const [isAdd, setIsAdd] = useState(false);
+	const [code, setCode] = useState('515-sdfr');
 
 	const handleJoinFamily = () => {
 		setIsJoin(false);
@@ -31,12 +32,20 @@ export const FamilyActions = () => {
 					onPress={() => setIsCreate(true)}
 				/>
 			)}
-			<Button
-				style={styleFamilyAction.item}
-				variant='secondary'
-				text='Добавить'
-				onPress={() => {}}
-			/>
+			{isAdd ? 
+				<Button
+					style={[styleFamilyAction.button, styleFamilyAction.item]}
+					variant='secondary'
+					text={code.toUpperCase()}
+					onPress={() => setIsAdd(false)}
+				/> :
+				<Button
+					style={styleFamilyAction.item}
+					variant='secondary'
+					text='Добавить'
+					onPress={() => setIsAdd(true)}
+				/>
+			}
 			{isJoin ? (
 				<HorLayout style={styleFamilyAction.codeContainer}>
 					<Input
@@ -86,7 +95,8 @@ const styleFamilyAction = StyleSheet.create({
 		marginTop: GAPS.px8,
 	},
 	button: {
-		width: '30%',
+		width: '33%',
 		fontSize: 20,
+
 	},
 });
