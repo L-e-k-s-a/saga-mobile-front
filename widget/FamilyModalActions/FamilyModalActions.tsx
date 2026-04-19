@@ -14,12 +14,10 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 type FamilyModalActionsProps = {
 	isVisibleModal: boolean;
     setIsVisibleModal: (isVisible: boolean) => void;
-	handleCreateFamily: (isVisible: boolean) => void;
 };
 
 export const FamilyModalActions = ({
-	isVisibleModal,
-	handleCreateFamily,
+	isVisibleModal
 }: FamilyModalActionsProps) => {
 	const { families, loading, error } = useFamiliesUsers();
 
@@ -48,9 +46,7 @@ export const FamilyModalActions = ({
 					colorText={COLORS.black}
 				/>
 			)}
-			<FamilyActions
-				handleCreateFamily={handleCreateFamily}
-			/>
+			<FamilyActions />
 		</VerLayout>
 	);
 };

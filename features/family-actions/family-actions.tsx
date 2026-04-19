@@ -8,13 +8,11 @@ import { Input } from '@/shared/ui/Input/Input';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from '../../shared/ui/buttons/Button/Button';
+import { CreateFamilyForm } from '../forms/create-family-form/create-family-form';
 
-type FamilyActionsProps = {
-	handleCreateFamily: (isVisible: boolean) => void;
-};
-
-export const FamilyActions = ({ handleCreateFamily }: FamilyActionsProps) => {
+export const FamilyActions = () => {
 	const [isJoin, setIsJoin] = useState(false);
+	const [isCreate, setIsCreate] = useState(false);
 	const [code, setCode] = useState('');
 
 	const handleJoinFamily = () => {
@@ -23,12 +21,16 @@ export const FamilyActions = ({ handleCreateFamily }: FamilyActionsProps) => {
 
 	return (
 		<VerLayout styles={styleFamilyAction.actions}>
-			<Button
-				style={styleFamilyAction.item}
-				variant='secondary'
-				text='Создать семью'
-				onPress={() => handleCreateFamily(true)}
-			/>
+			{isCreate ? (
+				<CreateFamilyForm setIsVisible={setIsCreate}/>
+			) : (
+				<Button
+					style={styleFamilyAction.item}
+					variant='secondary'
+					text='Создать семью'
+					onPress={() => setIsCreate(true)}
+				/>
+			)}
 			<Button
 				style={styleFamilyAction.item}
 				variant='secondary'

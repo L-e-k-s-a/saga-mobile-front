@@ -77,7 +77,7 @@ export const DropDownPositionInFamily = ({
 						style={[
 							styleDropDown.dropdownList,
 							{
-								bottom: 210,
+								top: 308,
 								left: 0,
 								right: 0,
 							},

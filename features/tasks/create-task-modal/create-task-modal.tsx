@@ -1,4 +1,3 @@
-import { CreateFamilyForm } from '@/features/forms/create-family-form/create-family-form';
 import { Modal } from 'react-native';
 import { CreateTaskForm } from '../create-task-form/create-task-form';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
