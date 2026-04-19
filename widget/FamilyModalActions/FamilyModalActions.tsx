@@ -3,7 +3,7 @@ import { FamilyActions } from '@/features/family-actions/family-actions';
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { capitalize } from '@/shared/lib/capitalize';
-import { useFamilyStore } from '@/shared/store/family/family-store';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { FamilyUserType } from '@/shared/types/families-user-type';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { NoData } from '@/shared/ui/no-data/no-data';
@@ -21,7 +21,7 @@ export const FamilyModalActions = ({
 	isVisibleModal
 }: FamilyModalActionsProps) => {
 	const { data: families, isLoading, error, refetch } = useFamiliesUsers();
-	const { countFamily } = useFamilyStore()
+	const { countFamily, activeFamily } = useUserStore()
 
 	useEffect(() => {
 		refetch()

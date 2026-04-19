@@ -2,8 +2,10 @@ import { db } from '@/firebase/firebase';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { generateInviteCode } from '@/shared/lib/generate-invate-code';
+import { updateOneDoc } from '@/shared/lib/updateOneDoc';
 import { useFamilyStore } from '@/shared/store/family/family-store';
 import { useMe } from '@/shared/store/me/useMe';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
 import { CreateFamilyFormType } from '@/shared/types/create-family-form-type';
@@ -19,16 +21,17 @@ type CreateFamilyFormProps = {
 };
 
 export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
-	const { countFamily, setCountFamily } = useFamilyStore()
+	const { setNameFamily, setRole } = useFamilyStore()
+	const { countFamily, setCountFamily, setActiveFamily } = useUserStore()
+	const { setInviteCode } = useFamilyStore()
 	const [formFamily, setFormFamily] = useState<CreateFamilyFormType>({
 		nameFamily: '',
 		positionInFamily: '',
 		role: ''
 	});
-	const user = useMe();
+	const me = useMe();
 
 	const valid = () => {
-		console.log(formFamily)
 		if (formFamily.nameFamily === '' || formFamily.positionInFamily == '') {
 			return false;
 		}
@@ -40,17 +43,29 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 			return;
 		}
 
-		const familyRef = await addDoc(collection(db, 'families'), {
+		const meId = me.uid
+
+		const inviteCode = generateInviteCode()
+		const createdFamilyRef = await addDoc(collection(db, 'families'), {
 			nameFamily: formFamily.nameFamily,
-			inviteCode: generateInviteCode(),
+			inviteCode: inviteCode,
+			role: formFamily.role
 		});
 
 		await addDoc(collection(db, 'familyMembers'), {
-			familyId: familyRef.id,
-			userId: user?.uid,
+			familyId: createdFamilyRef.id,
+			userId: meId,
 			positionInFamily: formFamily.positionInFamily,
 		});
+		
+		if(countFamily === 0){
+			setActiveFamily(createdFamilyRef.id)
+			updateOneDoc("users", 'activeFamily', createdFamilyRef.id , meId)
+			setInviteCode(inviteCode)
+		}
 
+		setRole(formFamily.role)
+		setNameFamily(formFamily.nameFamily)
 		setCountFamily(countFamily + 1)
 	};
 

@@ -2,9 +2,11 @@ import { FirebaseAuthUser, OtherDataUser, User } from '@/entities/user/type/user
 import { useAuthStore } from '@/shared/store';
 import { UserCredential } from 'firebase/auth';
 import { getUserFromFirebase } from '../lib/getUser'
+import { useUserStore } from '@/shared/store/user/user-store';
 
 export const useSaveUser = () => {
-	const { setUser, setLoading } = useAuthStore();
+	const { setLoading } = useAuthStore();
+	const { setUser } = useUserStore()
 
 	const saveUser = async (authUser: UserCredential) => {
 		const userDataFirebase: FirebaseAuthUser = {
@@ -15,19 +17,17 @@ export const useSaveUser = () => {
 	
 		const uid: string = userDataFirebase.uid
 		const userFromFirebase = await getUserFromFirebase(uid)
-		console.log(userFromFirebase)
 		const user: User = {
 			uid: userDataFirebase.uid,
 			email: userDataFirebase.email,
-			name: userDataFirebase.name,
-			surname: '',
-			patronymic: userFromFirebase.pat,
-			fullName: '',
-			createAt: '',
+			name: userFromFirebase.name,
+			surname: userFromFirebase.surname,
+			patronymic: userFromFirebase.patronymic,
+			fullName: userFromFirebase.fullName,
+			createAt: userFromFirebase.createAt,
 			activeFamily: '',
 		};
-
-
+		
 		setUser(user);
 		setLoading(false)
 	}

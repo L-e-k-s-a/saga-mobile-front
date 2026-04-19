@@ -9,12 +9,14 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from '../../shared/ui/buttons/Button/Button';
 import { CreateFamilyForm } from '../forms/create-family-form/create-family-form';
+import { useFamilyStore } from '@/shared/store/family/family-store';
 
 export const FamilyActions = () => {
 	const [isJoin, setIsJoin] = useState(false);
 	const [isCreate, setIsCreate] = useState(false);
 	const [isAdd, setIsAdd] = useState(false);
-	const [code, setCode] = useState('515-sdfr');
+	const [codeJoin, setCodeJoin] = useState('');
+	const { inviteCode } = useFamilyStore()
 
 	const handleJoinFamily = () => {
 		setIsJoin(false);
@@ -36,7 +38,7 @@ export const FamilyActions = () => {
 				<Button
 					style={[styleFamilyAction.button, styleFamilyAction.item]}
 					variant='secondary'
-					text={code.toUpperCase()}
+					text={inviteCode.toUpperCase()}
 					onPress={() => setIsAdd(false)}
 				/> :
 				<Button
@@ -50,8 +52,8 @@ export const FamilyActions = () => {
 				<HorLayout style={styleFamilyAction.codeContainer}>
 					<Input
 						placeholder='Введите код другой семьи'
-						value={code.toUpperCase()}
-						onChangeText={(text) => setCode(text)}
+						value={codeJoin.toUpperCase()}
+						onChangeText={(text) => setCodeJoin(text)}
 						style={styleFamilyAction.input}
 					/>
 					<Button
