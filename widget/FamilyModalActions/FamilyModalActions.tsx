@@ -1,10 +1,10 @@
+import { Family } from '@/entities/family/family';
 import { useFamiliesUsers } from '@/entities/user/hooks/use-get-families-user';
 import { FamilyActions } from '@/features/family-actions/family-actions';
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { capitalize } from '@/shared/lib/capitalize';
 import { useUserStore } from '@/shared/store/user/user-store';
-import { FamilyUserType } from '@/shared/types/families-user-type';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spiner/spiner';
@@ -14,51 +14,64 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 type FamilyModalActionsProps = {
 	isVisibleModal: boolean;
-    setIsVisibleModal: (isVisible: boolean) => void;
+	setIsVisibleModal: (isVisible: boolean) => void;
 };
 
 export const FamilyModalActions = ({
-	isVisibleModal
+	isVisibleModal,
 }: FamilyModalActionsProps) => {
 	const { data: families, isLoading, error, refetch } = useFamiliesUsers();
-	const { countFamily, activeFamily } = useUserStore()
+	const { countFamily, setActiveFamily, activeFamily } = useUserStore();
 
+	console.log('activeFamily', activeFamily);
+	console.log('families', families);
 	useEffect(() => {
-		refetch()
-	}, [countFamily])
+		refetch();
+	}, [countFamily]);
 
 	if (error) {
 		return;
 	}
 
-	if(!families){
-		return
+	if (!families) {
+		return;
 	}
 
-	if(isLoading){
-		return <Spinner />
+	if (isLoading) {
+		return <Spinner />;
 	}
 
-// у семьи можно получить uid и закинуть в человека при клике
 	return (
-		isVisibleModal && <VerLayout styles={styleFamilyModal.modal}>
-			{families.length !== 0 ? (
-				<DinamicScrollView maxHeight={170}>
-					{families.map((family: FamilyUserType) => (
-						<TouchableOpacity style={styleFamilyModal.family} key={family.inviteCode}>
-							<Typography style={styleFamilyModal.text}>{capitalize(family.nameFamily)}</Typography>
-						</TouchableOpacity>
-					))}
-				</DinamicScrollView>
-			) : (
-				<NoData
-					title='Беда!'
-					desctiption='У Вас ещё нет не одной семьи'
-					colorText={COLORS.black}
-				/>
-			)}
-			<FamilyActions />
-		</VerLayout>
+		isVisibleModal && (
+			<VerLayout styles={styleFamilyModal.modal}>
+				{families.length !== 0 ? (
+					<DinamicScrollView maxHeight={170}>
+						{families.map((family: Family) => (
+							<TouchableOpacity
+								style={[
+									styleFamilyModal.family,
+									family.uid === activeFamily
+										? { opacity: 1, borderColor: COLORS.primary }
+										: { opacity: 0.3 },
+								]}
+								key={family.inviteCode}
+								onPress={() => setActiveFamily(family.uid)}>
+								<Typography style={styleFamilyModal.text}>
+									{capitalize(family.nameFamily)}
+								</Typography>
+							</TouchableOpacity>
+						))}
+					</DinamicScrollView>
+				) : (
+					<NoData
+						title='Беда!'
+						desctiption='У Вас ещё нет не одной семьи'
+						colorText={COLORS.black}
+					/>
+				)}
+				<FamilyActions />
+			</VerLayout>
+		)
 	);
 };
 
@@ -83,9 +96,9 @@ const styleFamilyModal = StyleSheet.create({
 	},
 	text: {
 		padding: 5,
-		width: "100%",
+		width: '100%',
 		color: COLORS.black,
 		fontSize: 24,
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 });

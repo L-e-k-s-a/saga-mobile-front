@@ -1,18 +1,19 @@
-import { auth } from '@/firebase/firebase';
-import { FamilyUserType } from '@/shared/types/families-user-type';
+
 import { useQuery } from '@tanstack/react-query';
 import { getFamiliesUser } from '../lib/getFamiliesUser';
+import { useMe } from '@/shared/store/me/useMe';
+import { Family } from '@/entities/family/family';
 
 export const useFamiliesUsers = () => {
-	const uid = auth.currentUser?.uid;
+	const user = useMe();
 	const { data, isLoading, error, refetch } = useQuery({
-		queryKey: ['familyUsers', uid],
+		queryKey: ['familyUsers', user.uid],
 		queryFn: async () => {
-			if (!uid) {
+			if (!user.uid) {
 				return;
 			}
 
-			const result: FamilyUserType[] = await getFamiliesUser(uid);
+			const result: Family[] = await getFamiliesUser(user.uid);
 			return result;
 		},
 		staleTime: 0,

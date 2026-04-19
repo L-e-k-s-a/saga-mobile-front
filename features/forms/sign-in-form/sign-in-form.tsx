@@ -13,9 +13,8 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSaveUser } from '../../../entities/user/hooks/use-save-user';
 
-
 export const SignInForm = () => {
-	const { saveUser } = useSaveUser()
+	const { saveUser } = useSaveUser();
 	const { setLoading, login } = useAuthStore();
 	const [error, setError] = useState<Error | null | unknown>(null);
 	const [validFormMessage, setValidFormMessage] = useState('');
@@ -46,8 +45,8 @@ export const SignInForm = () => {
 		router.push(RoutesForAuth.REGISTER);
 	};
 
-	if(error){
-		setValidFormMessage(String(error))
+	if (error) {
+		setValidFormMessage(String(error));
 	}
 
 	return (
@@ -100,5 +99,5 @@ const styleSignInForm = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-	}
+	},
 });

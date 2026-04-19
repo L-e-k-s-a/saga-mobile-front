@@ -28,8 +28,6 @@ export const useSaveUser = () => {
 			activeFamily: userFromFirebase.activeFamily || '',
 		};
 
-		console.log("user",user)
-
 		setUser(user);
 		setLoading(false)
 	}

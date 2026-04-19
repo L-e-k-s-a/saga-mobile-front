@@ -1,5 +1,5 @@
+import { Family } from '@/entities/family/family';
 import { db } from '@/firebase/firebase';
-import { FamilyUserType } from '@/shared/types/families-user-type';
 import {
     collection,
     doc,
@@ -17,17 +17,20 @@ export const getFamiliesUser = async (userId: string) => {
 
 	const querySnapshot = await getDocs(familiesQuery);
 
-	const familiesUser: FamilyUserType[] = [];
+	const familiesUser: Family[] = [];
 
 	for (const memberDoc of querySnapshot.docs) {
 		const member = memberDoc.data();
 
-		const familyDoc = await getDoc(doc(db, 'families', member.familyId));
+		const familyDocRef = doc(db, 'families', member.familyId);
+		const familyDoc = await getDoc(familyDocRef);
 
 		if (familyDoc.exists()) {
+			const familyData = familyDoc.data();
 			familiesUser.push({
-				nameFamily: familyDoc.data().nameFamily,
-				inviteCode: familyDoc.data().inviteCode,
+				uid: familyDoc.id,
+				nameFamily: familyData.nameFamily,
+				inviteCode: familyData.inviteCode,
 			});
 		}
 	}

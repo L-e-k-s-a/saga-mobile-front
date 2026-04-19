@@ -33,7 +33,7 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 
 	return (
 		<VerLayout styles={styleCreateTaskForm.form}>
-			<ButtonCross close={setIsVisible}/>
+			<ButtonCross close={setIsVisible} />
 			<Input
 				placeholder='Название задачи'
 				value={form.title}

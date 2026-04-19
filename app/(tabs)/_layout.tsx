@@ -4,17 +4,21 @@ import { MARGINS } from '@/shared/constants/margins';
 import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
 import { useActionWithFamily } from '@/shared/lib/use-action-with-family';
 import { Typography } from '@/shared/ui/Typography/Typography';
+import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 export default function TabsLayout() {
-	const createFamilyModal = useActionWithFamily();
+	const { isModalVisible, setIsModalVisible, handleModalVisible } = useActionWithFamily();
 
 	return (
 		<>
-			{createFamilyModal.Modal()}
+			<FamilyModalActions 
+                isVisibleModal={isModalVisible}
+                setIsVisibleModal={setIsModalVisible}
+            />
 			<Tabs
 				screenOptions={{
 					tabBarInactiveTintColor: 'gray',
@@ -42,7 +46,7 @@ export default function TabsLayout() {
 					name='index'
 					options={{
 						headerTitle: () => (
-							<TouchableOpacity onPress={createFamilyModal.handleModalVisible}>
+							<TouchableOpacity onPress={handleModalVisible}>
 								<Typography variant='h2'>Главная</Typography>
 							</TouchableOpacity>
 						),

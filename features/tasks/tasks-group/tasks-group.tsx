@@ -17,9 +17,10 @@ export const TasksGroup = () => {
 			/>
 		);
 	}
-	const { tasks, loading, error } = useGetTasks(activeFamily);
+	const { data: tasks, isLoading, error, refetch } = useGetTasks(activeFamily);
 
-	if (loading) {
+
+	if (isLoading) {
 		return <Spinner />;
 	}
 

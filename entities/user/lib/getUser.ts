@@ -8,8 +8,6 @@ export const getUserFromFirebase = async (uid: string) => {
     if (!userSnap.exists()) {
         return {};
     }
-    
-    console.log("userSnap.data()", userSnap.data())
     return userSnap.data();
 };
 

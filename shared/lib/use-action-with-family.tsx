@@ -2,19 +2,15 @@ import { useState } from 'react';
 import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 
 export const useActionWithFamily = () => {
-	const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
-	const handleModalVisible = () => {
-		setIsModalVisible(!isModalVisible);
-	};
+    const handleModalVisible = () => {
+        setIsModalVisible(!isModalVisible);
+    };
 
-	return {
-		handleModalVisible,
-		Modal: () => (
-			<FamilyModalActions
-				isVisibleModal={isModalVisible}
-				setIsVisibleModal={setIsModalVisible}
-			/>
-		),
-	};
+    return {
+        isModalVisible,
+        setIsModalVisible,
+        handleModalVisible,
+    };
 };

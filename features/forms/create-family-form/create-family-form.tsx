@@ -21,13 +21,13 @@ type CreateFamilyFormProps = {
 };
 
 export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
-	const { setNameFamily, setRole } = useFamilyStore()
-	const { countFamily, setCountFamily, setActiveFamily } = useUserStore()
-	const { setInviteCode } = useFamilyStore()
+	const { setNameFamily, setRole } = useFamilyStore();
+	const { countFamily, setCountFamily, setActiveFamily } = useUserStore();
+	const { setInviteCode } = useFamilyStore();
 	const [formFamily, setFormFamily] = useState<CreateFamilyFormType>({
 		nameFamily: '',
 		positionInFamily: '',
-		role: ''
+		role: '',
 	});
 	const me = useMe();
 
@@ -35,7 +35,7 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 		if (formFamily.nameFamily === '' || formFamily.positionInFamily == '') {
 			return false;
 		}
-		return true
+		return true;
 	};
 
 	const handleSaveFamily = async () => {
@@ -43,30 +43,31 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 			return;
 		}
 
-		const meId = me.uid
+		const meId = me.uid;
 
-		const inviteCode = generateInviteCode()
+		const inviteCode = generateInviteCode();
 		const createdFamilyRef = await addDoc(collection(db, 'families'), {
 			nameFamily: formFamily.nameFamily,
 			inviteCode: inviteCode,
-			role: formFamily.role
+			tasks: [],
 		});
 
 		await addDoc(collection(db, 'familyMembers'), {
 			familyId: createdFamilyRef.id,
 			userId: meId,
 			positionInFamily: formFamily.positionInFamily,
+			role: formFamily.role,
 		});
-		
-		if(countFamily === 0){
-			setActiveFamily(createdFamilyRef.id)
-			updateOneDoc("users", 'activeFamily', createdFamilyRef.id , meId)
-			setInviteCode(inviteCode)
+
+		if (countFamily === 0) {
+			setActiveFamily(createdFamilyRef.id);
+			updateOneDoc('users', 'activeFamily', createdFamilyRef.id, meId);
+			setInviteCode(inviteCode);
 		}
 
-		setRole(formFamily.role)
-		setNameFamily(formFamily.nameFamily)
-		setCountFamily(countFamily + 1)
+		setRole(formFamily.role);
+		setNameFamily(formFamily.nameFamily);
+		setCountFamily(countFamily + 1);
 	};
 
 	const handleFormFamilyChange = (field: string, value: string) => {

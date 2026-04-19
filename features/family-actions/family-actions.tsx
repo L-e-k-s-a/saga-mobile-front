@@ -4,19 +4,19 @@ import { GAPS } from '@/shared/constants/gaps';
 import { PADDINGS } from '@/shared/constants/paddings';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { useFamilyStore } from '@/shared/store/family/family-store';
 import { Input } from '@/shared/ui/Input/Input';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from '../../shared/ui/buttons/Button/Button';
 import { CreateFamilyForm } from '../forms/create-family-form/create-family-form';
-import { useFamilyStore } from '@/shared/store/family/family-store';
 
 export const FamilyActions = () => {
 	const [isJoin, setIsJoin] = useState(false);
 	const [isCreate, setIsCreate] = useState(false);
 	const [isAdd, setIsAdd] = useState(false);
 	const [codeJoin, setCodeJoin] = useState('');
-	const { inviteCode } = useFamilyStore()
+	const { inviteCode } = useFamilyStore();
 
 	const handleJoinFamily = () => {
 		setIsJoin(false);
@@ -25,7 +25,7 @@ export const FamilyActions = () => {
 	return (
 		<VerLayout styles={styleFamilyAction.actions}>
 			{isCreate ? (
-				<CreateFamilyForm setIsVisible={setIsCreate}/>
+				<CreateFamilyForm setIsVisible={setIsCreate} />
 			) : (
 				<Button
 					style={styleFamilyAction.item}
@@ -34,20 +34,21 @@ export const FamilyActions = () => {
 					onPress={() => setIsCreate(true)}
 				/>
 			)}
-			{isAdd ? 
+			{isAdd ? (
 				<Button
 					style={[styleFamilyAction.button, styleFamilyAction.item]}
 					variant='secondary'
 					text={inviteCode.toUpperCase()}
 					onPress={() => setIsAdd(false)}
-				/> :
+				/>
+			) : (
 				<Button
 					style={styleFamilyAction.item}
 					variant='secondary'
 					text='Добавить'
 					onPress={() => setIsAdd(true)}
 				/>
-			}
+			)}
 			{isJoin ? (
 				<HorLayout style={styleFamilyAction.codeContainer}>
 					<Input
@@ -99,6 +100,5 @@ const styleFamilyAction = StyleSheet.create({
 	button: {
 		width: '33%',
 		fontSize: 20,
-
 	},
 });

@@ -2,7 +2,7 @@
 
 
 export type Family = {
+    uid: string,
     nameFamily: string,
     inviteCode: string,
-    setCountFamily: (count: number) => void
 }
