@@ -1,6 +1,7 @@
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
+import { Task } from '@/shared/types/task';
 import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
 import { Button } from '@/shared/ui/buttons/Button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
@@ -9,20 +10,13 @@ import { Typography } from '@/shared/ui/Typography/Typography';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-type CreateTaskFormType = {
-	title: string;
-	description: string;
-	indicator: string;
-	executor: string[];
-};
-
 type CreateTaskFormProps = {
 	setIsVisible: (isVisible: boolean) => void;
 };
 
 //добавить dropdowm с именами в семье чтобы можно было заполнять исполнителей
 export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
-	const [form, setForm] = useState<CreateTaskFormType>({
+	const [form, setForm] = useState<Task>({
 		title: '',
 		description: '',
 		indicator: '',

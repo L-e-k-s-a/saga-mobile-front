@@ -25,9 +25,11 @@ export const useSaveUser = () => {
 			patronymic: userFromFirebase.patronymic,
 			fullName: userFromFirebase.fullName,
 			createAt: userFromFirebase.createAt,
-			activeFamily: '',
+			activeFamily: userFromFirebase.activeFamily || '',
 		};
-		
+
+		console.log("user",user)
+
 		setUser(user);
 		setLoading(false)
 	}

@@ -1,4 +1,5 @@
 import { CreateTaskModal } from '@/features/tasks';
+import { TasksGroup } from '@/features/tasks/tasks-group/tasks-group';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
 import { ButtonAdd } from '@/shared/ui/buttons/button-add/button-add';
@@ -15,6 +16,7 @@ export const TasksWidget = () => {
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
+				<TasksGroup />
 				<CreateTaskModal
 					isVisible={isVisibleModalCreateTask}
 					setIsVisible={setIsVisibleModalCreateTask}

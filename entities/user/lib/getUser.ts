@@ -9,6 +9,7 @@ export const getUserFromFirebase = async (uid: string) => {
         return {};
     }
     
+    console.log("userSnap.data()", userSnap.data())
     return userSnap.data();
 };
 
