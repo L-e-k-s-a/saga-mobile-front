@@ -18,7 +18,7 @@ export const useAuthStore = create<AuthStore>()((set) => ({
     isAuth: false,
     user: null,
     role: '',
-    loading: true, 
+    loading: false, 
 
     setIsAuth: (val: boolean) => set({ isAuth: val }),
     login: () => set({ isAuth: true }),

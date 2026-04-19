@@ -9,6 +9,7 @@ export type User = {
     patronymic: string,
     fullName: string,
     createAt: string,
+    activeFamily: string,
     families: [],
 }
 

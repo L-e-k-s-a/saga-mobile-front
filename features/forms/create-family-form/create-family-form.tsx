@@ -2,6 +2,7 @@ import { db } from '@/firebase/firebase';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { generateInviteCode } from '@/shared/lib/generate-invate-code';
+import { useFamilyStore } from '@/shared/store/family/family-store';
 import { useMe } from '@/shared/store/me/useMe';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
@@ -18,16 +19,20 @@ type CreateFamilyFormProps = {
 };
 
 export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
+	const { countFamily, setCountFamily } = useFamilyStore()
 	const [formFamily, setFormFamily] = useState<CreateFamilyFormType>({
 		nameFamily: '',
 		positionInFamily: '',
+		role: ''
 	});
 	const user = useMe();
 
 	const valid = () => {
+		console.log(formFamily)
 		if (formFamily.nameFamily === '' || formFamily.positionInFamily == '') {
 			return false;
 		}
+		return true
 	};
 
 	const handleSaveFamily = async () => {
@@ -45,6 +50,8 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 			userId: user?.uid,
 			positionInFamily: formFamily.positionInFamily,
 		});
+
+		setCountFamily(countFamily + 1)
 	};
 
 	const handleFormFamilyChange = (field: string, value: string) => {
@@ -62,7 +69,6 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 			/>
 			<DropDownPositionInFamily
 				form={formFamily}
-				title='Положение в семье'
 				onFormChange={handleFormFamilyChange}
 			/>
 			<HorLayout style={styleCreateFamilyForm.buttons}>

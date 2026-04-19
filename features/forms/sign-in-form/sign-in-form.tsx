@@ -11,9 +11,13 @@ import { router } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { useSaveUser } from '../../../entities/user/hooks/use-save-user';
+
 
 export const SignInForm = () => {
-	const { login } = useAuthStore();
+	const { saveUser } = useSaveUser()
+	const { setLoading, login } = useAuthStore();
+	const [error, setError] = useState<Error | null | unknown>(null);
 	const [validFormMessage, setValidFormMessage] = useState('');
 	const [signInForm, setSignInForm] = useState({
 		login: '',
@@ -31,18 +35,23 @@ export const SignInForm = () => {
 				signInForm.login,
 				signInForm.password,
 			);
+			setLoading(true);
+			saveUser(candidate);
 			login();
 		} catch (err) {
-			setValidFormMessage(String(err));
+			setError(err);
 		}
 	};
-
 	const handleRegister = () => {
 		router.push(RoutesForAuth.REGISTER);
 	};
 
+	if(error){
+		setValidFormMessage(String(error))
+	}
+
 	return (
-		<VerLayout styles={styleAuthForm.container}>
+		<VerLayout styles={styleSignInForm.container}>
 			<Typography
 				variant='h3'
 				style={styleForm.label}>
@@ -86,10 +95,10 @@ export const SignInForm = () => {
 	);
 };
 
-const styleAuthForm = StyleSheet.create({
+const styleSignInForm = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-	},
+	}
 });

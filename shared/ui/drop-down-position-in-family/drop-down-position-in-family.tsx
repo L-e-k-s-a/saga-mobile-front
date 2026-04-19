@@ -7,8 +7,9 @@ import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { capitalize } from '@/shared/lib/capitalize';
 import { CreateFamilyFormType } from '@/shared/types/create-family-form-type';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
+	LayoutChangeEvent,
 	Modal,
 	ScrollView,
 	StyleSheet,
@@ -18,7 +19,6 @@ import {
 import { Typography } from '../Typography/Typography';
 
 type DropDownRegisterFormProps = {
-	title: string;
 	form: CreateFamilyFormType;
 	onFormChange: (field: string, value: any) => void;
 };
@@ -30,10 +30,11 @@ type Item = {
 
 export const DropDownPositionInFamily = ({
 	form,
-	title,
 	onFormChange,
 }: DropDownRegisterFormProps) => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
+	const [layout, setLayout] = useState({y: 0, height: 0})
+	const dropdownRef = useRef(null)
 
 	const handleDropDown = () => {
 		setIsVisible(!isVisible);
@@ -45,11 +46,20 @@ export const DropDownPositionInFamily = ({
 		onFormChange('role', item.role);
 	};
 
+	const onLayout = (event: LayoutChangeEvent) => {
+		const layout = event.nativeEvent.layout
+		setLayout(layout)
+	}
+
 	return (
-		<>
+		<View
+			ref={dropdownRef}
+			style={styleDropDown.container}
+			onLayout={onLayout}
+		>
 			<HorLayout style={styleDropDown.dropDown}>
 				<Typography style={styleDropDown.text}>
-					{form.positionInFamily ? capitalize(form.positionInFamily) : title}
+					{form.positionInFamily ? capitalize(form.positionInFamily) : "Положение в семье"}
 				</Typography>
 				<TouchableOpacity onPress={handleDropDown}>
 					{isVisible ? (
@@ -77,7 +87,7 @@ export const DropDownPositionInFamily = ({
 						style={[
 							styleDropDown.dropdownList,
 							{
-								top: 308,
+								top: layout.y + layout.height + 5,
 								left: 0,
 								right: 0,
 							},
@@ -97,11 +107,14 @@ export const DropDownPositionInFamily = ({
 					</View>
 				</TouchableOpacity>
 			</Modal>
-		</>
+		</View>
 	);
 };
 
 const styleDropDown = StyleSheet.create({
+	container: {
+		width: "100%"
+	},
 	dropDown: {
 		flexDirection: 'row',
 		width: '100%',

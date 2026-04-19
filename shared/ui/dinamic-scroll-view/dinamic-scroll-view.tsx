@@ -1,14 +1,15 @@
 import { Children, ReactNode, useState } from "react"
-import { LayoutChangeEvent, ScrollView, View } from "react-native"
+import { LayoutChangeEvent, ScrollView, StyleProp, View, ViewStyle } from "react-native"
 
 
 type DinamicScrollViewProps = {
     children: ReactNode
     maxHeight: number
+    style?: StyleProp<ViewStyle> 
 }
 
 
-export const DinamicScrollView = ({children, maxHeight}: DinamicScrollViewProps) => {
+export const DinamicScrollView = ({children, maxHeight, style}: DinamicScrollViewProps) => {
     const [contentHeight, setContentHeight] = useState(0)
     const [scrollEnabled, setScrollEnabled] = useState(false)
 
@@ -21,7 +22,7 @@ export const DinamicScrollView = ({children, maxHeight}: DinamicScrollViewProps)
 
     return(
         <ScrollView scrollEnabled={scrollEnabled}
-            style={{maxHeight: scrollEnabled ? maxHeight : contentHeight}}
+            style={[{maxHeight: scrollEnabled ? maxHeight : contentHeight}, style]}
         >
             <View onLayout={onContentLayout}>
                 {children}

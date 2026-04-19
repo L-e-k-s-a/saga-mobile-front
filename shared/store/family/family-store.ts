@@ -8,9 +8,11 @@ export const useFamilyStore = create<Family>()((set) => ({
     activeFamilyUid: '',
     nameFamily: '',
     inviteCode: '',
+    countFamily: 0,
     
 
     setFamily: (name: string) => set({nameFamily: name}),
     setInviteCode: (code: string) => set({inviteCode: code}),
-    setActiveFamilyUid: (activeUid: string) => set({activeFamilyUid: activeUid})
+    setActiveFamilyUid: (activeUid: string) => set({activeFamilyUid: activeUid}),
+    setCountFamily: (count: number) => set({countFamily: count})
 }))
