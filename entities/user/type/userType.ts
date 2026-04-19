@@ -10,7 +10,8 @@ export type User = {
     fullName: string,
     createAt: string,
     activeFamily: string,
-    families: [],
 }
 
 export type FirebaseAuthUser = Pick<User, 'uid' | 'email' | 'name'>;
+
+export type OtherDataUser = Omit<User, 'uid' | 'name'>
