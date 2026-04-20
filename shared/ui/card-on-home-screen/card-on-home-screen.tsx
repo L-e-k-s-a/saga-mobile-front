@@ -1,3 +1,4 @@
+import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { router } from 'expo-router';
 import {
 	Image,
@@ -9,9 +10,8 @@ import { BORDER_RADII } from '../../constants/borderRadii';
 import { COLORS } from '../../constants/colors';
 import { HorLayout } from '../../layouts/HorLayout/HorLayout';
 import { TypeRoutesForTabs } from '../../routes/routes';
-import { Card } from '../Card/Card';
-import { Typography } from '../Typography/Typography';
-import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { Card } from '../card/card';
+import { Typography } from '../typography/typography';
 
 type CardOnHomeScreeenProps = {
 	title: string;
@@ -34,7 +34,11 @@ export const CardOnHomeScreeen = ({
 			onPress={handleClickCard}>
 			<Card>
 				<HorLayout style={styles.tile}>
-					<Typography style={styles.containerTitle} variant='h3'>{title}</Typography>
+					<Typography
+						style={styles.containerTitle}
+						variant='h3'>
+						{title}
+					</Typography>
 					<VerLayout styles={styles.containerImage}>
 						<Image
 							style={styles.image}
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
 	tile: {
 		justifyContent: 'space-between',
 		gap: 5,
-		padding: 8
+		padding: 8,
 	},
 	card: {
 		width: '48%',
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
 		color: COLORS.white,
 	},
 	containerImage: {
-		width: '29%'
+		width: '29%',
 	},
 	image: {
 		width: 45,

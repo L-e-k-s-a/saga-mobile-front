@@ -1,6 +1,6 @@
 import { CARDS_HOME_SCREEN } from '@/shared/constants/cardsOnHomeScreen';
 import { GAPS } from '@/shared/constants/gaps';
-import { CardOnHomeScreeen } from '@/shared/ui/CardOnHomeScreen/CardOnHomeScreen';
+import { CardOnHomeScreeen } from '@/shared/ui/card-on-home-screen/card-on-home-screen';
 import { StyleSheet, View } from 'react-native';
 
 export const CardsOnHomeScreen = () => {

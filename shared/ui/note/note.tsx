@@ -1,16 +1,14 @@
-import { Card } from "../Card/Card"
-import { Typography } from "../Typography/Typography"
+import { Card } from '../card/card';
+import { Typography } from '../typography/typography';
 
 type NoteProps = {
-    text: string
-}
+	text: string;
+};
 
-export const Note = ({text}: NoteProps) => {
-    return(
-        <Card>
-            <Typography>
-                {text}    
-            </Typography>
-        </Card>
-    )
-}
+export const Note = ({ text }: NoteProps) => {
+	return (
+		<Card>
+			<Typography>{text}</Typography>
+		</Card>
+	);
+};

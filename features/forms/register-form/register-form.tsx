@@ -6,7 +6,7 @@ import { styleForm } from '@/shared/styles/forms';
 import { FormRegister } from '@/shared/types/form';
 import { Button } from '@/shared/ui/buttons/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { Typography } from '@/shared/ui/typography/typography';
 import { router } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';

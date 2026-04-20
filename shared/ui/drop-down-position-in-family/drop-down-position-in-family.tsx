@@ -16,7 +16,7 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { Typography } from '../Typography/Typography';
+import { Typography } from '../typography/typography';
 
 type DropDownRegisterFormProps = {
 	form: CreateFamilyFormType;
@@ -33,8 +33,8 @@ export const DropDownPositionInFamily = ({
 	onFormChange,
 }: DropDownRegisterFormProps) => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
-	const [layout, setLayout] = useState({y: 0, height: 0})
-	const dropdownRef = useRef(null)
+	const [layout, setLayout] = useState({ y: 0, height: 0 });
+	const dropdownRef = useRef(null);
 
 	const handleDropDown = () => {
 		setIsVisible(!isVisible);
@@ -47,19 +47,20 @@ export const DropDownPositionInFamily = ({
 	};
 
 	const onLayout = (event: LayoutChangeEvent) => {
-		const layout = event.nativeEvent.layout
-		setLayout(layout)
-	}
+		const layout = event.nativeEvent.layout;
+		setLayout(layout);
+	};
 
 	return (
 		<View
 			ref={dropdownRef}
 			style={styleDropDown.container}
-			onLayout={onLayout}
-		>
+			onLayout={onLayout}>
 			<HorLayout style={styleDropDown.dropDown}>
 				<Typography style={styleDropDown.text}>
-					{form.positionInFamily ? capitalize(form.positionInFamily) : "Положение в семье"}
+					{form.positionInFamily
+						? capitalize(form.positionInFamily)
+						: 'Положение в семье'}
 				</Typography>
 				<TouchableOpacity onPress={handleDropDown}>
 					{isVisible ? (
@@ -113,7 +114,7 @@ export const DropDownPositionInFamily = ({
 
 const styleDropDown = StyleSheet.create({
 	container: {
-		width: "100%"
+		width: '100%',
 	},
 	dropDown: {
 		flexDirection: 'row',

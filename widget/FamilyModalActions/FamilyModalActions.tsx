@@ -8,7 +8,7 @@ import { useUserStore } from '@/shared/store/user/user-store';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spiner/spiner';
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { Typography } from '@/shared/ui/typography/typography';
 import { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 

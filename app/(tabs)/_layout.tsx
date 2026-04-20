@@ -3,22 +3,22 @@ import { COLORS } from '@/shared/constants/colors';
 import { MARGINS } from '@/shared/constants/margins';
 import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
 import { useActionWithFamily } from '@/shared/lib/use-action-with-family';
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { Typography } from '@/shared/ui/typography/typography';
 import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 export default function TabsLayout() {
-	const { isModalVisible, setIsModalVisible, handleModalVisible } = useActionWithFamily();
+	const { isModalVisible, setIsModalVisible, handleModalVisible } =
+		useActionWithFamily();
 
 	return (
 		<>
-			<FamilyModalActions 
-                isVisibleModal={isModalVisible}
-                setIsVisibleModal={setIsModalVisible}
-            />
+			<FamilyModalActions
+				isVisibleModal={isModalVisible}
+				setIsVisibleModal={setIsModalVisible}
+			/>
 			<Tabs
 				screenOptions={{
 					tabBarInactiveTintColor: 'gray',

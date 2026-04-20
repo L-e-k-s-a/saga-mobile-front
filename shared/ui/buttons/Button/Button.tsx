@@ -9,7 +9,7 @@ import {
 	TouchableOpacity,
 	ViewStyle,
 } from 'react-native';
-import { Typography } from '../../Typography/Typography';
+import { Typography } from '../../typography/typography';
 
 type VariantsBtn = 'primary' | 'secondary';
 

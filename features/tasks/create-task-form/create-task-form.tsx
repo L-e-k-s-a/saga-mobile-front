@@ -6,7 +6,7 @@ import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
 import { Button } from '@/shared/ui/buttons/Button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
 import { Input } from '@/shared/ui/Input/Input';
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { Typography } from '@/shared/ui/typography/typography';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 

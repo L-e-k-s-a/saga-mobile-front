@@ -7,7 +7,7 @@ import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
 import { FormRegister } from '@/shared/types/form';
 import { Input } from '@/shared/ui/Input/Input';
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { Typography } from '@/shared/ui/typography/typography';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type PersonFormProps = {

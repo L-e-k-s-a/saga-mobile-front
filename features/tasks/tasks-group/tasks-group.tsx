@@ -1,9 +1,9 @@
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useUserStore } from '@/shared/store/user/user-store';
 import { Task } from '@/shared/types/task';
-import { Typography } from '@/shared/ui/Typography/Typography';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spiner/spiner';
+import { Typography } from '@/shared/ui/typography/typography';
 import { StyleSheet } from 'react-native';
 import { useGetTasks } from '../hooks/use-get-tasks';
 
@@ -18,7 +18,6 @@ export const TasksGroup = () => {
 		);
 	}
 	const { data: tasks, isLoading, error, refetch } = useGetTasks(activeFamily);
-
 
 	if (isLoading) {
 		return <Spinner />;
