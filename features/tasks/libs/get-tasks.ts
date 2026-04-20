@@ -8,7 +8,6 @@ export const getTasks = async (activeFamilyUid: string) => {
 	if (!familySnapshot.exists()) {
 		return []
 	}
-    console.log("familySnapshot.data()", familySnapshot.data())
 	return familySnapshot.data().tasks;
 	
 };

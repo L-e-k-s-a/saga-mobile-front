@@ -9,7 +9,6 @@ export const useGetTasks = (activeFamilyUid: string) => {
 				return;
 			}
 			const tasks = await getTasks(activeFamilyUid);
-            console.log(tasks)
 			return tasks;
 		},
 		staleTime: 0,

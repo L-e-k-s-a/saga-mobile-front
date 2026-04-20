@@ -5,20 +5,14 @@ import { Task } from '@/shared/types/task';
 import { Card } from '@/shared/ui/card/card';
 import { Typography } from '@/shared/ui/typography/typography';
 import { StyleSheet, View } from 'react-native';
+import { getImportanceTask } from '../libs/get-importance-task';
 
 type CardTaskProps = {
 	task: Task;
-	isVisible: boolean;
-	setVisible: (isVisible: boolean) => void;
 };
 
-export const CardTask = ({ task, isVisible, setVisible }: CardTaskProps) => {
-	const importanceTask = (() => {
-		if (task.indicator === 'low') return IMPORTANCE.low;
-		if (task.indicator === 'middle') return IMPORTANCE.middle;
-		if (task.indicator === 'hard') return IMPORTANCE.hard;
-		return { importance: '', color: '', text: '' };
-	})();
+export const CardTask = ({ task }: CardTaskProps) => {
+	const importanceTask = getImportanceTask(task)
 
 	return (
 		<Card style={styleCardTask.task}>

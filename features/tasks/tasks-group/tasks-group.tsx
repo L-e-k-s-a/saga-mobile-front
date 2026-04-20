@@ -5,6 +5,8 @@ import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useGetTasks } from '../hooks/use-get-tasks';
 import { CardTask } from '../card-task/card-task';
 import { useEffect, useState } from 'react';
+import { Task } from '@/shared/types/task';
+import { ModalTask } from '../modal-task/modal-task';
 
 
 type TasksGroupProps = {
@@ -13,6 +15,7 @@ type TasksGroupProps = {
 
 export const TasksGroup = ({refetchTrigger}: TasksGroupProps) => {
 	const [isVisible, setIsVisible] = useState(false)
+	const [selectedTask, setSelectedTask] = useState<Task>({title: '', description: '', indicator: '', executors: []})
 	const { activeFamily } = useUserStore();
 	if (!activeFamily) {
 		return (
@@ -28,20 +31,30 @@ export const TasksGroup = ({refetchTrigger}: TasksGroupProps) => {
 		refetch()
 	}, [refetchTrigger])
 
+	if(error){
+		return
+	}
+
 	if (isLoading) {
 		return <Spinner />;
 	}
 
 	return tasks.length > 0 ? (
-		<FlatList 
-			data={tasks}
-			renderItem={({item}) => 
-			<TouchableOpacity onPress={() => setIsVisible(true)}>
-				<CardTask isVisible={isVisible} setVisible={setIsVisible} task={item}/>
-			</TouchableOpacity>}
-			
-			ListFooterComponent={<View style={{height: 150}} />}
-		/>
+		<>
+			<FlatList 
+				data={tasks}
+				renderItem={({item}) => 
+				<TouchableOpacity onPress={() => {
+					setSelectedTask(item)
+					setIsVisible(true)
+				}}>
+					<CardTask task={item}/>
+				</TouchableOpacity>}
+				
+				ListFooterComponent={<View style={{height: 150}} />}
+			/>
+			{(isVisible) && <ModalTask task={selectedTask} isVisible={isVisible} setIsVisible={setIsVisible}/>}
+		</>
 	) : (
 		<NoData
 			title='Задач нет'
