@@ -2,7 +2,7 @@ import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useUserStore } from '@/shared/store/user/user-store';
 import { Task } from '@/shared/types/task';
 import { NoData } from '@/shared/ui/no-data/no-data';
-import { Spinner } from '@/shared/ui/spiner/spiner';
+import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Typography } from '@/shared/ui/typography/typography';
 import { StyleSheet } from 'react-native';
 import { useGetTasks } from '../hooks/use-get-tasks';

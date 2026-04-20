@@ -3,7 +3,7 @@ import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleModal } from '@/shared/styles/modal';
 import { NoteFamilyDiaryType } from '@/shared/types/note-family-diary';
 import { ButtonAdd } from '@/shared/ui/buttons/button-add/button-add';
-import { Button } from '@/shared/ui/buttons/Button/Button';
+import { Button } from '@/shared/ui/buttons/button/Button';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Note } from '@/shared/ui/note/note';
 import { useState } from 'react';

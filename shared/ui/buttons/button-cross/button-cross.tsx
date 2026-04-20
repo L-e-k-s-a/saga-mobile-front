@@ -1,13 +1,12 @@
-import { HorLayout } from "@/shared/layouts/HorLayout/HorLayout";
-import { Button } from "../Button/Button";
-import { StyleSheet } from "react-native";
-
+import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { StyleSheet } from 'react-native';
+import { Button } from '../button/Button';
 
 type ButtonCrossProps = {
-    close: (isVisible: boolean) => void 
-}
+	close: (isVisible: boolean) => void;
+};
 
-export const ButtonCross = ({close}: ButtonCrossProps) => {
+export const ButtonCross = ({ close }: ButtonCrossProps) => {
 	return (
 		<HorLayout style={styleButtonCross.crossContainer}>
 			<Button
@@ -21,18 +20,17 @@ export const ButtonCross = ({close}: ButtonCrossProps) => {
 	);
 };
 
-
 const styleButtonCross = StyleSheet.create({
-    crossContainer: {
-        width: '100%',
-        height: 50,
-        justifyContent: 'flex-end',
-    },
-    cross: {
-        padding: 8,
-        width: '16%',
-    },
-    sizeCross: {
-        fontSize: 24,
-    },
+	crossContainer: {
+		width: '100%',
+		height: 50,
+		justifyContent: 'flex-end',
+	},
+	cross: {
+		padding: 8,
+		width: '16%',
+	},
+	sizeCross: {
+		fontSize: 24,
+	},
 });

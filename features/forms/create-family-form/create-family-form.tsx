@@ -9,7 +9,7 @@ import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
 import { CreateFamilyFormType } from '@/shared/types/create-family-form-type';
-import { Button } from '@/shared/ui/buttons/Button/Button';
+import { Button } from '@/shared/ui/buttons/button/Button';
 import { DropDownPositionInFamily } from '@/shared/ui/drop-down-position-in-family/drop-down-position-in-family';
 import { Input } from '@/shared/ui/Input/Input';
 import { addDoc, collection } from 'firebase/firestore';

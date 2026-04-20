@@ -8,7 +8,7 @@ import { useFamilyStore } from '@/shared/store/family/family-store';
 import { Input } from '@/shared/ui/Input/Input';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button } from '../../shared/ui/buttons/Button/Button';
+import { Button } from '../../shared/ui/buttons/button/Button';
 import { CreateFamilyForm } from '../forms/create-family-form/create-family-form';
 
 export const FamilyActions = () => {

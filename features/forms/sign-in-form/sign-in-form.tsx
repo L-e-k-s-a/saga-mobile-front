@@ -4,7 +4,7 @@ import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { RoutesForAuth } from '@/shared/routes/routes';
 import { useAuthStore } from '@/shared/store';
 import { styleForm } from '@/shared/styles/forms';
-import { Button } from '@/shared/ui/buttons/Button/Button';
+import { Button } from '@/shared/ui/buttons/button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/typography/typography';
 import { router } from 'expo-router';
