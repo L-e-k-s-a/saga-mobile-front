@@ -32,7 +32,7 @@ export const CardOnHomeScreeen = ({
 		<TouchableOpacity
 			style={styles.card}
 			onPress={handleClickCard}>
-			<Card>
+			<VerLayout>
 				<HorLayout style={styles.tile}>
 					<Typography
 						style={styles.containerTitle}
@@ -46,7 +46,7 @@ export const CardOnHomeScreeen = ({
 						/>
 					</VerLayout>
 				</HorLayout>
-			</Card>
+			</VerLayout>
 		</TouchableOpacity>
 	);
 };

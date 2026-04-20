@@ -1,5 +1,7 @@
+import { db } from '@/firebase/firebase';
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
 import { Task } from '@/shared/types/task';
 import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
@@ -7,6 +9,7 @@ import { Button } from '@/shared/ui/buttons/button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/typography/typography';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
@@ -16,11 +19,12 @@ type CreateTaskFormProps = {
 
 //добавить dropdowm с именами в семье чтобы можно было заполнять исполнителей
 export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
+	const { activeFamily } = useUserStore();
 	const [form, setForm] = useState<Task>({
 		title: '',
 		description: '',
 		indicator: '',
-		executor: [],
+		executors: [],
 	});
 
 	const handleChangeCreateTaskForm = (field: string, value: string) => {
@@ -29,6 +33,16 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 
 	const handleSetIndicator = (value: string) => {
 		setForm((prev) => ({ ...prev, indicator: value }));
+	};
+
+	const handleSaveTask = async () => {
+		if(form.title === '' || form.indicator === ''){
+			return
+		}
+		const ref = doc(db, 'families', activeFamily);
+		await updateDoc(ref, {
+			tasks: arrayUnion(form),
+		});
 	};
 
 	return (
@@ -56,7 +70,10 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 				text='Сохранить'
 				variant='secondary'
 				size='m'
-				onPress={() => setIsVisible(false)}
+				onPress={() => {
+					handleSaveTask();
+					setIsVisible(false);
+				}}
 			/>
 		</VerLayout>
 	);

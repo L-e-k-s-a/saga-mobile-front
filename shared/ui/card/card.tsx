@@ -1,23 +1,37 @@
 
+import { COLORS } from "@/shared/constants/colors"
+import { VerLayout } from "@/shared/layouts/VerLayout/VerLayout"
 import type { ReactNode } from "react"
-import {StyleSheet, View} from 'react-native'
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native'
 
 type CardProps = {
-    children: ReactNode
+    children: ReactNode,
+    style?: StyleProp<ViewStyle>
 }
 
-export const Card = ({children}: CardProps) => {
+export const Card = ({children, style}: CardProps) => {
     return(
-        <View style={styles.card}>
+        <VerLayout styles={[styleCard.card, style]}>
             {children}
-        </View>
+        </VerLayout>
     )
 }
 
-const styles = StyleSheet.create({
+const styleCard = StyleSheet.create({
     card: {
-        display: "flex",
-        justifyContent: "space-evenly"
+        backgroundColor: COLORS.white,
+        
+        shadowColor: COLORS.black,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        
+        elevation: 5,        
+        borderRadius: 8,        
+        padding: 16,            
+        margin: 8,              
     }
 })
-

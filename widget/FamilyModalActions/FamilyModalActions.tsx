@@ -4,6 +4,7 @@ import { FamilyActions } from '@/features/family-actions/family-actions';
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { capitalize } from '@/shared/lib/capitalize';
+import { useFamilyStore } from '@/shared/store/family/family-store';
 import { useUserStore } from '@/shared/store/user/user-store';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { NoData } from '@/shared/ui/no-data/no-data';
@@ -22,9 +23,8 @@ export const FamilyModalActions = ({
 }: FamilyModalActionsProps) => {
 	const { data: families, isLoading, error, refetch } = useFamiliesUsers();
 	const { countFamily, setActiveFamily, activeFamily } = useUserStore();
+	const { setInviteCode, setNameFamily} = useFamilyStore()
 
-	console.log('activeFamily', activeFamily);
-	console.log('families', families);
 	useEffect(() => {
 		refetch();
 	}, [countFamily]);
@@ -55,7 +55,11 @@ export const FamilyModalActions = ({
 										: { opacity: 0.3 },
 								]}
 								key={family.inviteCode}
-								onPress={() => setActiveFamily(family.uid)}>
+								onPress={() => {
+									setNameFamily(family.nameFamily)
+									setActiveFamily(family.uid)
+									setInviteCode(family.inviteCode)
+								}}>
 								<Typography style={styleFamilyModal.text}>
 									{capitalize(family.nameFamily)}
 								</Typography>

@@ -16,7 +16,7 @@ export const TasksWidget = () => {
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
-				<TasksGroup />
+				<TasksGroup refetchTrigger={isVisibleModalCreateTask}/>
 				<CreateTaskModal
 					isVisible={isVisibleModalCreateTask}
 					setIsVisible={setIsVisibleModalCreateTask}

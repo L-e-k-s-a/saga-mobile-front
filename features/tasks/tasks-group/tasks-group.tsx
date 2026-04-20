@@ -1,13 +1,18 @@
-import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useUserStore } from '@/shared/store/user/user-store';
-import { Task } from '@/shared/types/task';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spinner/spinner';
-import { Typography } from '@/shared/ui/typography/typography';
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useGetTasks } from '../hooks/use-get-tasks';
+import { CardTask } from '../card-task/card-task';
+import { useEffect, useState } from 'react';
 
-export const TasksGroup = () => {
+
+type TasksGroupProps = {
+	refetchTrigger: boolean
+}
+
+export const TasksGroup = ({refetchTrigger}: TasksGroupProps) => {
+	const [isVisible, setIsVisible] = useState(false)
 	const { activeFamily } = useUserStore();
 	if (!activeFamily) {
 		return (
@@ -19,26 +24,29 @@ export const TasksGroup = () => {
 	}
 	const { data: tasks, isLoading, error, refetch } = useGetTasks(activeFamily);
 
+	useEffect(() => {
+		refetch()
+	}, [refetchTrigger])
+
 	if (isLoading) {
 		return <Spinner />;
 	}
 
 	return tasks.length > 0 ? (
-		<VerLayout>
-			{tasks.map((task: Task) => (
-				<Typography>{task.title}</Typography>
-			))}
-		</VerLayout>
+		<FlatList 
+			data={tasks}
+			renderItem={({item}) => 
+			<TouchableOpacity onPress={() => setIsVisible(true)}>
+				<CardTask isVisible={isVisible} setVisible={setIsVisible} task={item}/>
+			</TouchableOpacity>}
+			
+			ListFooterComponent={<View style={{height: 150}} />}
+		/>
 	) : (
 		<NoData
 			title='Задач нет'
 			desctiption='Создайте задачу!'
 		/>
 	);
-};
+}
 
-const styleTasksGroup = StyleSheet.create({
-	tasks: {
-		flex: 1,
-	},
-});
