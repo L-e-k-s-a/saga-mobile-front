@@ -1,4 +1,3 @@
-import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
 import { StyleSheet, View } from 'react-native';
 
@@ -10,6 +9,6 @@ const styles = StyleSheet.create({
 	slider: {
 		height: '25%',
 		backgroundColor: COLORS.white,
-		borderRadius: BORDER_RADII.px10,
+		borderRadius: 10,
 	},
 });

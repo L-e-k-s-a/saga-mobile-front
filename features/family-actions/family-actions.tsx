@@ -1,7 +1,4 @@
-import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
-import { GAPS } from '@/shared/constants/gaps';
-import { PADDINGS } from '@/shared/constants/paddings';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useFamilyStore } from '@/shared/store/family/family-store';
@@ -90,12 +87,12 @@ const styleFamilyAction = StyleSheet.create({
 	input: {
 		borderWidth: 0.5,
 		backgroundColor: COLORS.primaryColorBackgroundInput,
-		borderRadius: BORDER_RADII.primary,
+		borderRadius: 10,
 		height: 52,
 		width: '65%',
-		paddingHorizontal: PADDINGS.px16,
+		paddingHorizontal: 16,
 		fontSize: 16,
-		marginTop: GAPS.px8,
+		marginTop: 8,
 	},
 	button: {
 		width: '33%',

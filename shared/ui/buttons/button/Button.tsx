@@ -1,6 +1,4 @@
-import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
-import { PADDINGS } from '@/shared/constants/paddings';
 import { VariantTypography } from '@/shared/types/variant-typography';
 import {
 	StyleProp,
@@ -64,7 +62,7 @@ export const Button = ({
 };
 
 const common = {
-	borderRadius: BORDER_RADII.px10,
+	borderRadius: 10,
 	borderWidth: 1,
 	width: 150,
 	alignItems: 'center',
@@ -81,16 +79,16 @@ const buttonStyle = StyleSheet.create({
 		...common,
 	},
 	s: {
-		padding: PADDINGS.px10,
+		padding: 10,
 		width: 95,
 	},
 
 	m: {
-		padding: PADDINGS.px16,
+		padding: 16,
 	},
 
 	l: {
-		padding: PADDINGS.px24,
+		padding: 24,
 	},
 	textPrimary: {
 		color: COLORS.black,

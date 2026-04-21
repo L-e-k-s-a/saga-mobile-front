@@ -1,7 +1,4 @@
-import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
-import { FONT_SIZE } from '@/shared/constants/font-size';
-import { PADDINGS } from '@/shared/constants/paddings';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
@@ -86,8 +83,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		marginBottom: PADDINGS.px16,
-		paddingBottom: PADDINGS.px16,
+		marginBottom: 16,
+		paddingBottom: 16,
 		borderBottomWidth: 1,
 		borderBottomColor: COLORS.secondary,
 	},
@@ -96,27 +93,27 @@ const styles = StyleSheet.create({
 		color: COLORS.black,
 	},
 	closeButton: {
-		padding: PADDINGS.px10,
+		padding: 10,
 	},
 	closeButtonText: {
 		color: COLORS.secondary,
 	},
 	label: {
-		marginBottom: PADDINGS.px10,
+		marginBottom: 10,
 		color: COLORS.black,
-		fontSize: FONT_SIZE.primary,
+		fontSize: 16,
 		fontWeight: '500',
 	},
 	btnPrimary: {
 		backgroundColor: COLORS.primary,
-		borderRadius: BORDER_RADII.primary,
-		paddingVertical: PADDINGS.px16,
+		borderRadius: 10,
+		paddingVertical: 16,
 		alignItems: 'center',
-		marginTop: PADDINGS.px16,
+		marginTop: 16,
 	},
 	btnPrimaryText: {
 		color: COLORS.white,
-		fontSize: FONT_SIZE.primary,
+		fontSize: 16,
 		fontWeight: '600',
 	},
 });

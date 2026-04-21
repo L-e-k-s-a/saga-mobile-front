@@ -1,6 +1,4 @@
-import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
-import { MARGINS } from '@/shared/constants/margins';
 import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
 import { useActionWithFamily } from '@/shared/lib/use-action-with-family';
 import { Typography } from '@/shared/ui/typography/typography';
@@ -24,15 +22,15 @@ export default function TabsLayout() {
 					tabBarInactiveTintColor: 'gray',
 					tabBarStyle: {
 						position: 'absolute',
-						marginHorizontal: MARGINS.px40,
-						marginBottom: MARGINS.px20,
+						marginHorizontal: 40,
+						marginBottom: 20,
 						backgroundColor: COLORS.ligthGray,
 						borderTopWidth: 0,
 						height: 60,
 						paddingBottom: 8,
 						paddingTop: 8,
 						minHeight: 70,
-						borderRadius: BORDER_RADII.px30,
+						borderRadius: 30,
 					},
 					headerTitleAlign: 'center',
 					headerTintColor: COLORS.white,

@@ -6,7 +6,6 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from 'react-native';
-import { BORDER_RADII } from '../../constants/borderRadii';
 import { COLORS } from '../../constants/colors';
 import { HorLayout } from '../../layouts/HorLayout/HorLayout';
 import { TypeRoutesForTabs } from '../../routes/routes';
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: COLORS.ligthGray,
 		color: COLORS.white,
-		borderRadius: BORDER_RADII.px10,
+		borderRadius: 10,
 	},
 	containerTitle: {
 		width: '71%',

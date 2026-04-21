@@ -1,4 +1,3 @@
-import { MARGINS } from '@/shared/constants/margins';
 import { StyleSheet } from 'react-native';
 import { VerLayout } from '../VerLayout/VerLayout';
 
@@ -13,6 +12,6 @@ export const AlignContainer = ({ children }: AlignContainerProps) => {
 const stylesContainer = StyleSheet.create({
 	container: {
 		flex: 1,
-		margin: MARGINS.px20,
+		margin: 20,
 	},
 });

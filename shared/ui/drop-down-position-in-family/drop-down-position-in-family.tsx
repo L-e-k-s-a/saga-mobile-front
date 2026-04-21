@@ -1,8 +1,5 @@
-import { BORDER_RADII } from '@/shared/constants/borderRadii';
 import { COLORS } from '@/shared/constants/colors';
 import { FAMILY_MEMBERS_ROLE } from '@/shared/constants/family/family-role-members';
-import { FONT_SIZE } from '@/shared/constants/font-size';
-import { PADDINGS } from '@/shared/constants/paddings';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { capitalize } from '@/shared/lib/capitalize';
 import { CreateFamilyFormType } from '@/shared/types/create-family-form-type';
@@ -120,7 +117,7 @@ const styleDropDown = StyleSheet.create({
 		flexDirection: 'row',
 		width: '100%',
 		justifyContent: 'space-between',
-		borderRadius: BORDER_RADII.primary,
+		borderRadius: 10,
 		height: 52,
 		borderWidth: 1,
 		alignItems: 'center',
@@ -128,8 +125,8 @@ const styleDropDown = StyleSheet.create({
 		zIndex: 1,
 	},
 	icon: {
-		padding: PADDINGS.px10,
-		paddingRight: PADDINGS.px16,
+		padding: 10,
+		paddingRight: 16,
 		fontSize: 24,
 	},
 	modalOverlay: {
@@ -139,10 +136,10 @@ const styleDropDown = StyleSheet.create({
 	dropdownList: {
 		position: 'absolute',
 		backgroundColor: COLORS.white,
-		borderRadius: BORDER_RADII.primary,
+		borderRadius: 10,
 		borderWidth: 1,
 		maxHeight: 200,
-		marginHorizontal: PADDINGS.px16,
+		marginHorizontal: 16,
 		zIndex: 1000,
 		elevation: 1000,
 		shadowColor: '#000',
@@ -151,13 +148,13 @@ const styleDropDown = StyleSheet.create({
 		shadowRadius: 4,
 	},
 	dropdownItem: {
-		paddingVertical: PADDINGS.px16,
+		paddingVertical: 16,
 		borderBottomWidth: 1,
 		borderBottomColor: COLORS.secondary,
 	},
 	text: {
 		color: COLORS.black,
-		paddingLeft: PADDINGS.px16,
-		fontSize: FONT_SIZE.primary,
+		paddingLeft: 16,
+		fontSize: 16,
 	},
 });
