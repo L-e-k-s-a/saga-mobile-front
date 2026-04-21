@@ -1,9 +1,7 @@
 import { COLORS } from '@/shared/constants/colors';
-import { VariantTypography } from '@/shared/types/variant-typography';
 import {
 	StyleProp,
 	StyleSheet,
-	TextStyle,
 	TouchableOpacity,
 	ViewStyle,
 } from 'react-native';
@@ -18,8 +16,6 @@ type ButtonProps = {
 	variant?: VariantsBtn;
 	size?: Size;
 	style?: StyleProp<ViewStyle>;
-	textVariant?: VariantTypography;
-	textStyle?: StyleProp<TextStyle>;
 	onPress: () => void;
 };
 
@@ -27,19 +23,9 @@ export const Button = ({
 	text,
 	onPress,
 	style,
-	textVariant,
-	textStyle,
 	variant = 'primary',
 	size = 'm',
 }: ButtonProps) => {
-	const getVariantButton = (variant: VariantsBtn) => {
-		return buttonStyle[variant];
-	};
-
-	const getSize = (size: Size) => {
-		return buttonStyle[size];
-	};
-
 	const getStyleText = () => {
 		if (variant === 'primary') {
 			return buttonStyle['textPrimary'];
@@ -50,13 +36,9 @@ export const Button = ({
 
 	return (
 		<TouchableOpacity
-			style={[getVariantButton(variant), getSize(size), style]}
+			style={[buttonStyle[variant], buttonStyle[size], style]}
 			onPress={onPress}>
-			<Typography
-				variant={textVariant}
-				style={[getStyleText(), textStyle]}>
-				{text}
-			</Typography>
+			<Typography style={[getStyleText()]}>{text}</Typography>
 		</TouchableOpacity>
 	);
 };

@@ -18,11 +18,11 @@ export const CardTask = ({ task }: CardTaskProps) => {
 		<Card style={styleCardTask.task}>
 			<Typography
 				variant='h2'
-				style={styleCardTask.textColor}>
+				textColor='secondary'>
 				{task.title}
 			</Typography>
 			<HorLayout style={styleCardTask.containerIndicator}>
-				<Typography variant='h3' style={[styleCardTask.textColor, styleCardTask.textIndicator]}>
+				<Typography variant='h3' textColor='secondary' style={styleCardTask.textIndicator}>
 					{importanceTask.text}
 				</Typography>
 				<View
@@ -57,8 +57,5 @@ const styleCardTask = StyleSheet.create({
 	},
     textIndicator: {
         width: "65%"
-    },
-	textColor: {
-		color: COLORS.black,
-	},
+    }
 });

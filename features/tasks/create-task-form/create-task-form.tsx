@@ -55,7 +55,7 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 				onChangeText={(text) => handleChangeCreateTaskForm('title', text)}
 			/>
 			<VerLayout styles={styleCreateTaskForm.indicator}>
-				<Typography style={styleCreateTaskForm.text}>
+				<Typography textColor='secondary'>
 					Важность задачи
 				</Typography>
 				<IndicatorImportant setIndicator={handleSetIndicator} />
@@ -86,8 +86,5 @@ const styleCreateTaskForm = StyleSheet.create({
 	},
 	indicator: {
 		gap: 5,
-	},
-	text: {
-		color: COLORS.black,
 	},
 });

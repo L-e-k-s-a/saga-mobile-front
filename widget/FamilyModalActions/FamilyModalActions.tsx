@@ -23,7 +23,7 @@ export const FamilyModalActions = ({
 }: FamilyModalActionsProps) => {
 	const { data: families, isLoading, error, refetch } = useFamiliesUsers();
 	const { countFamily, setActiveFamily, activeFamily } = useUserStore();
-	const { setInviteCode, setNameFamily} = useFamilyStore()
+	const { setInviteCode, setNameFamily } = useFamilyStore();
 
 	useEffect(() => {
 		refetch();
@@ -56,11 +56,14 @@ export const FamilyModalActions = ({
 								]}
 								key={family.inviteCode}
 								onPress={() => {
-									setNameFamily(family.nameFamily)
-									setActiveFamily(family.uid)
-									setInviteCode(family.inviteCode)
+									setNameFamily(family.nameFamily);
+									setActiveFamily(family.uid);
+									setInviteCode(family.inviteCode);
 								}}>
-								<Typography style={styleFamilyModal.text}>
+								<Typography
+									fontSize='24'
+									textColor='secondary'
+									style={styleFamilyModal.text}>
 									{capitalize(family.nameFamily)}
 								</Typography>
 							</TouchableOpacity>
@@ -101,8 +104,6 @@ const styleFamilyModal = StyleSheet.create({
 	text: {
 		padding: 5,
 		width: '100%',
-		color: COLORS.black,
-		fontSize: 24,
 		textAlign: 'center',
 	},
 });
