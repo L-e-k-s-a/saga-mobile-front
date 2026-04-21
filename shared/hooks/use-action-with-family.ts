@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 
 export const useActionWithFamily = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);

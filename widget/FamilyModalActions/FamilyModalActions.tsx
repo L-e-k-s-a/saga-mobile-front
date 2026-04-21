@@ -1,4 +1,4 @@
-import { Family } from '@/entities/family/family';
+import { Family } from '@/entities/family/type/family';
 import { useFamiliesUsers } from '@/entities/user/hooks/use-get-families-user';
 import { FamilyActions } from '@/features/family-actions/family-actions';
 import { COLORS } from '@/shared/constants/colors';

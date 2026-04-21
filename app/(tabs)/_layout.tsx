@@ -1,6 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
 import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
-import { useActionWithFamily } from '@/shared/lib/use-action-with-family';
+import { useActionWithFamily } from '@/shared/hooks/use-action-with-family';
 import { Typography } from '@/shared/ui/typography/typography';
 import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 import { Ionicons } from '@expo/vector-icons';

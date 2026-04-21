@@ -1,7 +1,4 @@
-import { db } from '@/firebase/firebase';
-import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
 import { Task } from '@/shared/types/task';
 import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
@@ -12,6 +9,7 @@ import { Typography } from '@/shared/ui/typography/typography';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { saveTask } from '../libs/save-task';
 
 type CreateTaskFormProps = {
 	setIsVisible: (isVisible: boolean) => void;
@@ -19,7 +17,6 @@ type CreateTaskFormProps = {
 
 //добавить dropdowm с именами в семье чтобы можно было заполнять исполнителей
 export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
-	const { activeFamily } = useUserStore();
 	const [form, setForm] = useState<Task>({
 		title: '',
 		description: '',
@@ -36,13 +33,7 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 	};
 
 	const handleSaveTask = async () => {
-		if(form.title === '' || form.indicator === ''){
-			return
-		}
-		const ref = doc(db, 'families', activeFamily);
-		await updateDoc(ref, {
-			tasks: arrayUnion(form),
-		});
+		saveTask(form)
 	};
 
 	return (

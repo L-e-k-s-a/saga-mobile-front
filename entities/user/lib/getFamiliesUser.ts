@@ -1,4 +1,4 @@
-import { Family } from '@/entities/family/family';
+import { Family } from '@/entities/family/type/family';
 import { db } from '@/firebase/firebase';
 import {
     collection,

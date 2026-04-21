@@ -1,12 +1,15 @@
-import { FirebaseAuthUser, OtherDataUser, User } from '@/entities/user/type/userType';
+import {
+    FirebaseAuthUser,
+    User
+} from '@/entities/user/type/user';
 import { useAuthStore } from '@/shared/store';
-import { UserCredential } from 'firebase/auth';
-import { getUserFromFirebase } from '../lib/getUser'
 import { useUserStore } from '@/shared/store/user/user-store';
+import { UserCredential } from 'firebase/auth';
+import { getUserFromFirebase } from '../lib/getUser';
 
 export const useSaveUser = () => {
 	const { setLoading } = useAuthStore();
-	const { setUser } = useUserStore()
+	const { setUser } = useUserStore();
 
 	const saveUser = async (authUser: UserCredential) => {
 		const userDataFirebase: FirebaseAuthUser = {
@@ -14,9 +17,9 @@ export const useSaveUser = () => {
 			email: authUser.user.email || '',
 			name: authUser.user.displayName || '',
 		};
-	
-		const uid: string = userDataFirebase.uid
-		const userFromFirebase = await getUserFromFirebase(uid)
+
+		const uid: string = userDataFirebase.uid;
+		const userFromFirebase = await getUserFromFirebase(uid);
 		const user: User = {
 			uid: userDataFirebase.uid,
 			email: userDataFirebase.email,
@@ -29,11 +32,11 @@ export const useSaveUser = () => {
 		};
 
 		setUser(user);
-		setLoading(false)
-	}
+		setLoading(false);
+	};
 	// Если нужно получить роль из Firestore
 	// const userRole = await getUserRole(authUser.uid);
 	// setRole(userRole);
 
-	return { saveUser }
+	return { saveUser };
 };

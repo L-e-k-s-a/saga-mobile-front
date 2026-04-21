@@ -1,8 +1,7 @@
-
+import { Family } from '@/entities/family/type/family';
+import { useMe } from '@/shared/store/me/useMe';
 import { useQuery } from '@tanstack/react-query';
 import { getFamiliesUser } from '../lib/getFamiliesUser';
-import { useMe } from '@/shared/store/me/useMe';
-import { Family } from '@/entities/family/family';
 
 export const useFamiliesUsers = () => {
 	const user = useMe();
@@ -17,7 +16,7 @@ export const useFamiliesUsers = () => {
 			return result;
 		},
 		staleTime: 0,
-        refetchOnMount: true, 
+		refetchOnMount: true,
 	});
 
 	return { data, isLoading, error, refetch };

@@ -13,5 +13,3 @@ export type User = {
 }
 
 export type FirebaseAuthUser = Pick<User, 'uid' | 'email' | 'name'>;
-
-export type OtherDataUser = Omit<User, 'uid' | 'name'>
