@@ -61,7 +61,7 @@ export const FamilyModalActions = ({
 									setInviteCode(family.inviteCode);
 								}}>
 								<Typography
-									fontSize='24'
+									variant='h2'
 									textColor='secondary'
 									style={styleFamilyModal.text}>
 									{capitalize(family.nameFamily)}

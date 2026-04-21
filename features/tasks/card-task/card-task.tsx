@@ -1,5 +1,3 @@
-import { COLORS } from '@/shared/constants/colors';
-import { IMPORTANCE } from '@/shared/constants/importance';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { Task } from '@/shared/types/task';
 import { Card } from '@/shared/ui/card/card';

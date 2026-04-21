@@ -12,18 +12,19 @@ export type TypographyProps = {
 };
 
 export const Typography = ({
-	variant = 'div',
 	children,
+	variant = 'div',
 	textColor = 'primary',
 	fontSize = '16',
 	style,
 }: TypographyProps) => {
+
 	return (
 		<Text
 			style={[
 				styles[`font${fontSize}`],
-				styles[textColor],
 				styles[variant],
+				styles[textColor],
 				...[style],
 			]}>
 			{children}
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
 	secondary: {
 		color: COLORS.black,
 	},
-
 	font24: {
 		fontSize: 24,
 	},
