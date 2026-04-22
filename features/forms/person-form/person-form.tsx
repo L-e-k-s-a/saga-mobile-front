@@ -1,11 +1,11 @@
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
-import { styleModal } from '@/shared/styles/modal';
 import { FormRegister } from '@/shared/types/form';
 import { Input } from '@/shared/ui/Input/Input';
+import { ModalWindow } from '@/shared/ui/modal/modal-window';
 import { Typography } from '@/shared/ui/typography/typography';
-import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 type PersonFormProps = {
 	form: FormRegister;
@@ -21,12 +21,10 @@ export const PersonForm = ({
 	onAbout,
 }: PersonFormProps) => {
 	return (
-		<Modal
+		<ModalWindow
 			visible={isVisiblePersonForm}
-			transparent={true}
-			animationType='fade'>
-			<View style={styleModal.modalOverlay}>
-				<View style={styleModal.modalContent}>
+			content={() => (
+				<>
 					<VerLayout styles={styleForm.section}>
 						<Typography
 							variant='h3'
@@ -72,9 +70,9 @@ export const PersonForm = ({
 						onPress={onAbout}>
 						<Typography style={styles.btnPrimaryText}>Заполнить</Typography>
 					</TouchableOpacity>
-				</View>
-			</View>
-		</Modal>
+				</>
+			)}
+		/>
 	);
 };
 

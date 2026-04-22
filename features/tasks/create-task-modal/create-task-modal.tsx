@@ -1,7 +1,5 @@
-import { Modal } from 'react-native';
+import { ModalWindow } from '@/shared/ui/modal/modal-window';
 import { CreateTaskForm } from '../create-task-form/create-task-form';
-import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { styleModal } from '@/shared/styles/modal';
 
 type CreateTaskProps = {
 	isVisible: boolean;
@@ -13,16 +11,9 @@ export const CreateTaskModal = ({
 	setIsVisible,
 }: CreateTaskProps) => {
 	return (
-		<Modal
+		<ModalWindow
 			visible={isVisible}
-			transparent={true}>
-			<VerLayout styles={styleModal.modalOverlay}>
-				<VerLayout styles={styleModal.modalContent}>
-					<CreateTaskForm
-						setIsVisible={setIsVisible}
-					/>
-				</VerLayout>
-			</VerLayout>
-		</Modal>
+			content={() => <CreateTaskForm setIsVisible={setIsVisible} />}
+		/>
 	);
 };

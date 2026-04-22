@@ -26,19 +26,11 @@ export const Button = ({
 	variant = 'primary',
 	size = 'm',
 }: ButtonProps) => {
-	const getStyleText = () => {
-		if (variant === 'primary') {
-			return buttonStyle['textPrimary'];
-		} else if (variant === 'secondary') {
-			return buttonStyle['textSecondary'];
-		}
-	};
-
 	return (
 		<TouchableOpacity
 			style={[buttonStyle[variant], buttonStyle[size], style]}
 			onPress={onPress}>
-			<Typography style={[getStyleText()]}>{text}</Typography>
+			<Typography>{text}</Typography>
 		</TouchableOpacity>
 	);
 };
@@ -71,11 +63,5 @@ const buttonStyle = StyleSheet.create({
 
 	l: {
 		padding: 24,
-	},
-	textPrimary: {
-		color: COLORS.black,
-	},
-	textSecondary: {
-		color: COLORS.white,
 	},
 });

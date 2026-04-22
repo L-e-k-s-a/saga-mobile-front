@@ -6,7 +6,6 @@ import { Button } from '@/shared/ui/buttons/button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/typography/typography';
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { saveTask } from '../libs/save-task';
