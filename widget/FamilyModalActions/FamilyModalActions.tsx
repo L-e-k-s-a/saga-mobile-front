@@ -11,7 +11,7 @@ import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Typography } from '@/shared/ui/typography/typography';
 import { useEffect } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Pressable, StyleSheet, TouchableOpacity } from 'react-native';
 
 type FamilyModalActionsProps = {
 	isVisibleModal: boolean;
@@ -20,6 +20,7 @@ type FamilyModalActionsProps = {
 
 export const FamilyModalActions = ({
 	isVisibleModal,
+	setIsVisibleModal,
 }: FamilyModalActionsProps) => {
 	const { data: families, isLoading, error, refetch } = useFamiliesUsers();
 	const { countFamily, setActiveFamily, activeFamily } = useUserStore();
@@ -43,46 +44,61 @@ export const FamilyModalActions = ({
 
 	return (
 		isVisibleModal && (
-			<VerLayout styles={styleFamilyModal.modal}>
-				{families.length !== 0 ? (
-					<DinamicScrollView maxHeight={170}>
-						{families.map((family: Family) => (
-							<TouchableOpacity
-								style={[
-									styleFamilyModal.family,
-									family.uid === activeFamily
-										? { opacity: 1, borderColor: COLORS.primary }
-										: { opacity: 0.3 },
-								]}
-								key={family.inviteCode}
-								onPress={() => {
-									setNameFamily(family.nameFamily);
-									setActiveFamily(family.uid);
-									setInviteCode(family.inviteCode);
-								}}>
-								<Typography
-									variant='h2'
-									textColor='secondary'
-									style={styleFamilyModal.text}>
-									{capitalize(family.nameFamily)}
-								</Typography>
-							</TouchableOpacity>
-						))}
-					</DinamicScrollView>
-				) : (
-					<NoData
-						title='Беда!'
-						desctiption='У Вас ещё нет не одной семьи'
-						colorText={COLORS.black}
-					/>
-				)}
-				<FamilyActions />
-			</VerLayout>
+			<>
+				<VerLayout styles={styleFamilyModal.modal}>
+					{families.length !== 0 ? (
+						<DinamicScrollView maxHeight={170}>
+							{families.map((family: Family) => (
+								<TouchableOpacity
+									style={[
+										styleFamilyModal.family,
+										family.uid === activeFamily
+											? { opacity: 1, borderColor: COLORS.primary }
+											: { opacity: 0.3 },
+									]}
+									key={family.inviteCode}
+									onPress={() => {
+										setNameFamily(family.nameFamily);
+										setActiveFamily(family.uid);
+										setInviteCode(family.inviteCode);
+									}}>
+									<Typography
+										variant='h2'
+										textColor='secondary'
+										style={styleFamilyModal.text}>
+										{capitalize(family.nameFamily)}
+									</Typography>
+								</TouchableOpacity>
+							))}
+						</DinamicScrollView>
+					) : (
+						<NoData
+							title='Беда!'
+							desctiption='У Вас ещё нет не одной семьи'
+							colorText={COLORS.black}
+						/>
+					)}
+					<FamilyActions />
+				</VerLayout>
+				<Pressable
+					style={styleFamilyModal.overlay}
+					onPress={() => setIsVisibleModal(false)}
+				/>
+			</>
 		)
 	);
 };
 
 const styleFamilyModal = StyleSheet.create({
+	overlay: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		zIndex: 4,
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+	},
 	modal: {
 		position: 'absolute',
 		top: 90,
