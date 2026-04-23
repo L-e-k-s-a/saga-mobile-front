@@ -3,7 +3,7 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 
 type HeaderAlign = 'center' | 'left';
 
-type HeaderSettingsOptions = {
+type StackScreenSettingsOptions = {
 	title: string;
 	headerShown: boolean;
 	headerBackTitleVisible: boolean;
@@ -13,11 +13,11 @@ type HeaderSettingsOptions = {
 	headerStyle: NativeStackNavigationOptions['headerStyle'];
 };
 
-export const stackHeaderSettingsOptions = (
+export const stackScreenSettingsOptions = (
 	titleScreen: string,
 	shownHeader: boolean = true,
 	headerAlign: HeaderAlign = 'center',
-): HeaderSettingsOptions => {
+): StackScreenSettingsOptions => {
 	return {
 		title: titleScreen,
 		headerShown: shownHeader,

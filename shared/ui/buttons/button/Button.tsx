@@ -17,6 +17,7 @@ type ButtonProps = {
 	size?: Size;
 	style?: StyleProp<ViewStyle>;
 	disabled?: boolean;
+	maxWidth?: string;
 	onPress: () => void;
 };
 
