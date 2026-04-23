@@ -1,3 +1,4 @@
+import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { RoutesForAuth } from '@/shared/routes/routes';
@@ -5,6 +6,7 @@ import { useAuthStore } from '@/shared/store';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { StyleSheet } from 'react-native';
 
 export const Menu = () => {
 	const { logout } = useAuthStore();
@@ -19,9 +21,8 @@ export const Menu = () => {
 	};
 
 	return (
-		<VerLayout>
+		<VerLayout styles={styleMenu.menu}>
 			<HorLayout>
-				<Ionicons />
 				<Button
 					text='Выйти'
 					onPress={handleLogout}
@@ -30,3 +31,11 @@ export const Menu = () => {
 		</VerLayout>
 	);
 };
+
+
+const styleMenu = StyleSheet.create({
+    menu: {
+        width: "100%",
+		alignItems: 'center'
+	}
+})
