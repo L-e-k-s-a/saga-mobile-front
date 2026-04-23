@@ -1,14 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
 import { StyleSheet } from 'react-native';
 
-const btnCommon = {
-	color: COLORS.primaryColorText,
-	padding: 10,
-	borderRadius: 10,
-	borderStyle: 'solid',
-	borderWidth: 1,
-	borderColor: COLORS.black,
-} as const;
 
 export const styleForm = StyleSheet.create({
 	form: {
@@ -59,7 +51,4 @@ export const styleForm = StyleSheet.create({
 	errorPrimary: {
 		color: COLORS.white
 	},
-	button: {
-		width: '100%'
-	}
 });
