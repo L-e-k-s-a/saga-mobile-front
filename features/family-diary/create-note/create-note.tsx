@@ -49,7 +49,6 @@ export const CreateNote = ({setIsVisible}: CreateNoteProps) => {
 
 const styleFamilyDiary = StyleSheet.create({
 	container: {
-		flex: 1,
 		gap: 15
 	},
 	textArea: {
