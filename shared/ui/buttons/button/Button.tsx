@@ -16,6 +16,7 @@ type ButtonProps = {
 	variant?: VariantsBtn;
 	size?: Size;
 	style?: StyleProp<ViewStyle>;
+	disabled?: boolean;
 	onPress: () => void;
 };
 
@@ -24,6 +25,7 @@ export const Button = ({
 	onPress,
 	style,
 	variant = 'primary',
+	disabled,
 	size = 'm',
 }: ButtonProps) => {
 	const getStyleText = () => {
@@ -33,10 +35,15 @@ export const Button = ({
 			return buttonStyle['textSecondary'];
 		}
 	};
-
 	return (
 		<TouchableOpacity
-			style={[buttonStyle[variant], buttonStyle[size], style]}
+			disabled={disabled}
+			style={[
+				buttonStyle[variant],
+				buttonStyle[size],
+				disabled ? { opacity: 0.35 } : { opacity: 1 },
+				style,
+			]}
 			onPress={onPress}>
 			<Typography style={[getStyleText()]}>{text}</Typography>
 		</TouchableOpacity>

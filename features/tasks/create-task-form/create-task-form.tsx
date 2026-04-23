@@ -6,10 +6,9 @@ import { Button } from '@/shared/ui/buttons/button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/typography/typography';
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { saveTask } from '../libs/save-task';
+import { useSaveTask } from '../hooks/use-save-task';
 
 type CreateTaskFormProps = {
 	setIsVisible: (isVisible: boolean) => void;
@@ -17,12 +16,23 @@ type CreateTaskFormProps = {
 
 //добавить dropdowm с именами в семье чтобы можно было заполнять исполнителей
 export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
+	const saveTask = useSaveTask();
+	const [disabled, setDisabled] = useState(false);
 	const [form, setForm] = useState<Task>({
 		title: '',
 		description: '',
-		indicator: '',
+		indicator: 'hard',
+		isCompleted: false,
 		executors: [],
 	});
+
+	useEffect(() => {
+		if (form.title === '') {
+			setDisabled(true);
+		} else {
+			setDisabled(false);
+		}
+	}, [form]);
 
 	const handleChangeCreateTaskForm = (field: string, value: string) => {
 		setForm((prev) => ({ ...prev, [field]: value }));
@@ -32,8 +42,9 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 		setForm((prev) => ({ ...prev, indicator: value }));
 	};
 
-	const handleSaveTask = async () => {
-		saveTask(form)
+	const handleSave = () => {
+		saveTask(form);
+		setIsVisible(false);
 	};
 
 	return (
@@ -46,9 +57,7 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 				onChangeText={(text) => handleChangeCreateTaskForm('title', text)}
 			/>
 			<VerLayout styles={styleCreateTaskForm.indicator}>
-				<Typography textColor='secondary'>
-					Важность задачи
-				</Typography>
+				<Typography textColor='secondary'>Важность задачи</Typography>
 				<IndicatorImportant setIndicator={handleSetIndicator} />
 			</VerLayout>
 			<Input
@@ -60,11 +69,9 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 			<Button
 				text='Сохранить'
 				variant='secondary'
+				disabled={disabled}
 				size='m'
-				onPress={() => {
-					handleSaveTask();
-					setIsVisible(false);
-				}}
+				onPress={handleSave}
 			/>
 		</VerLayout>
 	);

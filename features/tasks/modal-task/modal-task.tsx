@@ -30,7 +30,6 @@ export const ModalTask = ({task, isVisible, setIsVisible}: ModalTaskProps) => {
                 <Typography textColor="secondary">{task.description}</Typography>
                 <VerLayout styles={styleModal.modalContent}>
                     <ButtonCross close={setIsVisible}/>
-                    <Button text="Отменить выполнение" onPress={() => {}}/>
                     <Button text="Выполнена" onPress={() => {}}/>
                 </VerLayout>
            </Card>

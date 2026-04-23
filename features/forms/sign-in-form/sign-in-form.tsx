@@ -77,15 +77,11 @@ export const SignInForm = () => {
 				)}
 				<Button
 					style={styleForm.btnSecondary}
-					textVariant='h3'
-					textStyle={styleForm.label}
 					text='Войти'
 					onPress={handleSignIn}
 				/>
 				<Button
 					style={styleForm.btnPrimary}
-					textVariant='h3'
-					textStyle={styleForm.label}
 					text='Зарегистрироваться'
 					onPress={handleRegister}
 				/>
