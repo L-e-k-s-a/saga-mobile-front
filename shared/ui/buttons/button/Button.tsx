@@ -48,7 +48,7 @@ export const Button = ({
 				buttonStyle[variant],
 				buttonStyle[size],
 				fullWidth && buttonStyle.fw,
-				disabled ? { opacity: 0.35 } : { opacity: 1 },
+				disabled ? { opacity: 0.45 } : { opacity: 1 },
 				style,
 			]}
 			onPress={onPress}>
