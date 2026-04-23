@@ -99,6 +99,7 @@ const styleFamilyModal = StyleSheet.create({
 		zIndex: 4,
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	},
+
 	modal: {
 		position: 'absolute',
 		top: 90,
