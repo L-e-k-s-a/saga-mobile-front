@@ -1,5 +1,3 @@
-import { COLORS } from '@/shared/constants/colors';
-import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { RoutesForAuth } from '@/shared/routes/routes';
 import { useAuthStore } from '@/shared/store';
@@ -22,20 +20,18 @@ export const Menu = () => {
 
 	return (
 		<VerLayout styles={styleMenu.menu}>
-			<HorLayout>
-				<Button
-					text='Выйти'
-					onPress={handleLogout}
-				/>
-			</HorLayout>
+			<Button
+				text='Выйти'
+				onPress={handleLogout}
+				addonRight={<Ionicons name='exit' />}
+			/>
 		</VerLayout>
 	);
 };
 
-
 const styleMenu = StyleSheet.create({
-    menu: {
-        width: "100%",
-		alignItems: 'center'
-	}
-})
+	menu: {
+		width: '100%',
+		alignItems: 'center',
+	},
+});

@@ -6,6 +6,8 @@ import {
 	ViewStyle,
 } from 'react-native';
 import { Typography } from '../../typography/typography';
+import { ReactNode } from 'react';
+import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 
 type VariantsBtn = 'primary' | 'secondary';
 
@@ -18,16 +20,18 @@ type ButtonProps = {
 	style?: StyleProp<ViewStyle>;
 	disabled?: boolean;
 	maxWidth?: string;
+	addonRight?: ReactNode;
 	onPress: () => void;
 };
 
 export const Button = ({
 	text,
-	onPress,
 	style,
 	variant = 'primary',
 	disabled,
 	size = 'm',
+	addonRight,
+	onPress,
 }: ButtonProps) => {
 	const getStyleText = () => {
 		if (variant === 'primary') {
@@ -46,7 +50,10 @@ export const Button = ({
 				style,
 			]}
 			onPress={onPress}>
-			<Typography style={[getStyleText()]}>{text}</Typography>
+			<HorLayout style={addonRight ? buttonStyle.withAddon : undefined}>
+				<Typography style={[getStyleText()]}>{text}</Typography>
+				{addonRight}
+			</HorLayout>
 		</TouchableOpacity>
 	);
 };
@@ -86,4 +93,8 @@ const buttonStyle = StyleSheet.create({
 	textSecondary: {
 		color: COLORS.white,
 	},
+	withAddon: {
+		width: "100%",
+		justifyContent: 'space-between'
+	}
 });
