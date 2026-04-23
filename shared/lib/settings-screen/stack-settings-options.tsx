@@ -8,7 +8,7 @@ export const stackSettingsOptions = () => {
 		headerShown: false,
 		headerLeft: () => (
 			<TouchableOpacity style={styleHeaderLeft.left} onPress={() => router.back()}>
-				<Ionicons name='chevron-back' size={24} color={COLORS.white}/>
+				<Ionicons name='arrow-back' size={24} color={COLORS.white}/>
 			</TouchableOpacity>
 		),
 	};
