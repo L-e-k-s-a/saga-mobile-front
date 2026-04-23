@@ -23,7 +23,7 @@ export const Menu = () => {
 			<Button
 				text='Выйти'
 				onPress={handleLogout}
-				addonRight={<Ionicons name='exit' />}
+				addonRight={<Ionicons name='exit' size={24}/>}
 			/>
 		</VerLayout>
 	);

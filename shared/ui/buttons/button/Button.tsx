@@ -95,6 +95,7 @@ const buttonStyle = StyleSheet.create({
 	},
 	withAddon: {
 		width: "100%",
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
+		alignItems: 'center'
 	}
 });
