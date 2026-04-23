@@ -1,14 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
 import { StyleSheet } from 'react-native';
 
-const btnCommon = {
-	color: COLORS.primaryColorText,
-	padding: 10,
-	borderRadius: 10,
-	borderStyle: 'solid',
-	borderWidth: 1,
-	borderColor: COLORS.black,
-} as const;
 
 export const styleForm = StyleSheet.create({
 	form: {
@@ -40,16 +32,6 @@ export const styleForm = StyleSheet.create({
 		width: '100%',
 		marginTop: 16,
 	},
-	btnSecondary: {
-		...btnCommon,
-		backgroundColor: COLORS.secondary,
-		width: '100%',
-	},
-	btnPrimary: {
-		...btnCommon,
-		backgroundColor: COLORS.primary,
-		width: '100%',
-	},
 	label: {
 		color: COLORS.primaryColorText,
 		fontSize: 14,
@@ -68,5 +50,5 @@ export const styleForm = StyleSheet.create({
 	},
 	errorPrimary: {
 		color: COLORS.white
-	}
+	},
 });

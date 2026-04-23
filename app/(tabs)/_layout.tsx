@@ -43,6 +43,7 @@ export default function TabsLayout() {
 				<Tabs.Screen
 					name='index'
 					options={{
+						title: "Главная",
 						headerTitle: () => (
 							<TouchableOpacity onPress={handleModalVisible}>
 								<Typography variant='h2'>Главная</Typography>

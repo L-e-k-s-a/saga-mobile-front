@@ -2,10 +2,11 @@ import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
 import { FormRegister } from '@/shared/types/form';
+import { Button } from '@/shared/ui/buttons/button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 import { ModalWindow } from '@/shared/ui/modal/modal-window';
 import { Typography } from '@/shared/ui/typography/typography';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet} from 'react-native';
 
 type PersonFormProps = {
 	form: FormRegister;
@@ -21,60 +22,58 @@ export const PersonForm = ({
 	onAbout,
 }: PersonFormProps) => {
 	return (
-		<ModalWindow
-			visible={isVisiblePersonForm}
-			content={() => (
-				<>
-					<VerLayout styles={styleForm.section}>
-						<Typography
-							variant='h3'
-							style={styles.label}>
-							Имя
-						</Typography>
-						<Input
-							value={form.name}
-							onChangeText={(text) => onFormChange('name', text)}
-							placeholder='Имя'
-							style={styleForm.input}
-						/>
-					</VerLayout>
-					<VerLayout styles={styleForm.section}>
-						<Typography
-							variant='h3'
-							style={styles.label}>
-							Фамилия
-						</Typography>
-						<Input
-							value={form.surname}
-							onChangeText={(text) => onFormChange('surname', text)}
-							placeholder='Фамилия'
-							style={styleForm.input}
-						/>
-					</VerLayout>
-					<VerLayout styles={styleForm.section}>
-						<Typography
-							variant='h3'
-							style={styles.label}>
-							Отчество
-						</Typography>
-						<Input
-							value={form.patronymic}
-							onChangeText={(text) => onFormChange('patronymic', text)}
-							placeholder='Отчество'
-							style={styleForm.input}
-						/>
-					</VerLayout>
+		<ModalWindow visible={isVisiblePersonForm} content={() => (<>
+			<VerLayout styles={styleForm.section}>
+				<Typography
+					variant='h3'
+					style={styles.label}>
+					Имя
+				</Typography>
+				<Input
+					value={form.name}
+					onChangeText={(text) => onFormChange('name', text)}
+					placeholder='Имя'
+					style={styleForm.input}
+				/>
+			</VerLayout>
+			<VerLayout styles={styleForm.section}>
+				<Typography
+					variant='h3'
+					style={styles.label}>
+					Фамилия
+				</Typography>
+				<Input
+					value={form.surname}
+					onChangeText={(text) => onFormChange('surname', text)}
+					placeholder='Фамилия'
+					style={styleForm.input}
+				/>
+			</VerLayout>
+			<VerLayout styles={styleForm.section}>
+				<Typography
+					variant='h3'
+					style={styles.label}>
+					Отчество
+				</Typography>
+				<Input
+					value={form.patronymic}
+					onChangeText={(text) => onFormChange('patronymic', text)}
+					placeholder='Отчество'
+					style={styleForm.input}
+				/>
+			</VerLayout>
+			<Button
+				variant='secondary'
+				text='Заполнить'
+				onPress={onAbout}
+				fullWidth
+			/>
+		</>)} />  
+	)
+}
 
-					<TouchableOpacity
-						style={styles.btnPrimary}
-						onPress={onAbout}>
-						<Typography style={styles.btnPrimaryText}>Заполнить</Typography>
-					</TouchableOpacity>
-				</>
-			)}
-		/>
-	);
-};
+
+
 
 const styles = StyleSheet.create({
 	header: {

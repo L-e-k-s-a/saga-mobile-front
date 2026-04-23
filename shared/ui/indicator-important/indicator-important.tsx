@@ -58,6 +58,6 @@ const styleIndicatorImportant = StyleSheet.create({
 		borderColor: COLORS.white,
 	},
     inactive: {
-        opacity: 0.6
+        opacity: 0.35
     }
 });

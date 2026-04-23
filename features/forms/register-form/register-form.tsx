@@ -11,7 +11,6 @@ import { router } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
 import { PersonForm } from '../person-form/person-form';
 
 export const RegisterForm = () => {
@@ -97,9 +96,11 @@ export const RegisterForm = () => {
 					style={styleForm.input}
 				/>
 			</VerLayout>
-			<TouchableOpacity onPress={handleAbout}>
-				<Typography style={styleForm.btnSecondary}>Заполнить о себе</Typography>
-			</TouchableOpacity>
+			<Button
+				text='Заполнить о себе'
+				onPress={handleAbout}
+			/>
+
 			<HorLayout>
 				{message !== '' && (
 					<Typography style={styleForm.errorPrimary}>{message}</Typography>
@@ -107,11 +108,10 @@ export const RegisterForm = () => {
 			</HorLayout>
 			<VerLayout styles={styleForm.submitSection}>
 				<Button
-					style={styleForm.btnPrimary}
-					textVariant='h3'
-					textStyle={styleForm.label}
+					variant='secondary'
 					text='Зарегистрироваться'
 					onPress={handleRegister}
+					fullWidth
 				/>
 			</VerLayout>
 			{isVisiblePersonForm && (

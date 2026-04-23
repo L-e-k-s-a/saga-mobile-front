@@ -1,4 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
+import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { ReactNode } from 'react';
 import {
 	StyleProp,
 	StyleSheet,
@@ -16,21 +18,44 @@ type ButtonProps = {
 	variant?: VariantsBtn;
 	size?: Size;
 	style?: StyleProp<ViewStyle>;
+	disabled?: boolean;
+	fullWidth?: boolean;
+	addonRight?: ReactNode;
 	onPress: () => void;
 };
 
 export const Button = ({
 	text,
-	onPress,
 	style,
 	variant = 'primary',
 	size = 'm',
+	disabled,
+	fullWidth,
+	addonRight,
+	onPress,
 }: ButtonProps) => {
+	const getStyleText = () => {
+		if (variant === 'primary') {
+			return buttonStyle['textPrimary'];
+		} else if (variant === 'secondary') {
+			return buttonStyle['textSecondary'];
+		}
+	};
 	return (
 		<TouchableOpacity
-			style={[buttonStyle[variant], buttonStyle[size], style]}
+			disabled={disabled}
+			style={[
+				buttonStyle[variant],
+				buttonStyle[size],
+				fullWidth && buttonStyle.fw,
+				disabled ? { opacity: 0.35 } : { opacity: 1 },
+				style,
+			]}
 			onPress={onPress}>
-			<Typography>{text}</Typography>
+			<HorLayout style={addonRight ? buttonStyle.withAddon : undefined}>
+				<Typography style={[getStyleText()]}>{text}</Typography>
+				{addonRight}
+			</HorLayout>
 		</TouchableOpacity>
 	);
 };
@@ -45,11 +70,11 @@ const common = {
 
 const buttonStyle = StyleSheet.create({
 	primary: {
-		backgroundColor: COLORS.primary,
 		...common,
+		backgroundColor: COLORS.secondary,
 	},
 	secondary: {
-		backgroundColor: COLORS.secondary,
+		backgroundColor: COLORS.primary,
 		...common,
 	},
 	s: {
@@ -63,5 +88,19 @@ const buttonStyle = StyleSheet.create({
 
 	l: {
 		padding: 24,
+	},
+	fw: {
+		width: '100%',
+	},
+	textPrimary: {
+		color: COLORS.black,
+	},
+	textSecondary: {
+		color: COLORS.white,
+	},
+	withAddon: {
+		width: '100%',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 });

@@ -1,13 +1,14 @@
-import { stackHeaderSettingsOptions } from '@/shared/lib/settings-screen/stack-header-settings-options';
+import { stackScreenSettingsOptions } from '@/shared/lib/settings-screen/stack-screen-settings-options';
+import { stackSettingsOptions } from '@/shared/lib/settings-screen/stack-settings-options';
 import { Stack } from 'expo-router';
 
 export default function ClubByInterestLayout() {
 	return (
-				<Stack screenOptions={{headerShown: false}}>
-					<Stack.Screen
-						name="index"
-						options={stackHeaderSettingsOptions("Клуб по интересам")}
-					/>
-				</Stack>
+		<Stack screenOptions={stackSettingsOptions()}>
+			<Stack.Screen
+				name='index'
+				options={stackScreenSettingsOptions('Клуб по интересам')}
+			/>
+		</Stack>
 	);
 }

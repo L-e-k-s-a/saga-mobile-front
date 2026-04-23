@@ -7,6 +7,7 @@ import { ModalWindow } from '@/shared/ui/modal/modal-window';
 import { Toggle } from '@/shared/ui/toggle/toggle';
 import { Typography } from '@/shared/ui/typography/typography';
 import { getImportanceTask } from '../libs/get-importance-task';
+import { Card } from '@/shared/ui/card/card';
 
 type ModalTaskProps = {
 	task: Task;
@@ -24,19 +25,14 @@ export const ModalTask = ({
 	return (
 		<ModalWindow
             visible={isVisible}
-			content={() => (
-				<VerLayout styles={styleModal.modalContent}>
-					<ButtonCross close={setIsVisible} />
-					<Typography textColor='secondary'>{task.title}</Typography>
-					<Typography textColor='secondary'>{task.description}</Typography>
-					<Toggle />
-					<Button
-						text='Сохранить'
-						variant='secondary'
-						onPress={() => {}}
-					/>
-				</VerLayout>
-			)}
-		/>
-	);
-};
+			content={() => <Card style={styleModal.modalOverlay}>
+                <Typography textColor="secondary">{task.title}</Typography>
+                <Typography textColor="secondary">{task.description}</Typography>
+                <VerLayout styles={styleModal.modalContent}>
+                    <ButtonCross close={setIsVisible}/>
+                    <Button text="Выполнена" onPress={() => {}}/>
+                </VerLayout>
+           </Card>}
+       /> 
+    )
+}

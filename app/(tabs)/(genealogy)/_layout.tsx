@@ -1,12 +1,13 @@
-import { stackHeaderSettingsOptions } from '@/shared/lib/settings-screen/stack-header-settings-options';
+import { stackScreenSettingsOptions } from '@/shared/lib/settings-screen/stack-screen-settings-options';
+import { stackSettingsOptions } from '@/shared/lib/settings-screen/stack-settings-options';
 import { Stack } from 'expo-router';
 
 export default function GenealogyLayout() {
 	return (
-		<Stack screenOptions={{ headerShown: false }}>
+		<Stack screenOptions={stackSettingsOptions()}>
 			<Stack.Screen
 				name='index'
-				options={stackHeaderSettingsOptions('Генеалогия')}
+				options={stackScreenSettingsOptions('Генеалогия')}
 			/>
 		</Stack>
 	);

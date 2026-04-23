@@ -10,8 +10,6 @@ export const ButtonCross = ({ close }: ButtonCrossProps) => {
 	return (
 		<HorLayout style={styleButtonCross.crossContainer}>
 			<Button
-				textStyle={styleButtonCross.sizeCross}
-				variant='secondary'
 				text='x'
 				onPress={() => close(false)}
 				style={styleButtonCross.cross}

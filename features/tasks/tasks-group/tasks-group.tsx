@@ -1,21 +1,26 @@
 import { useUserStore } from '@/shared/store/user/user-store';
+import { Task } from '@/shared/types/task';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spinner/spinner';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useGetTasks } from '../hooks/use-get-tasks';
-import { CardTask } from '../card-task/card-task';
 import { useEffect, useState } from 'react';
-import { Task } from '@/shared/types/task';
+import { FlatList, TouchableOpacity, View } from 'react-native';
+import { CardTask } from '../card-task/card-task';
+import { useGetTasks } from '../hooks/use-get-tasks';
 import { ModalTask } from '../modal-task/modal-task';
 
-
 type TasksGroupProps = {
-	refetchTrigger: boolean
-}
+	refetchTrigger: boolean;
+};
 
-export const TasksGroup = ({refetchTrigger}: TasksGroupProps) => {
-	const [isVisible, setIsVisible] = useState(false)
-	const [selectedTask, setSelectedTask] = useState<Task>({title: '', description: '', indicator: '', executors: []})
+export const TasksGroup = ({ refetchTrigger }: TasksGroupProps) => {
+	const [isVisible, setIsVisible] = useState(false);
+	const [selectedTask, setSelectedTask] = useState<Task>({
+		title: '',
+		description: '',
+		indicator: '',
+		isCompleted: false,
+		executors: [],
+	});
 	const { activeFamily } = useUserStore();
 	if (!activeFamily) {
 		return (
@@ -28,11 +33,11 @@ export const TasksGroup = ({refetchTrigger}: TasksGroupProps) => {
 	const { data: tasks, isLoading, error, refetch } = useGetTasks(activeFamily);
 
 	useEffect(() => {
-		refetch()
-	}, [refetchTrigger])
+		refetch();
+	}, [refetchTrigger]);
 
-	if(error){
-		return
+	if (error) {
+		return;
 	}
 
 	if (isLoading) {
@@ -41,19 +46,26 @@ export const TasksGroup = ({refetchTrigger}: TasksGroupProps) => {
 
 	return tasks.length > 0 ? (
 		<>
-			<FlatList 
+			<FlatList
 				data={tasks}
-				renderItem={({item}) => 
-				<TouchableOpacity onPress={() => {
-					setSelectedTask(item)
-					setIsVisible(true)
-				}}>
-					<CardTask task={item}/>
-				</TouchableOpacity>}
-				
-				ListFooterComponent={<View style={{height: 150}} />}
+				renderItem={({ item }) => (
+					<TouchableOpacity
+						onPress={() => {
+							setSelectedTask(item);
+							setIsVisible(true);
+						}}>
+						<CardTask task={item} />
+					</TouchableOpacity>
+				)}
+				ListFooterComponent={<View style={{ height: 150 }} />}
 			/>
-			{(isVisible) && <ModalTask task={selectedTask} isVisible={isVisible} setIsVisible={setIsVisible}/>}
+			{isVisible && (
+				<ModalTask
+					task={selectedTask}
+					isVisible={isVisible}
+					setIsVisible={setIsVisible}
+				/>
+			)}
 		</>
 	) : (
 		<NoData
@@ -61,5 +73,4 @@ export const TasksGroup = ({refetchTrigger}: TasksGroupProps) => {
 			desctiption='Создайте задачу!'
 		/>
 	);
-}
-
+};
