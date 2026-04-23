@@ -1,35 +1,48 @@
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { NoteFamilyDiaryType } from '@/shared/types/note-family-diary';
+import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
 import { Button } from '@/shared/ui/buttons/button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 
-export const CreateNote = () => {
+
+type CreateNoteProps = {
+	setIsVisible: (isVisible: boolean) => void
+}
+
+export const CreateNote = ({setIsVisible}: CreateNoteProps) => {
 	const [note, setNote] = useState('');
+	const [disabled, setDisabled] = useState(false)
 
-	const notes: NoteFamilyDiaryType[] = [];
+	useEffect(() => {
+		if(note === ''){
+			setDisabled(true)
+		}else{
+			setDisabled(false)
+		}
+	}, [note])
 
-	const handleClickAddNote = () => {};
 
-	const handlerClose = () => {};
-
-	const handleSave = () => {};
+	const handleSave = () => {
+		setIsVisible(false)
+	};
 
 	return (
 		<VerLayout styles={styleFamilyDiary.container}>
-			<VerLayout styles={styleFamilyDiary.inner}>
+				<ButtonCross close={() => setIsVisible(false)}/>
 				<TextInput
 					style={styleFamilyDiary.textArea}
+					value={note}
+					onChangeText={(text) => setNote(text)}
 					multiline={true}
 				/>
 				<Button
 					text='Сохранить'
 					size='m'
-					variant='secondary'
 					onPress={handleSave}
-					style={styleFamilyDiary.btn}
+					disabled={disabled}
+					fullWidth
 				/>
-			</VerLayout>
 		</VerLayout>
 	);
 };
@@ -37,17 +50,12 @@ export const CreateNote = () => {
 const styleFamilyDiary = StyleSheet.create({
 	container: {
 		flex: 1,
+		gap: 15
 	},
 	textArea: {
 		height: 400,
 		borderWidth: 1,
 		padding: 5,
 		fontSize: 16,
-	},
-	inner: {
-		gap: 15,
-	},
-	btn: {
-		width: '100%',
 	},
 });
