@@ -1,4 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
+import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { ReactNode } from 'react';
 import {
 	StyleProp,
 	StyleSheet,
@@ -6,8 +8,6 @@ import {
 	ViewStyle,
 } from 'react-native';
 import { Typography } from '../../typography/typography';
-import { ReactNode } from 'react';
-import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 
 type VariantsBtn = 'primary' | 'secondary';
 
@@ -19,7 +19,7 @@ type ButtonProps = {
 	size?: Size;
 	style?: StyleProp<ViewStyle>;
 	disabled?: boolean;
-	maxWidth?: string;
+	fullWidth?: boolean;
 	addonRight?: ReactNode;
 	onPress: () => void;
 };
@@ -28,8 +28,9 @@ export const Button = ({
 	text,
 	style,
 	variant = 'primary',
-	disabled,
 	size = 'm',
+	disabled,
+	fullWidth,
 	addonRight,
 	onPress,
 }: ButtonProps) => {
@@ -46,6 +47,7 @@ export const Button = ({
 			style={[
 				buttonStyle[variant],
 				buttonStyle[size],
+				fullWidth && buttonStyle.fw,
 				disabled ? { opacity: 0.35 } : { opacity: 1 },
 				style,
 			]}
@@ -68,11 +70,11 @@ const common = {
 
 const buttonStyle = StyleSheet.create({
 	primary: {
-		backgroundColor: COLORS.primary,
 		...common,
+		backgroundColor: COLORS.secondary,
 	},
 	secondary: {
-		backgroundColor: COLORS.secondary,
+		backgroundColor: COLORS.primary,
 		...common,
 	},
 	s: {
@@ -87,6 +89,9 @@ const buttonStyle = StyleSheet.create({
 	l: {
 		padding: 24,
 	},
+	fw: {
+		width: '100%',
+	},
 	textPrimary: {
 		color: COLORS.black,
 	},
@@ -94,8 +99,8 @@ const buttonStyle = StyleSheet.create({
 		color: COLORS.white,
 	},
 	withAddon: {
-		width: "100%",
+		width: '100%',
 		justifyContent: 'space-between',
-		alignItems: 'center'
-	}
+		alignItems: 'center',
+	},
 });

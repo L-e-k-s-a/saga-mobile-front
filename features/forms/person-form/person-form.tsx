@@ -3,9 +3,10 @@ import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
 import { styleModal } from '@/shared/styles/modal';
 import { FormRegister } from '@/shared/types/form';
+import { Button } from '@/shared/ui/buttons/button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/typography/typography';
-import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Modal, StyleSheet, View } from 'react-native';
 
 type PersonFormProps = {
 	form: FormRegister;
@@ -67,11 +68,12 @@ export const PersonForm = ({
 						/>
 					</VerLayout>
 
-					<TouchableOpacity
-						style={styles.btnPrimary}
-						onPress={onAbout}>
-						<Typography style={styles.btnPrimaryText}>Заполнить</Typography>
-					</TouchableOpacity>
+					<Button
+						variant='secondary'
+						text='Заполнить'
+						onPress={onAbout}
+						fullWidth
+					/>
 				</View>
 			</View>
 		</Modal>

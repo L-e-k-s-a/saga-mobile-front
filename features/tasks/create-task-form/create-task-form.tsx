@@ -68,10 +68,10 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 			/>
 			<Button
 				text='Сохранить'
-				variant='secondary'
 				disabled={disabled}
 				size='m'
 				onPress={handleSave}
+				fullWidth
 			/>
 		</VerLayout>
 	);

@@ -9,7 +9,6 @@ export const ButtonAdd = ({ action }: ButtonAddProps) => {
 	return (
 		<Button
 			text='Добавить'
-			variant='secondary'
 			onPress={action}
 			style={styleButtonAdd.add}
 		/>

@@ -76,12 +76,13 @@ export const SignInForm = () => {
 					</Typography>
 				)}
 				<Button
-					style={styleForm.btnSecondary}
+					fullWidth
 					text='Войти'
 					onPress={handleSignIn}
 				/>
 				<Button
-					style={styleForm.btnPrimary}
+					fullWidth
+					variant='secondary'
 					text='Зарегистрироваться'
 					onPress={handleRegister}
 				/>
