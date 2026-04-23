@@ -1,3 +1,4 @@
+import { COLORS } from '@/shared/constants/colors';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { FlatList } from 'react-native';
 
@@ -15,6 +16,7 @@ export const NoteGroup = () => {
 		<NoData
 			title='Ничего нет'
 			desctiption='Быстрее добавьте хотя бы одну запись!'
+			colorText={COLORS.white}
 		/>
 	);
 };

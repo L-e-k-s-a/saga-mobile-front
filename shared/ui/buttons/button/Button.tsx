@@ -93,10 +93,10 @@ const buttonStyle = StyleSheet.create({
 		width: '100%',
 	},
 	textPrimary: {
-		color: COLORS.black,
+		color: COLORS.white,
 	},
 	textSecondary: {
-		color: COLORS.white,
+		color: COLORS.black,
 	},
 	withAddon: {
 		width: '100%',
