@@ -52,7 +52,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			<VerLayout>
 				{form.productList.length > 0 ? (
 					<DinamicScrollView
-						maxHeight={300}
+						maxHeight={250}
 						style={styleCreateProductForm.containerItems}>
 						{form.productList.map((product) => (
 							<HorLayout style={styleCreateProductForm.item}>
@@ -113,6 +113,7 @@ const styleCreateProductForm = StyleSheet.create({
 	},
 	containerItems: {
 		gap: 5,
+		paddingBottom: 10,
 	},
 	item: {
 		justifyContent: 'space-between',

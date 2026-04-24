@@ -1,13 +1,7 @@
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleModal } from '@/shared/styles/modal';
 import { ReactNode, useRef } from 'react';
-import {
-	Animated,
-	Dimensions,
-	Modal,
-	PanResponder,
-	View,
-} from 'react-native';
+import { Animated, Dimensions, Modal, PanResponder, View } from 'react-native';
 import { Card } from '../card/card';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -35,7 +29,7 @@ export const ModalWindow = ({
 				translateY.setValue(gestureState.dy);
 			}
 		},
-		onPanResponderRelease: (_, gestureState) => {			
+		onPanResponderRelease: (_, gestureState) => {
 			if (gestureState.dy > 70) {
 				Animated.timing(translateY, {
 					toValue: SCREEN_HEIGHT,
@@ -59,15 +53,20 @@ export const ModalWindow = ({
 	return (
 		<Modal
 			visible={visible}
-			transparent={true}>
+			transparent={true}
+			animationType='none'>
 			<VerLayout styles={styleModal.modalOverlay}>
 				<Animated.View
-					{...panResponder.panHandlers}
-					style={[{
-						transform: [{ translateY: translateY }],
-					}, styleModal.modalContent]}>
+					style={[
+						{
+							transform: [{ translateY: translateY }],
+						},
+						styleModal.modalContent,
+					]}>
 					<Card>
-						<View style={styleModal.dragIndicatorContainer}>
+						<View
+							{...panResponder.panHandlers}
+							style={styleModal.dragIndicatorContainer}>
 							<View style={styleModal.dragIndicator} />
 						</View>
 						{content()}
