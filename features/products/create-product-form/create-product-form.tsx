@@ -52,6 +52,12 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			...prev,
 			productList: prev.productList.filter((_, index) => index !== deleteItem),
 		}));
+        setEditItem((prev) => ({
+			...prev,
+			isEdit: false,
+			value: '',
+			index: 0,
+		}));
 	};
 
 	const handleEditProduct = (numberItem: number) => {
@@ -75,8 +81,6 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 		form.productList[numberItem] = editProduct;
 		setForm((prev) => ({ ...prev, productList: [...form.productList] }));
 	};
-
-    console.log(form)
 
 	return (
 		<VerLayout>
@@ -114,6 +118,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 									/>
 								) : (
 									<Typography
+										style={styleCreateProductForm.text}
 										variant='h3'
 										textColor='secondary'>
 										{product}
@@ -214,5 +219,9 @@ const styleCreateProductForm = StyleSheet.create({
 		borderRadius: 10,
 		borderWidth: 1,
 		paddingLeft: 10,
+	},
+	text: {
+        width: '70%',
+		flexWrap: 'wrap',
 	},
 });
