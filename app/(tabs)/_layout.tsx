@@ -6,8 +6,10 @@ import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActio
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
+import { setupCalendarLocale } from '@/shared/lib/setup-calendar-locale';
 
 export default function TabsLayout() {
+	setupCalendarLocale()
 	const { isModalVisible, setIsModalVisible, handleModalVisible } =
 		useActionWithFamily();
 

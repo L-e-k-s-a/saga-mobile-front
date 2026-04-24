@@ -53,8 +53,7 @@ export const ModalWindow = ({
 	return (
 		<Modal
 			visible={visible}
-			transparent={true}
-			animationType='none'>
+			transparent={true}>
 			<VerLayout styles={styleModal.modalOverlay}>
 				<Animated.View
 					style={[

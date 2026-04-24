@@ -9,7 +9,6 @@ import {
 import { COLORS } from '../../constants/colors';
 import { HorLayout } from '../../layouts/HorLayout/HorLayout';
 import { TypeRoutesForTabs } from '../../routes/routes';
-import { Card } from '../card/card';
 import { Typography } from '../typography/typography';
 
 type CardOnHomeScreeenProps = {
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	containerTitle: {
-		width: '71%',
+		width: '73%',
 		color: COLORS.white,
 	},
 	containerImage: {

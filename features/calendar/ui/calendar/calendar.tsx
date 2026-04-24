@@ -1,48 +1,12 @@
 import { useState } from 'react';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { Day } from '../day/day';
 
-LocaleConfig.locales.ru = {
-	monthNames: [
-		'Январь',
-		'Февраль',
-		'Март',
-		'Апрель',
-		'Май',
-		'Июнь',
-		'Июль',
-		'Август',
-		'Сентябрь',
-		'Октябрь',
-		'Ноябрь',
-		'Декабрь',
-	],
-	monthNamesShort: [
-		'Янв',
-		'Фев',
-		'Мар',
-		'Апр',
-		'Май',
-		'Июн',
-		'Июл',
-		'Авг',
-		'Сен',
-		'Окт',
-		'Ноя',
-		'Дек',
-	],
-	dayNames: [
-		'Понедельник',
-		'Вторник',
-		'Среда',
-		'Четверг',
-		'Пятница',
-		'Суббота',
-		'Воскресенье',
-	],
-	dayNamesShort: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-};
+type CalendarSagaProps = {
+	setModalVisible: (isVisible: boolean) => void
+}
 
-export const CalendarSaga = () => {
+export const CalendarSaga = ({setModalVisible}: CalendarSagaProps) => {
       const [selectedDate, setSelectedDate] = useState('');
   const [events, setEvents] = useState({});
 	return (
@@ -59,6 +23,7 @@ export const CalendarSaga = () => {
 			}}
 			// Включить переключение месяцев
 			enableSwipeMonths={true}
+			dayComponent={(props) => <Day {...props} setIsVisibleModal={setModalVisible}/>}
 			// Показать индикатор загрузки
 			// Минимум и максимум дат
 			minDate={'2020-01-01'}

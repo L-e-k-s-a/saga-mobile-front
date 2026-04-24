@@ -1,7 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { styleForm } from '@/shared/styles/forms';
 import { Product } from '@/shared/types/product';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
@@ -52,7 +51,6 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			...prev,
 			productList: prev.productList.filter((_, index) => index !== deleteItem),
 		}));
-
 	};
 
 	const handleEditProduct = (numberItem: number) => {
@@ -79,9 +77,9 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 
 	return (
 		<VerLayout>
-			<HorLayout style={styleForm.section}>
+			<HorLayout style={styleCreateProductForm.header}>
 				<Input
-					style={styleForm.input}
+					style={styleCreateProductForm.input}
 					placeholder='Продукт или товар'
 					value={nameProduct}
 					onChangeText={(text) => setNameProduct(text)}
@@ -177,14 +175,21 @@ const common = {
 	borderRadius: 10,
 };
 
+const commonIcon = {
+	padding: 15,
+};
+
 const styleCreateProductForm = StyleSheet.create({
+	header: {
+		justifyContent: 'space-between',
+		marginBottom: 10,
+	},
 	addProduct: {
 		backgroundColor: COLORS.secondary,
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginLeft: 5,
-		marginTop: 8,
-		padding: 14,
+		padding: 22,
 		...common,
 	},
 	containerItems: {
@@ -200,12 +205,12 @@ const styleCreateProductForm = StyleSheet.create({
 	},
 	trash: {
 		backgroundColor: COLORS.red,
-		padding: 10,
+		...commonIcon,
 		...common,
 	},
 	edit: {
 		backgroundColor: COLORS.primary,
-		padding: 10,
+		...commonIcon,
 		...common,
 	},
 	input: {
@@ -216,7 +221,7 @@ const styleCreateProductForm = StyleSheet.create({
 		paddingLeft: 10,
 	},
 	text: {
-        width: '70%',
+		width: '60%',
 		flexWrap: 'wrap',
 	},
 });
