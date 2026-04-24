@@ -19,6 +19,11 @@ type CreateProductFormProps = {
 export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 	const [nameProduct, setNameProduct] = useState('');
 	const [disabled, setDisabled] = useState(true);
+	const [editItem, setEditItem] = useState({
+		isEdit: false,
+		value: '',
+		index: 0,
+	});
 	const [form, setForm] = useState<Product>({
 		productList: [],
 	});
@@ -49,6 +54,30 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 		}));
 	};
 
+	const handleEditProduct = (numberItem: number) => {
+		const product = form.productList[numberItem];
+		setEditItem((prev) => ({
+			...prev,
+			isEdit: true,
+			value: product,
+			index: numberItem,
+		}));
+	};
+
+	const handleEditApply = (numberItem: number) => {
+		const editProduct = editItem.value;
+		setEditItem((prev) => ({
+			...prev,
+			isEdit: false,
+			value: editProduct,
+			index: numberItem,
+		}));
+		form.productList[numberItem] = editProduct;
+		setForm((prev) => ({ ...prev, productList: [...form.productList] }));
+	};
+
+    console.log(form)
+
 	return (
 		<VerLayout>
 			<HorLayout style={styleForm.section}>
@@ -75,19 +104,44 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 						style={styleCreateProductForm.containerItems}>
 						{form.productList.map((product, index) => (
 							<HorLayout style={styleCreateProductForm.item}>
-								<Typography
-									variant='h3'
-									textColor='secondary'>
-									{product}
-								</Typography>
+								{editItem.isEdit && editItem.index === index ? (
+									<Input
+										style={styleCreateProductForm.input}
+										value={editItem.value}
+										onChangeText={(text) => {
+											setEditItem((prev) => ({ ...prev, value: text }));
+										}}
+									/>
+								) : (
+									<Typography
+										variant='h3'
+										textColor='secondary'>
+										{product}
+									</Typography>
+								)}
 								<HorLayout style={styleCreateProductForm.icons}>
-									<TouchableOpacity style={styleCreateProductForm.edit}>
-										<Ionicons
-											name='pencil'
-											size={16}
-											color={COLORS.white}
-										/>
-									</TouchableOpacity>
+									{editItem.isEdit && editItem.index === index ? (
+										<TouchableOpacity
+											style={styleCreateProductForm.edit}
+											onPress={() => handleEditApply(index)}>
+											<Ionicons
+												name='checkmark'
+												size={16}
+												color={COLORS.white}
+											/>
+										</TouchableOpacity>
+									) : (
+										<TouchableOpacity
+											style={styleCreateProductForm.edit}
+											onPress={() => handleEditProduct(index)}>
+											<Ionicons
+												name='pencil'
+												size={16}
+												color={COLORS.white}
+											/>
+										</TouchableOpacity>
+									)}
+
 									<TouchableOpacity
 										style={styleCreateProductForm.trash}
 										onPress={() => handleDeleteProduct(index)}>
@@ -153,5 +207,12 @@ const styleCreateProductForm = StyleSheet.create({
 		backgroundColor: COLORS.primary,
 		padding: 10,
 		...common,
+	},
+	input: {
+		height: '100%',
+		width: '70%',
+		borderRadius: 10,
+		borderWidth: 1,
+		paddingLeft: 10,
 	},
 });

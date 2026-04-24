@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, TextInput, ViewStyle } from 'react-native';
 type InputProps = {
 	style?: StyleProp<ViewStyle>;
 	value: string;
-	placeholder: string;
+	placeholder?: string;
 	isPassword?: boolean;
 	onChangeText?: (value: string) => void;
 };
