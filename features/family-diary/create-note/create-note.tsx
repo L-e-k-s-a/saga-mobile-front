@@ -1,6 +1,4 @@
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { NoteFamilyDiaryType } from '@/shared/types/note-family-diary';
-import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
@@ -29,7 +27,6 @@ export const CreateNote = ({setIsVisible}: CreateNoteProps) => {
 
 	return (
 		<VerLayout styles={styleFamilyDiary.container}>
-				<ButtonCross close={() => setIsVisible(false)}/>
 				<TextInput
 					style={styleFamilyDiary.textArea}
 					value={note}

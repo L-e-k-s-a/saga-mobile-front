@@ -13,6 +13,7 @@ export const CreateNoteModal = ({
 	return (
 		<ModalWindow
 			visible={isVisible}
+			onClose={() => setIsVisible(false)}
 			content={() => <CreateNote setIsVisible={setIsVisible} />}
 		/>
 	);

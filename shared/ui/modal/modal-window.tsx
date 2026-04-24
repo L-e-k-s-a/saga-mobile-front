@@ -35,10 +35,8 @@ export const ModalWindow = ({
 				translateY.setValue(gestureState.dy);
 			}
 		},
-		onPanResponderRelease: (_, gestureState) => {
-			console.log('Swipe distance:', gestureState.dy);
-			
-			if (gestureState.dy > 100) {
+		onPanResponderRelease: (_, gestureState) => {			
+			if (gestureState.dy > 70) {
 				Animated.timing(translateY, {
 					toValue: SCREEN_HEIGHT,
 					duration: 250,
@@ -61,16 +59,14 @@ export const ModalWindow = ({
 	return (
 		<Modal
 			visible={visible}
-			transparent={true}
-			animationType='fade'
-			onRequestClose={onClose}>
+			transparent={true}>
 			<VerLayout styles={styleModal.modalOverlay}>
 				<Animated.View
 					{...panResponder.panHandlers}
-					style={{
+					style={[{
 						transform: [{ translateY: translateY }],
-					}}>
-					<Card style={styleModal.modalContent}>
+					}, styleModal.modalContent]}>
+					<Card>
 						<View style={styleModal.dragIndicatorContainer}>
 							<View style={styleModal.dragIndicator} />
 						</View>

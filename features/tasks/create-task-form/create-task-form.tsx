@@ -1,7 +1,6 @@
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
 import { Task } from '@/shared/types/task';
-import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
 import { Input } from '@/shared/ui/Input/Input';

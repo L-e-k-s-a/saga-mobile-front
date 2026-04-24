@@ -13,6 +13,7 @@ export const CreateTaskModal = ({
 	return (
 		<ModalWindow
 			visible={isVisible}
+			onClose={() => setIsVisible(false)}
 			content={() => <CreateTaskForm setIsVisible={setIsVisible} />}
 		/>
 	);

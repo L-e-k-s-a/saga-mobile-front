@@ -1,7 +1,6 @@
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { Task } from '@/shared/types/task';
-import { ButtonCross } from '@/shared/ui/buttons/button-cross/button-cross';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { ModalWindow } from '@/shared/ui/modal/modal-window';
 import { Toggle } from '@/shared/ui/toggle/toggle';
@@ -43,7 +42,7 @@ export const ModalTask = ({
 							Название задачи
 						</Typography>
 						<View style={styleModalTask.titleCard}>
-							<Typography 
+							<Typography
 								textColor='secondary'
 								style={styleModalTask.titleText}>
 								{task.title}
@@ -56,10 +55,10 @@ export const ModalTask = ({
 							variant='h3'
 							textColor='secondary'
 							style={styleModalTask.sectionTitle}>
-							Дополнительное описание
+							Дополнительная информация
 						</Typography>
 						<View style={styleModalTask.descriptionCard}>
-							<Typography 
+							<Typography
 								textColor='secondary'
 								style={styleModalTask.descriptionText}>
 								{task.description}
@@ -67,39 +66,32 @@ export const ModalTask = ({
 						</View>
 					</View>
 
-					<HorLayout style={styleModalTask.section}>
+					<View style={styleModalTask.importanceContainer}>
+						<View
+							style={[
+								styleModalTask.indicator,
+								{ backgroundColor: importanceTask.color },
+							]}
+						/>
 						<Typography
-							variant='h3'
-							textColor='secondary'>
-							Важность
+							textColor='secondary'
+							style={styleModalTask.importanceText}>
+							{importanceTask.text}
 						</Typography>
-						<View style={styleModalTask.importanceContainer}>
-							<View
-								style={[
-									styleModalTask.indicator,
-									{ backgroundColor: importanceTask.color },
-								]}
-							/>
-							<Typography 
-								textColor='secondary'
-								style={styleModalTask.importanceText}>
-								{importanceTask.text}
-							</Typography>
-						</View>
-					</HorLayout>
+					</View>
 
 					<HorLayout style={styleModalTask.section}>
 						<Typography
 							variant='h3'
 							textColor='secondary'>
-							Задача выполнена
+							Выполнено
 						</Typography>
 						<View style={styleModalTask.toggleContainer}>
-							<Toggle 
-								isEnabled={isCompleted} 
+							<Toggle
+								isEnabled={isCompleted}
 								setIsEnabled={setIsCompleted}
 							/>
-							<Typography 
+							<Typography
 								textColor='secondary'
 								style={styleModalTask.toggleStatusText}>
 								{isCompleted ? 'Да' : 'Нет'}
@@ -109,7 +101,7 @@ export const ModalTask = ({
 
 					<View style={styleModalTask.buttonContainer}>
 						<Button
-							text={isCompleted ? "✅ Выполнена" : "📋 Отметить как выполненную"}
+							text={'Выполнена'}
 							onPress={() => {}}
 							disabled={disabled}
 							fullWidth
@@ -181,7 +173,7 @@ const styleModalTask = StyleSheet.create({
 		height: 20,
 		width: 20,
 		marginRight: 8,
-		shadowColor: "#000",
+		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.3,
 		shadowRadius: 3,
