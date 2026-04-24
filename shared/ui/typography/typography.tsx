@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
 	},
 	div: {
 		fontSize: 14,
-		marginBottom: 4,
 	},
 
 	primary: {
