@@ -22,9 +22,9 @@ export const DinamicScrollView = ({children, maxHeight, style}: DinamicScrollVie
 
     return(
         <ScrollView scrollEnabled={scrollEnabled}
-            style={[{maxHeight: scrollEnabled ? maxHeight : contentHeight}, style]}
+            style={[{maxHeight: scrollEnabled ? maxHeight : contentHeight}]}
         >
-            <View onLayout={onContentLayout}>
+            <View style={style} onLayout={onContentLayout}>
                 {children}
             </View>
         </ScrollView>

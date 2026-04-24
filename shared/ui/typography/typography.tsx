@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 	},
 	h3: {
 		fontSize: 18,
-		fontWeight: '500',
+		fontWeight: '600',
 		marginBottom: 8,
 	},
 	div: {

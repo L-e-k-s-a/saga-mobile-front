@@ -10,7 +10,7 @@ export const styleModal = StyleSheet.create({
 	},
 	modalContent: {
 		maxHeight: '90%',
-
+		width: '80%'
 	},
 	dragIndicatorContainer: {
 		alignItems: 'center',

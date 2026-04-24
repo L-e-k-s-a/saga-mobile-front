@@ -41,13 +41,12 @@ export const ModalTask = ({
 							style={styleModalTask.sectionTitle}>
 							Название задачи
 						</Typography>
-						<View style={styleModalTask.titleCard}>
-							<Typography
-								textColor='secondary'
-								style={styleModalTask.titleText}>
-								{task.title}
-							</Typography>
-						</View>
+
+						<Typography
+							textColor='secondary'
+							style={styleModalTask.titleText}>
+							{task.title}
+						</Typography>
 					</View>
 
 					<View style={styleModalTask.descriptionSection}>
@@ -55,30 +54,24 @@ export const ModalTask = ({
 							variant='h3'
 							textColor='secondary'
 							style={styleModalTask.sectionTitle}>
-							Дополнительная информация
+							Доп. информация
 						</Typography>
-						<View style={styleModalTask.descriptionCard}>
-							<Typography
-								textColor='secondary'
-								style={styleModalTask.descriptionText}>
-								{task.description}
-							</Typography>
-						</View>
+						<Typography
+							textColor='secondary'
+							style={styleModalTask.descriptionText}>
+							{task.description}
+						</Typography>
 					</View>
 
-					<View style={styleModalTask.importanceContainer}>
+					<HorLayout style={styleModalTask.importanceContainer}>
 						<View
 							style={[
 								styleModalTask.indicator,
 								{ backgroundColor: importanceTask.color },
 							]}
 						/>
-						<Typography
-							textColor='secondary'
-							style={styleModalTask.importanceText}>
-							{importanceTask.text}
-						</Typography>
-					</View>
+						<Typography textColor='secondary'>{importanceTask.text}</Typography>
+					</HorLayout>
 
 					<HorLayout style={styleModalTask.section}>
 						<Typography
@@ -86,27 +79,19 @@ export const ModalTask = ({
 							textColor='secondary'>
 							Выполнено
 						</Typography>
-						<View style={styleModalTask.toggleContainer}>
-							<Toggle
-								isEnabled={isCompleted}
-								setIsEnabled={setIsCompleted}
-							/>
-							<Typography
-								textColor='secondary'
-								style={styleModalTask.toggleStatusText}>
-								{isCompleted ? 'Да' : 'Нет'}
-							</Typography>
-						</View>
+
+						<Toggle
+							isEnabled={isCompleted}
+							setIsEnabled={setIsCompleted}
+						/>
 					</HorLayout>
 
-					<View style={styleModalTask.buttonContainer}>
-						<Button
-							text={'Выполнена'}
-							onPress={() => {}}
-							disabled={disabled}
-							fullWidth
-						/>
-					</View>
+					<Button
+						text={'Выполнена'}
+						onPress={() => {}}
+						disabled={disabled}
+						fullWidth
+					/>
 				</VerLayout>
 			)}
 		/>
@@ -116,6 +101,7 @@ export const ModalTask = ({
 const styleModalTask = StyleSheet.create({
 	container: {
 		alignItems: 'center',
+		justifyContent: 'center',
 		gap: 20,
 		paddingVertical: 20,
 	},
@@ -125,16 +111,8 @@ const styleModalTask = StyleSheet.create({
 		gap: 8,
 	},
 	sectionTitle: {
-		fontWeight: '600',
-		letterSpacing: 0.5,
-	},
-	titleCard: {
-		backgroundColor: 'rgba(255, 255, 255, 0.05)',
-		borderRadius: 12,
-		padding: 12,
 		width: '100%',
-		borderWidth: 1,
-		borderColor: 'rgba(255, 255, 255, 0.1)',
+		textAlign: 'center',
 	},
 	titleText: {
 		fontSize: 16,
@@ -145,67 +123,28 @@ const styleModalTask = StyleSheet.create({
 		width: '90%',
 		gap: 8,
 	},
-	descriptionCard: {
-		backgroundColor: 'rgba(255, 255, 255, 0.05)',
-		borderRadius: 12,
-		padding: 12,
-		borderWidth: 1,
-		borderColor: 'rgba(255, 255, 255, 0.1)',
-		minHeight: 80,
-	},
 	descriptionText: {
 		fontSize: 14,
 		lineHeight: 20,
+		width: '100%',
+		textAlign: 'center',
 	},
 	section: {
 		justifyContent: 'space-between',
-		alignItems: 'center',
 		width: '90%',
-		paddingVertical: 8,
 		paddingHorizontal: 12,
-		backgroundColor: 'rgba(255, 255, 255, 0.03)',
-		borderRadius: 12,
-		borderWidth: 1,
-		borderColor: 'rgba(255, 255, 255, 0.08)',
 	},
 	indicator: {
-		borderRadius: 10,
 		height: 20,
 		width: 20,
-		marginRight: 8,
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.3,
-		shadowRadius: 3,
-		elevation: 3,
+		borderRadius: 10,
+		marginRight: 12,
 	},
 	importanceContainer: {
-		flexDirection: 'row',
 		alignItems: 'center',
 		backgroundColor: 'rgba(0, 0, 0, 0.2)',
 		paddingHorizontal: 12,
-		paddingVertical: 6,
+		height: 32,
 		borderRadius: 20,
-	},
-	importanceText: {
-		fontSize: 14,
-		fontWeight: '500',
-		marginLeft: 4,
-	},
-	toggleContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 12,
-	},
-	toggleStatusText: {
-		fontSize: 14,
-		fontWeight: '500',
-		minWidth: 35,
-		textAlign: 'center',
-	},
-	buttonContainer: {
-		width: '90%',
-		marginTop: 10,
-		marginBottom: 5,
 	},
 });

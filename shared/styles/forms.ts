@@ -11,6 +11,7 @@ export const styleForm = StyleSheet.create({
 	section: {
 		width: '100%',
 		marginBottom: 20,
+		alignItems: 'center'
 	},
 	input: {
 		borderWidth: 0.5,
