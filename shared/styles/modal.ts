@@ -13,8 +13,10 @@ export const styleModal = StyleSheet.create({
 		width: '80%'
 	},
 	dragIndicatorContainer: {
+		width: '100%',
 		alignItems: 'center',
-		paddingBottom: 4
+		paddingBottom: 8,
+		paddingTop: 4,
 	},
 	dragIndicator: {
 		width: 40,

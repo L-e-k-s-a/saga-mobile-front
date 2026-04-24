@@ -2,13 +2,14 @@ import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { styleForm } from '@/shared/styles/forms';
+import { Product } from '@/shared/types/product';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { Input } from '@/shared/ui/Input/Input';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Typography } from '@/shared/ui/typography/typography';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 type CreateProductFormProps = {
@@ -17,17 +18,35 @@ type CreateProductFormProps = {
 
 export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 	const [nameProduct, setNameProduct] = useState('');
-	const [form, setForm] = useState({
-		nameProduct: nameProduct,
-		productList: [''],
+	const [disabled, setDisabled] = useState(true);
+	const [form, setForm] = useState<Product>({
+		productList: [],
 	});
 
+	useEffect(() => {
+		if (form.productList.length !== 0) {
+			setDisabled(false);
+		} else {
+			setDisabled(true);
+		}
+	}, [form]);
+
 	const handleAddProduct = () => {
-		setForm((prev) => ({
+		if (nameProduct === '') {
+			return;
+		}
+		setForm((prev: Product) => ({
 			...prev,
 			productList: [...prev.productList, nameProduct],
 		}));
 		setNameProduct('');
+	};
+
+	const handleDeleteProduct = (deleteItem: number) => {
+		setForm((prev: Product) => ({
+			...prev,
+			productList: prev.productList.filter((_, index) => index !== deleteItem),
+		}));
 	};
 
 	return (
@@ -54,7 +73,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 					<DinamicScrollView
 						maxHeight={250}
 						style={styleCreateProductForm.containerItems}>
-						{form.productList.map((product) => (
+						{form.productList.map((product, index) => (
 							<HorLayout style={styleCreateProductForm.item}>
 								<Typography
 									variant='h3'
@@ -69,7 +88,9 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 											color={COLORS.white}
 										/>
 									</TouchableOpacity>
-									<TouchableOpacity style={styleCreateProductForm.trash}>
+									<TouchableOpacity
+										style={styleCreateProductForm.trash}
+										onPress={() => handleDeleteProduct(index)}>
 										<Ionicons
 											name='trash'
 											size={16}
@@ -91,6 +112,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			<Button
 				text='Сохранить'
 				onPress={() => {}}
+				disabled={disabled}
 				fullWidth
 			/>
 		</VerLayout>
