@@ -26,7 +26,6 @@ export const FamilyActions = () => {
 			) : (
 				<Button
 					style={styleFamilyAction.item}
-					variant='secondary'
 					text='Создать семью'
 					onPress={() => setIsCreate(true)}
 				/>
@@ -34,14 +33,12 @@ export const FamilyActions = () => {
 			{isAdd ? (
 				<Button
 					style={[styleFamilyAction.button, styleFamilyAction.item]}
-					variant='secondary'
 					text={inviteCode.toUpperCase()}
 					onPress={() => setIsAdd(false)}
 				/>
 			) : (
 				<Button
 					style={styleFamilyAction.item}
-					variant='secondary'
 					text='Добавить'
 					onPress={() => setIsAdd(true)}
 				/>
@@ -64,7 +61,6 @@ export const FamilyActions = () => {
 			) : (
 				<Button
 					style={styleFamilyAction.item}
-					variant='secondary'
 					text='Присоединиться'
 					onPress={() => setIsJoin(true)}
 				/>

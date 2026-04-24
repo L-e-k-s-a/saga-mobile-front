@@ -6,14 +6,23 @@ export const styleModal = StyleSheet.create({
 		flex: 1,
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 		justifyContent: 'center',
-		padding: 32,
+		alignItems: 'center' 
 	},
 	modalContent: {
-		backgroundColor: COLORS.white,
-		borderRadius: 10,
-		paddingHorizontal: 16,
-		paddingTop: 16,
-		paddingBottom: 32,
+		borderBottomLeftRadius: 0,
+		borderBottomRightRadius: 0,
 		maxHeight: '90%',
+
+	},
+	dragIndicatorContainer: {
+		alignItems: 'center',
+		paddingTop: 8,
+		paddingBottom: 4,
+	},
+	dragIndicator: {
+		width: 40,
+		height: 4,
+		borderRadius: 2,
+		backgroundColor: '#ccc',
 	},
 });

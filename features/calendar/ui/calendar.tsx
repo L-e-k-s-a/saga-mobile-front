@@ -60,7 +60,6 @@ export const CalendarSaga = () => {
 			// Включить переключение месяцев
 			enableSwipeMonths={true}
 			// Показать индикатор загрузки
-			displayLoadingIndicator={true}
 			// Минимум и максимум дат
 			minDate={'2020-01-01'}
 			maxDate={'2030-12-31'}
