@@ -52,12 +52,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			...prev,
 			productList: prev.productList.filter((_, index) => index !== deleteItem),
 		}));
-        setEditItem((prev) => ({
-			...prev,
-			isEdit: false,
-			value: '',
-			index: 0,
-		}));
+
 	};
 
 	const handleEditProduct = (numberItem: number) => {
@@ -75,8 +70,8 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 		setEditItem((prev) => ({
 			...prev,
 			isEdit: false,
-			value: editProduct,
-			index: numberItem,
+			value: '',
+			index: 0,
 		}));
 		form.productList[numberItem] = editProduct;
 		setForm((prev) => ({ ...prev, productList: [...form.productList] }));
