@@ -27,10 +27,11 @@ export const CardProduct = ({ product }: CardProductProps) => {
 						{product.nameList}
 					</Typography>
 					<HorLayout>
-						<TouchableOpacity>
+						<TouchableOpacity onPress={() => setIsDrop(!isDrop)}>
 							<Ionicons
 								name={isDrop ? 'chevron-down' : 'chevron-up'}
 								color={COLORS.secondary}
+								size={24}
 							/>
 						</TouchableOpacity>
 					</HorLayout>
@@ -46,14 +47,26 @@ export const CardProduct = ({ product }: CardProductProps) => {
 					{product.productList.map((product: string) => (
 						<Checkbox label={product} />
 					))}
+					<Button
+						text='Есть'
+						onPress={() => {}}
+						fullWidth
+					/>
 				</>
 			)}
-            {isDrop && product.productList.map((product) => <Checkbox label={product} />)}
-			<Button
-				text='Есть'
-				onPress={() => {}}
-				fullWidth
-			/>
+			{isDrop && (
+				<>
+					{product.productList.map((product) => (
+						<Checkbox label={product} />
+					))}
+
+					<Button
+						text='Есть'
+						onPress={() => {}}
+						fullWidth
+					/>
+				</>
+			)}
 		</Card>
 	);
 };
