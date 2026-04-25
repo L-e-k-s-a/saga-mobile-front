@@ -75,7 +75,7 @@ export const FamilyModalActions = ({
 						<NoData
 							title='Беда!'
 							desctiption='У Вас ещё нет не одной семьи'
-							colorText={COLORS.black}
+							colorText="secondary"
 						/>
 					)}
 					<FamilyActions />

@@ -12,9 +12,11 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSaveUser } from '../../../entities/user/hooks/use-save-user';
+import { useFamilyStore } from '@/shared/store/family/family-store';
 
 export const SignInForm = () => {
 	const { saveUser } = useSaveUser();
+	const { setInviteCode, setNameFamily, setRole } = useFamilyStore()
 	const { setLoading, login } = useAuthStore();
 	const [error, setError] = useState<Error | null | unknown>(null);
 	const [validFormMessage, setValidFormMessage] = useState('');
