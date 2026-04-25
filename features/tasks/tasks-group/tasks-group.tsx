@@ -15,6 +15,8 @@ type TasksGroupProps = {
 export const TasksGroup = ({ refetchTrigger }: TasksGroupProps) => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [selectedTask, setSelectedTask] = useState<Task>({
+		taskId: '',
+		familyId: '',
 		title: '',
 		description: '',
 		indicator: '',
@@ -22,6 +24,7 @@ export const TasksGroup = ({ refetchTrigger }: TasksGroupProps) => {
 		executors: [],
 	});
 	const { activeFamily } = useUserStore();
+
 	if (!activeFamily) {
 		return (
 			<NoData
@@ -44,7 +47,7 @@ export const TasksGroup = ({ refetchTrigger }: TasksGroupProps) => {
 		return <Spinner />;
 	}
 
-	return tasks.length > 0 ? (
+	return tasks && tasks.length > 0 ? (
 		<>
 			<FlatList
 				data={tasks}

@@ -1,6 +1,7 @@
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { Product } from '@/shared/types/product';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
@@ -10,12 +11,16 @@ import { Typography } from '@/shared/ui/typography/typography';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import { useSaveProduct } from '../hooks/use-save-product';
+import { styleForm } from '@/shared/styles/forms';
 
 type CreateProductFormProps = {
 	setIsVisible: (isVisible: boolean) => void;
 };
 
 export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
+	const { activeFamily } = useUserStore();
+	const saveProduct = useSaveProduct();
 	const [nameProduct, setNameProduct] = useState('');
 	const [disabled, setDisabled] = useState(true);
 	const [editItem, setEditItem] = useState({
@@ -24,6 +29,9 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 		index: 0,
 	});
 	const [form, setForm] = useState<Product>({
+		productId: '',
+		nameList: '',
+		familyId: activeFamily,
 		productList: [],
 	});
 
@@ -34,6 +42,12 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			setDisabled(true);
 		}
 	}, [form]);
+
+	const handleSaveProducts = () => {
+		saveProduct(form);
+		setForm((prev) => ({ ...prev, productList: [] }));
+		setIsVisible(false)
+	};
 
 	const handleAddProduct = () => {
 		if (nameProduct === '') {
@@ -72,11 +86,17 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			index: 0,
 		}));
 		form.productList[numberItem] = editProduct;
-		setForm((prev) => ({ ...prev, productList: [...form.productList] }));
+		setForm((prev) => ({ ...prev, productList: [...prev.productList] }));
 	};
 
 	return (
 		<VerLayout>
+			<Input
+				style={styleForm.input}
+				placeholder='Название списка'
+				value={form.nameList}
+				onChangeText={(text) => setForm((prev) => ({...prev, nameList: text}))}
+			/>
 			<HorLayout style={styleCreateProductForm.header}>
 				<Input
 					style={styleCreateProductForm.input}
@@ -163,7 +183,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			</VerLayout>
 			<Button
 				text='Сохранить'
-				onPress={() => {}}
+				onPress={handleSaveProducts}
 				disabled={disabled}
 				fullWidth
 			/>
@@ -182,14 +202,14 @@ const commonIcon = {
 const styleCreateProductForm = StyleSheet.create({
 	header: {
 		justifyContent: 'space-between',
-		marginBottom: 10,
+		marginVertical: 10
 	},
 	addProduct: {
 		backgroundColor: COLORS.secondary,
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginLeft: 5,
-		padding: 22,
+		padding: 18,
 		...common,
 	},
 	containerItems: {
@@ -219,6 +239,7 @@ const styleCreateProductForm = StyleSheet.create({
 		borderRadius: 10,
 		borderWidth: 1,
 		paddingLeft: 10,
+		marginRight: 10
 	},
 	text: {
 		width: '60%',

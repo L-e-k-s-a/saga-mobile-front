@@ -19,18 +19,12 @@ export const CalendarSaga = ({setModalVisible}: CalendarSagaProps) => {
 			}}
 			onDayPress={(day) => {
 				setSelectedDate(day.dateString);
-				// Добавить событие
 			}}
-			// Включить переключение месяцев
 			enableSwipeMonths={true}
 			dayComponent={(props) => <Day {...props} setIsVisibleModal={setModalVisible}/>}
-			// Показать индикатор загрузки
-			// Минимум и максимум дат
 			minDate={'2020-01-01'}
 			maxDate={'2030-12-31'}
-			// Первый день недели - понедельник
 			firstDay={1}
-			// Заголовок с месяцем/годом
 			hideExtraDays={true}
 		/>
 	);

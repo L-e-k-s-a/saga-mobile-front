@@ -14,7 +14,7 @@ export const ProductsWidget = () => {
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
-				<ProductGroup />
+				<ProductGroup refetchTrigger={isVisible}/>
 				<CreateProductModal isVisible={isVisible} setIsVisible={setIsVisible}/>
 				<ButtonAdd action={handleAddProductOrGoods} />
 			</AlignContainer>

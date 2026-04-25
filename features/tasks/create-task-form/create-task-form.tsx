@@ -8,6 +8,7 @@ import { Typography } from '@/shared/ui/typography/typography';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSaveTask } from '../hooks/use-save-task';
+import { useUserStore } from '@/shared/store/user/user-store';
 
 type CreateTaskFormProps = {
 	setIsVisible: (isVisible: boolean) => void;
@@ -15,9 +16,12 @@ type CreateTaskFormProps = {
 
 //добавить dropdowm с именами в семье чтобы можно было заполнять исполнителей
 export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
+	const { activeFamily } = useUserStore()
 	const saveTask = useSaveTask();
 	const [disabled, setDisabled] = useState(false);
 	const [form, setForm] = useState<Task>({
+		taskId: '',
+		familyId: activeFamily,
 		title: '',
 		description: '',
 		indicator: 'hard',
