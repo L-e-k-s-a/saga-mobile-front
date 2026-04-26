@@ -7,41 +7,27 @@ import { DropDown } from '@/shared/ui/drop-down/drop-down';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Typography } from '@/shared/ui/typography/typography';
 import { useEffect, useState } from 'react';
+import { useGetFamilyMembers } from '../hooks/use-get-family-members';
 
 export const FamilyMembers = () => {
-	const { familyMembers } = useFamilyStore();
-	const [membersWithNames, setMembersWithNames] = useState<Array<{name: string, positionInFamily: string}>>([]);
-	const [loading, setLoading] = useState(true);
+	const { data: familyMembers, isLoading, error, refetch } = useGetFamilyMembers()
+	
+	if(error){
+		return
+	}
 
-	useEffect(() => {
-		const fetchMembers = async () => {
-			setLoading(true);
-			const membersData = await Promise.all(
-				familyMembers.map(async (member: FamilyMember) => {
-					const person = await getUserFromFirebase(member.userId);
-					return {
-						name: person.fullName || 'Unknown',
-						positionInFamily: member.positionInFamily
-					};
-				})
-			);
-			setMembersWithNames(membersData);
-			setLoading(false);
-		};
+	if(!familyMembers){
+		return 
+	}
 
-		if (familyMembers.length > 0) {
-			fetchMembers();
-		}
-	}, [familyMembers]);
-
-	if (loading) return <Spinner />
+	if (isLoading) return <Spinner />
 
 	return (
 		<DropDown
 			title='Члены семьи'
 			content={
 				<VerLayout>
-					{membersWithNames.map((member, index) => (
+					{familyMembers.map((member, index) => (
 						<Typography variant='h3' key={index}>
 							{capitalize(member.positionInFamily)}: {member.name}
 						</Typography>
