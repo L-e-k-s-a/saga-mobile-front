@@ -1,5 +1,5 @@
 import { db } from '@/firebase/firebase';
-import { Product } from '@/shared/types/product';
+import { Product, ProductAndOrder } from '@/shared/types/product';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 export const getProducts = async (activeFamilyUid: string) => {
@@ -10,7 +10,7 @@ export const getProducts = async (activeFamilyUid: string) => {
 	
 		const querySnapshot = await getDocs(productQuery)
 	
-		const productsFamily: Product[] = []
+		const productsFamily: ProductAndOrder[] = []
 	
 		querySnapshot.forEach((doc) => {
 			const data = doc.data()

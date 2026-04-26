@@ -2,7 +2,7 @@ import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useUserStore } from '@/shared/store/user/user-store';
-import { Product } from '@/shared/types/product';
+import { ProductAndOrder, Product } from '@/shared/types/product';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { Input } from '@/shared/ui/Input/Input';
@@ -28,15 +28,15 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 		value: '',
 		index: 0,
 	});
-	const [form, setForm] = useState<Product>({
+	const [form, setForm] = useState<ProductAndOrder>({
 		productId: '',
 		nameList: '',
-		familyId: activeFamily,
+		familyId: activeFamily || '',
 		productList: [],
 	});
 
 	useEffect(() => {
-		if (form.productList.length !== 0) {
+		if (form.productList.length !== 0 && form.nameList !== '') {
 			setDisabled(false);
 		} else {
 			setDisabled(true);
@@ -45,23 +45,32 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 
 	const handleSaveProducts = () => {
 		saveProduct(form);
-		setForm((prev) => ({ ...prev, productList: [] }));
-		setIsVisible(false)
+		setForm({
+			productId: '',
+			nameList: '',
+			familyId: activeFamily || '',
+			productList: [],
+		});
+		setIsVisible(false);
 	};
 
 	const handleAddProduct = () => {
-		if (nameProduct === '') {
+		if (nameProduct.trim() === '') {
 			return;
 		}
-		setForm((prev: Product) => ({
+		const newProduct: Product = {
+			productName: nameProduct,
+			isConfirm: false,
+		};
+		setForm((prev: ProductAndOrder) => ({
 			...prev,
-			productList: [...prev.productList, nameProduct],
+			productList: [...prev.productList, newProduct],
 		}));
 		setNameProduct('');
 	};
 
 	const handleDeleteProduct = (deleteItem: number) => {
-		setForm((prev: Product) => ({
+		setForm((prev: ProductAndOrder) => ({
 			...prev,
 			productList: prev.productList.filter((_, index) => index !== deleteItem),
 		}));
@@ -69,24 +78,28 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 
 	const handleEditProduct = (numberItem: number) => {
 		const product = form.productList[numberItem];
-		setEditItem((prev) => ({
-			...prev,
+		setEditItem({
 			isEdit: true,
-			value: product,
+			value: product.productName,
 			index: numberItem,
-		}));
+		});
 	};
 
 	const handleEditApply = (numberItem: number) => {
-		const editProduct = editItem.value;
-		setEditItem((prev) => ({
+		const editProductName = editItem.value;
+		setForm((prev: ProductAndOrder) => ({
 			...prev,
+			productList: prev.productList.map((item, index) => 
+				index === numberItem 
+					? { ...item, productName: editProductName }
+					: item
+			),
+		}));
+		setEditItem({
 			isEdit: false,
 			value: '',
 			index: 0,
-		}));
-		form.productList[numberItem] = editProduct;
-		setForm((prev) => ({ ...prev, productList: [...prev.productList] }));
+		});
 	};
 
 	return (
@@ -95,7 +108,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 				style={styleForm.input}
 				placeholder='Название списка'
 				value={form.nameList}
-				onChangeText={(text) => setForm((prev) => ({...prev, nameList: text}))}
+				onChangeText={(text) => setForm((prev) => ({ ...prev, nameList: text }))}
 			/>
 			<HorLayout style={styleCreateProductForm.header}>
 				<Input
@@ -120,7 +133,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 						maxHeight={250}
 						style={styleCreateProductForm.containerItems}>
 						{form.productList.map((product, index) => (
-							<HorLayout style={styleCreateProductForm.item}>
+							<HorLayout key={index} style={styleCreateProductForm.item}>
 								{editItem.isEdit && editItem.index === index ? (
 									<Input
 										style={styleCreateProductForm.input}
@@ -134,7 +147,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 										style={styleCreateProductForm.text}
 										variant='h3'
 										textColor='secondary'>
-										{product}
+										{product.productName}
 									</Typography>
 								)}
 								<HorLayout style={styleCreateProductForm.icons}>

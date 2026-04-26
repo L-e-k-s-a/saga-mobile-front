@@ -41,15 +41,12 @@ export const ProductGroup = ({refetchTrigger}: ProductGroupProps) => {
 	if (isLoading) {
 		return <Spinner />;
 	}
-
 	return products && products.length > 0 ? (
 		<>
 			<FlatList
 				data={products}
 				renderItem={({ item }) => (
-					<TouchableOpacity>
 						<CardProduct product={item} />
-					</TouchableOpacity>
 				)}
 				ListFooterComponent={<View style={{ height: 150 }} />}
 			/>

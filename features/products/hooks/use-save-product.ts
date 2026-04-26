@@ -1,11 +1,11 @@
 import { db } from "@/firebase/firebase"
-import { Product } from "@/shared/types/product"
+import { Product, ProductAndOrder } from "@/shared/types/product"
 import { addDoc, collection } from "firebase/firestore"
 
 
 
 export const useSaveProduct = () => {
-    const saveProduct = async (product: Product) => {
+    const saveProduct = async (product: ProductAndOrder) => {
         await addDoc(collection(db, 'products'), {
             ...product
         })

@@ -10,6 +10,7 @@ type UserStore = {
 	fullName: string;
 	activeFamily: string;
 	countFamily: number;
+	loading: boolean;
 
 	setUid: (uid: string) => void;
 	setEmail: (email: string) => void;
@@ -19,6 +20,7 @@ type UserStore = {
 	setFullName: (fullName: string) => void;
 	setActiveFamily: (activeFamily: string) => void;
 	setCountFamily: (count: number) => void;
+	setLoadingUser: (load: boolean) => void;
 	setUser: (user: User) => void;
 };
 
@@ -31,6 +33,7 @@ export const useUserStore = create<UserStore>()((set) => ({
 	fullName: '',
 	activeFamily: '',
 	countFamily: 0,
+	loading: false,
 
 	setUid: (newUid: string) => set({ uid: newUid }),
 	setEmail: (newEmail: string) => set({ email: newEmail }),
@@ -39,7 +42,8 @@ export const useUserStore = create<UserStore>()((set) => ({
 	setPatronymic: (newPatronymic: string) => set({ name: newPatronymic }),
 	setFullName: (newFullName: string) => set({ fullName: newFullName }),
 	setActiveFamily: (newActivityFamily: string) =>
-		set({ activeFamily: newActivityFamily }),
+	set({ activeFamily: newActivityFamily }),
 	setCountFamily: (newCount: number) => set({ countFamily: newCount }),
+	setLoadingUser: (load: boolean) => set({loading: load}),
 	setUser: (newUser: User) => set({ ...newUser }),
 }));

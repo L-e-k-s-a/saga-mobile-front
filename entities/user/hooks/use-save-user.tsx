@@ -8,9 +8,10 @@ import { UserCredential } from 'firebase/auth';
 import { getUserFromFirebase } from '../lib/getUser';
 
 export const useSaveUser = () => {
-	const { setUser } = useUserStore();
+	const { setUser, setLoadingUser } = useUserStore();
 
 	const saveUser = async (authUser: UserCredential) => {
+		setLoadingUser(true)
 		const userDataFirebase: FirebaseAuthUser = {
 			uid: authUser.user.uid,
 			email: authUser.user.email || '',
@@ -27,9 +28,10 @@ export const useSaveUser = () => {
 			patronymic: userFromFirebase.patronymic,
 			fullName: userFromFirebase.fullName,
 			createAt: userFromFirebase.createAt,
-			activeFamily: userFromFirebase.activeFamily || '',
+			activeFamily: userFromFirebase.activeFamily,
 		};
 		setUser(user);
+		setLoadingUser(false)
 	};
 	return { saveUser };
 };

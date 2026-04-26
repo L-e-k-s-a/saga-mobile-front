@@ -62,6 +62,7 @@ export const RegisterForm = () => {
 				patronymic: form.patronymic,
 				fullName: `${form.surname} ${form.name} ${form.patronymic}`,
 				createAt: new Date(),
+				activeFamily: ''
 			});
 			handleClearForm();
 		} catch (err) {

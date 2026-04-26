@@ -1,4 +1,3 @@
-import { useAuthStore } from '@/shared/store';
 import { useFamilyStore } from '@/shared/store/family/family-store';
 import { useUserStore } from '@/shared/store/user/user-store';
 import { Family } from '../type/family';

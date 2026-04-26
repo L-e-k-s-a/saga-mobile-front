@@ -15,7 +15,6 @@ export const useGetProducts = (activeFamilyUid: string) => {
 		staleTime: 0,
 		refetchOnMount: true,
 	});
-
     return {
         data, isLoading, error, refetch
     }

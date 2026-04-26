@@ -40,5 +40,6 @@ const styleMenu = StyleSheet.create({
 	menu: {
 		width: '100%',
 		alignItems: 'center',
+		gap: 10
 	},
 });

@@ -9,21 +9,27 @@ import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/typography/typography';
 import { router } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSaveUser } from '../../../entities/user/hooks/use-save-user';
 import { useSaveFamily } from '@/entities/family/hooks/use-save-family';
+import { useUserStore } from '@/shared/store/user/user-store';
 
 export const SignInForm = () => {
+	const {loading}= useUserStore()
 	const { saveUser } = useSaveUser();
 	const { saveFamily } = useSaveFamily()
 	const { setLoading, login } = useAuthStore();
-	const [error, setError] = useState<Error | null | unknown>(null);
-	const [validFormMessage, setValidFormMessage] = useState('');
 	const [signInForm, setSignInForm] = useState({
 		login: '',
 		password: '',
 	});
+
+	useEffect(() => {
+		if(loading){
+			saveFamily()
+		}
+	}, [loading])
 
 	const handleChangeSignInForm = (field: string, value: string) => {
 		setSignInForm((prev) => ({ ...prev, [field]: value }));
@@ -38,11 +44,11 @@ export const SignInForm = () => {
 			);
 			setLoading(true);
 			await saveUser(candidate);
-			await saveFamily()
 			login();
-			setLoading(false)
 		} catch (err) {
-			setError(err);
+			console.log("Ошибка в форме входа", err)
+		}finally{
+			setLoading(false)
 		}
 	};
 	const handleRegister = () => {
@@ -70,11 +76,6 @@ export const SignInForm = () => {
 					style={styleForm.input}
 					// isPassword={true}
 				/>
-				{validFormMessage && (
-					<Typography style={{ color: COLORS.white }}>
-						{validFormMessage}
-					</Typography>
-				)}
 				<Button
 					fullWidth
 					text='Войти'

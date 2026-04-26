@@ -1,5 +1,6 @@
 import { getUserFromFirebase } from '@/entities/user/lib/getUser';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { capitalize } from '@/shared/lib/capitalize';
 import { useFamilyStore } from '@/shared/store/family/family-store';
 import { FamilyMember } from '@/shared/types/family-member';
 import { DropDown } from '@/shared/ui/drop-down/drop-down';
@@ -41,8 +42,8 @@ export const FamilyMembers = () => {
 			content={
 				<VerLayout>
 					{membersWithNames.map((member, index) => (
-						<Typography key={index}>
-							{member.positionInFamily}: {member.name}
+						<Typography variant='h3' key={index}>
+							{capitalize(member.positionInFamily)}: {member.name}
 						</Typography>
 					))}
 				</VerLayout>
