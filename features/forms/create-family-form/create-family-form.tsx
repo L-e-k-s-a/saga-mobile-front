@@ -49,7 +49,6 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 		const createdFamilyRef = await addDoc(collection(db, 'families'), {
 			nameFamily: formFamily.nameFamily,
 			inviteCode: inviteCode,
-			tasks: [],
 		});
 
 		await addDoc(collection(db, 'familyMembers'), {

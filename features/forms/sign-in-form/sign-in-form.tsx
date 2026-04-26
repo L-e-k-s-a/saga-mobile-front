@@ -12,11 +12,11 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSaveUser } from '../../../entities/user/hooks/use-save-user';
-import { useFamilyStore } from '@/shared/store/family/family-store';
+import { useSaveFamily } from '@/entities/family/hooks/use-save-family';
 
 export const SignInForm = () => {
 	const { saveUser } = useSaveUser();
-	const { setInviteCode, setNameFamily, setRole } = useFamilyStore()
+	const { saveFamily } = useSaveFamily()
 	const { setLoading, login } = useAuthStore();
 	const [error, setError] = useState<Error | null | unknown>(null);
 	const [validFormMessage, setValidFormMessage] = useState('');
@@ -38,6 +38,7 @@ export const SignInForm = () => {
 			);
 			setLoading(true);
 			saveUser(candidate);
+			saveFamily()
 			login();
 		} catch (err) {
 			setError(err);
@@ -46,10 +47,6 @@ export const SignInForm = () => {
 	const handleRegister = () => {
 		router.push(RoutesForAuth.REGISTER);
 	};
-
-	if (error) {
-		setValidFormMessage(String(error));
-	}
 
 	return (
 		<VerLayout styles={styleSignInForm.container}>
@@ -70,7 +67,7 @@ export const SignInForm = () => {
 					value={signInForm.password}
 					onChangeText={(text) => handleChangeSignInForm('password', text)}
 					style={styleForm.input}
-					isPassword={true}
+					// isPassword={true}
 				/>
 				{validFormMessage && (
 					<Typography style={{ color: COLORS.white }}>

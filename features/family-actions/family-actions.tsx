@@ -13,13 +13,11 @@ export const FamilyActions = () => {
 	const [isCreate, setIsCreate] = useState(false);
 	const [isAdd, setIsAdd] = useState(false);
 	const [codeJoin, setCodeJoin] = useState('');
-	const { inviteCode, nameFamily } = useFamilyStore();
+	const { inviteCode } = useFamilyStore();
 
 	const handleJoinFamily = () => {
 		setIsJoin(false);
 	};
-
-	console.log(inviteCode, nameFamily)
 
 	return (
 		<VerLayout styles={styleFamilyAction.actions}>

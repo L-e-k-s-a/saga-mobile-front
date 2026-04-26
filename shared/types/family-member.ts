@@ -2,11 +2,7 @@
 
 
 export type FamilyMember = {
-    loginPerson: string,
-    name: string,
-    surname: string,
-    patronymic: string,
-    fullName: string,
+    userId: string,
     role: string,
     positionInFamily: string
 } 

@@ -30,13 +30,8 @@ export const useSaveUser = () => {
 			createAt: userFromFirebase.createAt,
 			activeFamily: userFromFirebase.activeFamily || '',
 		};
-
 		setUser(user);
 		setLoading(false);
 	};
-	// Если нужно получить роль из Firestore
-	// const userRole = await getUserRole(authUser.uid);
-	// setRole(userRole);
-
 	return { saveUser };
 };
