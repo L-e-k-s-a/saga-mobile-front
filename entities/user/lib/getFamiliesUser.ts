@@ -31,6 +31,7 @@ export const getFamiliesUser = async (userId: string) => {
 				uid: familyDoc.id,
 				nameFamily: familyData.nameFamily,
 				inviteCode: familyData.inviteCode,
+				familyMembers: familyData.familyMembers
 			});
 		}
 	}

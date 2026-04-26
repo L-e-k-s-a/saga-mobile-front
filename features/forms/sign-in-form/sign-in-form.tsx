@@ -37,7 +37,7 @@ export const SignInForm = () => {
 				signInForm.password,
 			);
 			setLoading(true);
-			saveUser(candidate);
+			await saveUser(candidate);
 			saveFamily()
 			login();
 		} catch (err) {

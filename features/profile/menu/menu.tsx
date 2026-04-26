@@ -4,11 +4,13 @@ import { useAuthStore } from '@/shared/store';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { FamilyMembers } from './family-members/family-members';
 
 export const Menu = () => {
 	const { logout } = useAuthStore();
-
+	const [isCheckFamilyMembers, setInCheckFamilyMembers] = useState(false)
 	const handleLogout = async () => {
 		try {
 			await logout();
@@ -18,8 +20,13 @@ export const Menu = () => {
 		}
 	};
 
+	const handleCheckFamilyMembers = () => {
+
+	}
+
 	return (
 		<VerLayout styles={styleMenu.menu}>
+			<FamilyMembers />
 			<Button
 				text='Выйти'
 				onPress={handleLogout}
