@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '../libs/get-products';
-import { Product } from '@/shared/types/product';
 
 export const useGetProducts = (activeFamilyUid: string) => {
 	const { data, isLoading, error, refetch } = useQuery({
@@ -14,6 +13,7 @@ export const useGetProducts = (activeFamilyUid: string) => {
 		},
 		staleTime: 0,
 		refetchOnMount: true,
+		enabled: !!activeFamilyUid
 	});
     return {
         data, isLoading, error, refetch

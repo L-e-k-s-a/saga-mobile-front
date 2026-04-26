@@ -24,6 +24,12 @@ export const TasksGroup = ({ refetchTrigger }: TasksGroupProps) => {
 		executors: [],
 	});
 	const { activeFamily } = useUserStore();
+	
+	const { data: tasks, isLoading, error, refetch } = useGetTasks(activeFamily);
+	
+		useEffect(() => {
+			refetch();
+		}, [refetchTrigger]);
 
 	if (!activeFamily) {
 		return (
@@ -33,11 +39,6 @@ export const TasksGroup = ({ refetchTrigger }: TasksGroupProps) => {
 			/>
 		);
 	}
-	const { data: tasks, isLoading, error, refetch } = useGetTasks(activeFamily);
-
-	useEffect(() => {
-		refetch();
-	}, [refetchTrigger]);
 
 	if (error) {
 		return;

@@ -22,5 +22,5 @@ export const getProducts = async (activeFamilyUid: string) => {
 			})
 		})
 	
-		return productsFamily 
+	return productsFamily 
 };

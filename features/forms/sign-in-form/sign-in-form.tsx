@@ -1,8 +1,9 @@
+import { useSaveFamily } from '@/entities/family/hooks/use-save-family';
 import { auth } from '@/firebase/firebase';
-import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { RoutesForAuth } from '@/shared/routes/routes';
 import { useAuthStore } from '@/shared/store';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { Input } from '@/shared/ui/Input/Input';
@@ -12,13 +13,11 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useSaveUser } from '../../../entities/user/hooks/use-save-user';
-import { useSaveFamily } from '@/entities/family/hooks/use-save-family';
-import { useUserStore } from '@/shared/store/user/user-store';
 
 export const SignInForm = () => {
-	const {loading}= useUserStore()
+	const { loading } = useUserStore();
 	const { saveUser } = useSaveUser();
-	const { saveFamily } = useSaveFamily()
+	const { saveFamily } = useSaveFamily();
 	const { setLoading, login } = useAuthStore();
 	const [signInForm, setSignInForm] = useState({
 		login: '',
@@ -26,10 +25,8 @@ export const SignInForm = () => {
 	});
 
 	useEffect(() => {
-		if(loading){
-			saveFamily()
-		}
-	}, [loading])
+		saveFamily();
+	}, [loading]);
 
 	const handleChangeSignInForm = (field: string, value: string) => {
 		setSignInForm((prev) => ({ ...prev, [field]: value }));
@@ -46,9 +43,9 @@ export const SignInForm = () => {
 			await saveUser(candidate);
 			login();
 		} catch (err) {
-			console.log("Ошибка в форме входа", err)
-		}finally{
-			setLoading(false)
+			console.log('Ошибка в форме входа', err);
+		} finally {
+			setLoading(false);
 		}
 	};
 	const handleRegister = () => {

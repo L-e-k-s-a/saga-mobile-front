@@ -11,6 +11,7 @@ export const useGetTasks = (activeFamilyUid: string) => {
 			const tasks = await getTasks(activeFamilyUid);
 			return tasks;
 		},
+		enabled: !!activeFamilyUid,
 		staleTime: 0,
 		refetchOnMount: true,
 	});

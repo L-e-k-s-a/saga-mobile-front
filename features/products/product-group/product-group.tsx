@@ -19,6 +19,13 @@ export const ProductGroup = ({refetchTrigger}: ProductGroupProps) => {
 		refetch()
 	}, [refetchTrigger])
 
+	const {
+		data: products,
+		isLoading,
+		error,
+		refetch,
+	} = useGetProducts(activeFamily);
+	
 	if (!activeFamily) {
 		return (
 			<NoData
@@ -27,12 +34,6 @@ export const ProductGroup = ({refetchTrigger}: ProductGroupProps) => {
 			/>
 		);
 	}
-	const {
-		data: products,
-		isLoading,
-		error,
-		refetch,
-	} = useGetProducts(activeFamily);
 
 	if (error) {
 		return;
