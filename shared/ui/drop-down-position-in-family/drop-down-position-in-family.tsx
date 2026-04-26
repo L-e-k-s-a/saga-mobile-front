@@ -14,9 +14,10 @@ import {
 	View,
 } from 'react-native';
 import { Typography } from '../typography/typography';
+import { JoinFamilyFormType } from '@/shared/types/join-family-form-type';
 
 type DropDownRegisterFormProps = {
-	form: CreateFamilyFormType;
+	form: CreateFamilyFormType | JoinFamilyFormType;
 	onFormChange: (field: string, value: any) => void;
 };
 

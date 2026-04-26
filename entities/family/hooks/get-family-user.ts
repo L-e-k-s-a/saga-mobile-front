@@ -5,6 +5,10 @@ export const getFamilyUser = async (familyUid: string) => {
 	const familyDoc = doc(db, 'families', familyUid);
 	const familySnap = await getDoc(familyDoc);
 
+	if(!familyUid){
+		return ''
+	}
+
 	if (!familySnap.exists()) {
 		throw new Error(`Семья с ID ${familyUid} не найдена`);
 	}

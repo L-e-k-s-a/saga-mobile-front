@@ -1,13 +1,12 @@
+import { findFamilyByInviteCode } from '@/entities/family/lib/find-family-by-invite-code';
 import { db } from '@/firebase/firebase';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { generateInviteCode } from '@/shared/lib/generate-invate-code';
-import { updateOneDoc } from '@/shared/lib/updateOneDoc';
+
 import { useFamilyStore } from '@/shared/store/family/family-store';
 import { useMe } from '@/shared/store/me/useMe';
-import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
-import { CreateFamilyFormType } from '@/shared/types/create-family-form-type';
+import { JoinFamilyFormType } from '@/shared/types/join-family-form-type';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { DropDownPositionInFamily } from '@/shared/ui/drop-down-position-in-family/drop-down-position-in-family';
 import { Input } from '@/shared/ui/Input/Input';
@@ -15,57 +14,30 @@ import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-type CreateFamilyFormProps = {
+type JoinFamilyFormProps = {
 	setIsVisible: (isVisible: boolean) => void;
 };
 
-export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
-	const { setNameFamily, setRole } = useFamilyStore();
-	const { countFamily, setCountFamily, setActiveFamily } = useUserStore();
-	const { setInviteCode } = useFamilyStore();
-	const [formFamily, setFormFamily] = useState<CreateFamilyFormType>({
-		nameFamily: '',
+export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
+	const [formFamily, setFormFamily] = useState<JoinFamilyFormType>({
+		inviteCode: '',
 		positionInFamily: '',
 		role: '',
 	});
 	const me = useMe();
 
-	const valid = () => {
-		if (formFamily.nameFamily === '' || formFamily.positionInFamily == '') {
-			return false;
-		}
-		return true;
-	};
-
-	const handleSaveFamily = async () => {
-		if (!valid()) {
-			return;
-		}
-
+	const handleJoinFamily = async () => {
 		const meId = me.uid;
+		const family = await findFamilyByInviteCode(formFamily.inviteCode);
 
-		const inviteCode = generateInviteCode();
-		const createdFamilyRef = await addDoc(collection(db, 'families'), {
-			nameFamily: formFamily.nameFamily,
-			inviteCode: inviteCode,
-		});
-
-		await addDoc(collection(db, 'familyMembers'), {
-			familyId: createdFamilyRef.id,
-			userId: meId,
-			positionInFamily: formFamily.positionInFamily,
-			role: formFamily.role,
-		});
-
-		if (countFamily === 0) {
-			setActiveFamily(createdFamilyRef.id);
-			updateOneDoc('users', 'activeFamily', createdFamilyRef.id, meId);
-			setInviteCode(inviteCode);
+		if (family) {
+			await addDoc(collection(db, 'familyMembers'), {
+				familyId: family.id,
+				userId: meId,
+				positionInFamily: formFamily.positionInFamily,
+				role: formFamily.role,
+			});
 		}
-
-		setRole(formFamily.role);
-		setNameFamily(formFamily.nameFamily);
-		setCountFamily(countFamily + 1);
 	};
 
 	const handleFormFamilyChange = (field: string, value: string) => {
@@ -75,10 +47,10 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 	return (
 		<VerLayout styles={styleCreateFamilyForm.content}>
 			<Input
-				placeholder='Название семьи'
-				value={formFamily.nameFamily}
+				placeholder='Код другой семьи'
+				value={formFamily.inviteCode}
 				style={styleForm.input}
-				onChangeText={(text) => handleFormFamilyChange('nameFamily', text)}
+				onChangeText={(text) => handleFormFamilyChange('inviteCode', text)}
 			/>
 			<DropDownPositionInFamily
 				form={formFamily}
@@ -92,9 +64,9 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 				/>
 				<Button
 					size='m'
-					text='Сохранить'
+					text='Вперёд'
 					onPress={() => {
-						handleSaveFamily();
+						handleJoinFamily();
 						setIsVisible(false);
 					}}
 					style={styleCreateFamilyForm.buttonSave}
@@ -108,7 +80,7 @@ const styleCreateFamilyForm = StyleSheet.create({
 	content: {
 		alignContent: 'center',
 		gap: 10,
-		paddingHorizontal: 20
+		paddingHorizontal: 20,
 	},
 	buttons: {
 		width: '100%',

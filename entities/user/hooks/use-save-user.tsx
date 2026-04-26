@@ -8,7 +8,6 @@ import { UserCredential } from 'firebase/auth';
 import { getUserFromFirebase } from '../lib/getUser';
 
 export const useSaveUser = () => {
-	const { setLoading } = useAuthStore();
 	const { setUser } = useUserStore();
 
 	const saveUser = async (authUser: UserCredential) => {
@@ -31,7 +30,6 @@ export const useSaveUser = () => {
 			activeFamily: userFromFirebase.activeFamily || '',
 		};
 		setUser(user);
-		setLoading(false);
 	};
 	return { saveUser };
 };

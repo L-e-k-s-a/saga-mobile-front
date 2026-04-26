@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/shared/store';
 import { useFamilyStore } from '@/shared/store/family/family-store';
 import { useUserStore } from '@/shared/store/user/user-store';
 import { Family } from '../type/family';
@@ -7,8 +8,10 @@ import { getFamilyUser } from './get-family-user';
 export const useSaveFamily = () => {
 	const { setFamily } = useFamilyStore();
 	const { activeFamily } = useUserStore();
-
 	const saveFamily = async () => {
+		if (!activeFamily) {
+			return null;
+		}
 		const result = await getFamilyUser(activeFamily);
 		if (result) {
 			const family: Family = {
@@ -18,9 +21,7 @@ export const useSaveFamily = () => {
 				familyMembers: await getFamilyMembers(activeFamily),
 			};
 			setFamily(family);
-
 		}
 	};
-
 	return { saveFamily };
 };

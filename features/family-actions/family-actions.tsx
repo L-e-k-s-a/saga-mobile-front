@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from '../../shared/ui/buttons/button/Button';
 import { CreateFamilyForm } from '../forms/create-family-form/create-family-form';
+import { JoinFamilyForm } from '../forms/join-family-form/join-family-form';
 
 export const FamilyActions = () => {
 	const [isJoin, setIsJoin] = useState(false);
@@ -44,20 +45,7 @@ export const FamilyActions = () => {
 				/>
 			)}
 			{isJoin ? (
-				<HorLayout style={styleFamilyAction.codeContainer}>
-					<Input
-						placeholder='Введите код другой семьи'
-						value={codeJoin.toUpperCase()}
-						onChangeText={(text) => setCodeJoin(text)}
-						style={styleFamilyAction.input}
-					/>
-					<Button
-						style={styleFamilyAction.button}
-						text='Вперёд'
-						variant='secondary'
-						onPress={handleJoinFamily}
-					/>
-				</HorLayout>
+				<JoinFamilyForm setIsVisible={setIsJoin}/>
 			) : (
 				<Button
 					style={styleFamilyAction.item}

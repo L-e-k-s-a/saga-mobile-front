@@ -38,8 +38,9 @@ export const SignInForm = () => {
 			);
 			setLoading(true);
 			await saveUser(candidate);
-			saveFamily()
+			await saveFamily()
 			login();
+			setLoading(false)
 		} catch (err) {
 			setError(err);
 		}
