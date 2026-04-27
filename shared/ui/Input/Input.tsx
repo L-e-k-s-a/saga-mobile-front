@@ -6,6 +6,7 @@ type InputProps = {
 	value: string;
 	placeholder?: string;
 	isPassword?: boolean;
+	multiline?: boolean
 	onChangeText?: (value: string) => void;
 };
 
@@ -14,6 +15,7 @@ export const Input = ({
 	placeholder,
 	value,
 	onChangeText,
+	multiline,
 	isPassword,
 }: InputProps) => {
 	return (
@@ -23,6 +25,7 @@ export const Input = ({
 			placeholder={placeholder}
             placeholderTextColor={COLORS.black} 
 			secureTextEntry={isPassword}
+			multiline={multiline}
 			style={[styleInput.input, style]}
 		/>
 	);
