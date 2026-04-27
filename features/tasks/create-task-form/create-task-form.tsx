@@ -18,7 +18,6 @@ type CreateTaskFormProps = {
 export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 	const { activeFamily } = useUserStore()
 	const saveTask = useSaveTask();
-	const [disabled, setDisabled] = useState(false);
 	const [form, setForm] = useState<Task>({
 		taskId: '',
 		familyId: activeFamily,
@@ -29,13 +28,7 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 		executors: [],
 	});
 
-	useEffect(() => {
-		if (form.title === '') {
-			setDisabled(true);
-		} else {
-			setDisabled(false);
-		}
-	}, [form]);
+	const disabled = form.title === ''
 
 	const handleChangeCreateTaskForm = (field: string, value: string) => {
 		setForm((prev) => ({ ...prev, [field]: value }));
@@ -60,7 +53,7 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 			/>
 			<VerLayout styles={styleCreateTaskForm.indicator}>
 				<Typography textColor='secondary'>Важность задачи</Typography>
-				<IndicatorImportant setIndicator={handleSetIndicator} />
+				<IndicatorImportant typeIndicator='task' setIndicator={handleSetIndicator} />
 			</VerLayout>
 			<Input
 				placeholder='Дополнительное описание'
