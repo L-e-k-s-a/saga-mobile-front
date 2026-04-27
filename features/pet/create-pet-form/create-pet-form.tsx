@@ -49,10 +49,9 @@ export const CreatePetForm = () => {
 	};
 
 	const handleFieldDelete = (indexDelete: number) => {
-		setPetInfo((prev) => [
-			...prev,
-			prev.filter((_, index) => index !== indexDelete),
-		]);
+		const filtered = [...petInfo.filter((_, index) => index !== indexDelete)]
+		setPetInfo(filtered);
+		setForm(prev => ({...prev, petInfo: filtered}))
 	};
 
 	console.log(petInfo)
