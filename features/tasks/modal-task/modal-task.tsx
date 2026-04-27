@@ -20,13 +20,9 @@ export const ModalTask = ({
 	isVisible,
 	setIsVisible,
 }: ModalTaskProps) => {
-	const [disabled, setDisabled] = useState(false);
 	const [isCompleted, setIsCompleted] = useState(false);
 	const importanceTask = getImportanceTask(task);
 
-	useEffect(() => {
-		setDisabled(!disabled);
-	}, [isCompleted]);
 
 	return (
 		<ModalWindow
@@ -82,14 +78,14 @@ export const ModalTask = ({
 
 						<Toggle
 							isEnabled={isCompleted}
-							setIsEnabled={setIsCompleted}
+							onValueChange={() => setIsCompleted(!isCompleted)}
 						/>
 					</HorLayout>
 
 					<Button
 						text={'Выполнена'}
 						onPress={() => {}}
-						disabled={disabled}
+						disabled={!isCompleted}
 						fullWidth
 					/>
 				</VerLayout>
