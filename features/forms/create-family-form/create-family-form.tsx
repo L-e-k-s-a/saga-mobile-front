@@ -86,11 +86,6 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 			/>
 			<HorLayout style={styleCreateFamilyForm.buttons}>
 				<Button
-					text='Закрыть'
-					onPress={() => setIsVisible(false)}
-					style={styleCreateFamilyForm.buttonClose}
-				/>
-				<Button
 					size='m'
 					text='Сохранить'
 					onPress={() => {
@@ -98,6 +93,11 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 						setIsVisible(false);
 					}}
 					style={styleCreateFamilyForm.buttonSave}
+				/>
+				<Button
+					text='Закрыть'
+					onPress={() => setIsVisible(false)}
+					style={styleCreateFamilyForm.buttonClose}
 				/>
 			</HorLayout>
 		</VerLayout>
@@ -108,7 +108,7 @@ const styleCreateFamilyForm = StyleSheet.create({
 	content: {
 		alignContent: 'center',
 		gap: 10,
-		paddingHorizontal: 20
+		paddingHorizontal: 20,
 	},
 	buttons: {
 		width: '100%',

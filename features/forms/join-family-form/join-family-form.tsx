@@ -3,7 +3,6 @@ import { db } from '@/firebase/firebase';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 
-import { useFamilyStore } from '@/shared/store/family/family-store';
 import { useMe } from '@/shared/store/me/useMe';
 import { styleForm } from '@/shared/styles/forms';
 import { JoinFamilyFormType } from '@/shared/types/join-family-form-type';
@@ -58,11 +57,6 @@ export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
 			/>
 			<HorLayout style={styleCreateFamilyForm.buttons}>
 				<Button
-					text='Закрыть'
-					onPress={() => setIsVisible(false)}
-					style={styleCreateFamilyForm.buttonClose}
-				/>
-				<Button
 					size='m'
 					text='Вперёд'
 					onPress={() => {
@@ -70,6 +64,11 @@ export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
 						setIsVisible(false);
 					}}
 					style={styleCreateFamilyForm.buttonSave}
+				/>
+				<Button
+					text='Закрыть'
+					onPress={() => setIsVisible(false)}
+					style={styleCreateFamilyForm.buttonClose}
 				/>
 			</HorLayout>
 		</VerLayout>
