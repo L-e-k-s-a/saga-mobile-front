@@ -29,16 +29,18 @@ export const Day = ({
 	onDayPress,
 	setIsVisibleModal,
 }: DayProps) => {
-
-	const { setSelectedDate } = useCalendarStore()
+	const { setSelectedDate } = useCalendarStore();
 
 	const handleOnPress = () => {
 		if (date) {
-			setSelectedDate(date.dateString)
+			setSelectedDate(date.dateString);
 		}
 	};
 
 	const handleLongPress = () => {
+		if (date) {
+			setSelectedDate(date.dateString);
+		}
 		if (setIsVisibleModal) {
 			setIsVisibleModal(true);
 		}
