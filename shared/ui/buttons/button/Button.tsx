@@ -8,6 +8,7 @@ import {
 	ViewStyle,
 } from 'react-native';
 import { Typography } from '../../typography/typography';
+import { VariantTypography } from '@/shared/types/variant-typography';
 
 type VariantsBtn = 'primary' | 'secondary';
 
@@ -21,6 +22,7 @@ type ButtonProps = {
 	disabled?: boolean;
 	fullWidth?: boolean;
 	addonRight?: ReactNode;
+	textVariant?: VariantTypography;
 	onPress: () => void;
 };
 
@@ -32,6 +34,7 @@ export const Button = ({
 	disabled,
 	fullWidth,
 	addonRight,
+	textVariant = 'div',
 	onPress,
 }: ButtonProps) => {
 	const getStyleText = () => {
@@ -53,7 +56,7 @@ export const Button = ({
 			]}
 			onPress={onPress}>
 			<HorLayout style={addonRight ? buttonStyle.withAddon : undefined}>
-				<Typography style={[getStyleText()]}>{text}</Typography>
+				<Typography variant={textVariant} style={[getStyleText()]}>{text}</Typography>
 				{addonRight}
 			</HorLayout>
 		</TouchableOpacity>

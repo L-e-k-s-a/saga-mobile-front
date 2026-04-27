@@ -18,13 +18,15 @@ export const DropDown = ({title, content}: DropDownProps) => {
     
     return (
         <VerLayout styles={styleDropDown.dropDown}>
-            <HorLayout style={styleDropDown.header}>
+            <HorLayout style={styleDropDown.sectionHeader}>
                 <Typography variant="h3">{title}</Typography>
                 <TouchableOpacity onPress={() => setIsDrop(!isDrop)}>
                     <Ionicons name={isDrop ? 'chevron-up' : 'chevron-down'} color={COLORS.white} size={24}/>
                 </TouchableOpacity>
             </HorLayout>
-            {isDrop && content}
+            <VerLayout styles={styleDropDown.sectionList}>
+                {isDrop && content} 
+            </VerLayout>
         </VerLayout>
     )
 }
@@ -34,11 +36,17 @@ const styleDropDown = StyleSheet.create({
         width: "100%",
         backgroundColor: COLORS.secondary,
         borderRadius: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        padding: 15
     },
-    header: {
+    sectionHeader: {
         justifyContent: 'space-between',
         width: '100%',
-        padding: 10
+    },
+    sectionList: {
+        gap: 5
     }
+
 })

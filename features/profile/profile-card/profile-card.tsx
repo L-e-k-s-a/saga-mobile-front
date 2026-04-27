@@ -1,6 +1,11 @@
 import { useUserStore } from "@/shared/store/user/user-store"
 import { Card } from "@/shared/ui/card/card"
 import { Typography } from "@/shared/ui/typography/typography"
+import { ProfileImage } from "../profile-image/profile-image"
+import { HorLayout } from "@/shared/layouts/HorLayout/HorLayout"
+import { VerLayout } from "@/shared/layouts/VerLayout/VerLayout"
+import { StyleSheet } from "react-native"
+
 
 
 
@@ -10,9 +15,21 @@ export const ProfileView = () => {
 
     return(
         <Card>
-            <Typography variant="h3" textColor="secondary">{surname}</Typography>
-            <Typography variant="h3" textColor="secondary">{name}</Typography>
-            <Typography variant="h3" textColor="secondary">{patronymic}</Typography>
+            <HorLayout style={styleProfileView.container}>
+                <ProfileImage />
+                <VerLayout>
+                    <Typography variant="h3" textColor="secondary">{surname}</Typography>
+                    <Typography variant="h3" textColor="secondary">{name}</Typography>
+                    <Typography variant="h3" textColor="secondary">{patronymic}</Typography>
+                </VerLayout>
+            </HorLayout>
         </Card>
     )
 }
+
+const styleProfileView = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        gap: 10
+    }
+})

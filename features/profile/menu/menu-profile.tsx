@@ -6,6 +6,7 @@ import { Menu } from '@/shared/ui/menu/menu';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { FamilyMembers } from './family-members/family-members';
+import { COLORS } from '@/shared/constants/colors';
 
 export const MenuProfile = () => {
 	const { logout } = useAuthStore();
@@ -28,10 +29,13 @@ export const MenuProfile = () => {
 						onPress={handleLogout}
 						addonRight={
 							<Ionicons
-								name='exit'
-								size={24}
+							name='exit'
+							size={24}
+							color={COLORS.white}
 							/>
 						}
+						textVariant='h3'
+						fullWidth
 					/>
 				</>
 			}
