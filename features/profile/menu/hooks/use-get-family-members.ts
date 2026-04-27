@@ -20,7 +20,6 @@ export const useGetFamilyMembers = () => {
                 }
             })
             const members = Promise.all(promises)
-            console.log(members)
             return members
         },
         enabled: !!familyMembers,
