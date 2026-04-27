@@ -1,17 +1,19 @@
 import { COLORS } from '@/shared/constants/colors';
-import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
 import { useActionWithFamily } from '@/shared/hooks/use-action-with-family';
+import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
+import { setupCalendarLocale } from '@/shared/lib/setup-calendar-locale';
+import { useSettingsStore } from '@/shared/store/settings/settings-store';
 import { Typography } from '@/shared/ui/typography/typography';
 import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
-import { TouchableOpacity } from 'react-native';
-import { setupCalendarLocale } from '@/shared/lib/setup-calendar-locale';
+import { router, Tabs } from 'expo-router';
+import { Pressable, TouchableOpacity } from 'react-native';
 
 export default function TabsLayout() {
-	setupCalendarLocale()
+	setupCalendarLocale();
 	const { isModalVisible, setIsModalVisible, handleModalVisible } =
 		useActionWithFamily();
+	const { favorite } = useSettingsStore()
 
 	return (
 		<>
@@ -45,7 +47,7 @@ export default function TabsLayout() {
 				<Tabs.Screen
 					name='index'
 					options={{
-						title: "Главная",
+						title: 'Главная',
 						headerTitle: () => (
 							<TouchableOpacity onPress={handleModalVisible}>
 								<Typography variant='h2'>Главная</Typography>
@@ -68,6 +70,20 @@ export default function TabsLayout() {
 					name='(navPanel)/favorite'
 					options={{
 						title: 'Избранное',
+						tabBarButton: (props) => {
+							return (
+								<Pressable
+									onPress={() => {
+										router.navigate(favorite)
+									}}
+									style={props.style}
+									onPressIn={props.onPressIn}
+									onPressOut={props.onPressOut}
+									onLongPress={props.onLongPress}>
+									{props.children}
+								</Pressable>
+							);
+						},
 						tabBarIcon: ({ color, size }) => (
 							<Ionicons
 								name='heart-outline'
@@ -80,6 +96,7 @@ export default function TabsLayout() {
 						},
 					}}
 				/>
+
 				<Tabs.Screen
 					name='(navPanel)/profile'
 					options={{
@@ -97,7 +114,7 @@ export default function TabsLayout() {
 					}}
 				/>
 				<Tabs.Screen
-					name='(navPanel)/settings'
+					name='(navPanel)/(settings)/index'
 					options={{
 						title: 'Настройки',
 						tabBarIcon: ({ color, size }) => (
@@ -147,6 +164,26 @@ export default function TabsLayout() {
 				<Tabs.Screen
 					name='(calendar)'
 					options={tabsSettingsOptions()}
+				/>
+				<Tabs.Screen
+					name='(navPanel)/(settings)/settings-favorite'
+					options={{
+						title: 'Настройки избранное',
+						href: null,
+						headerLeft: () => (
+							<TouchableOpacity
+								style={{ marginLeft: 15 }}
+								onPress={() =>
+									router.navigate('/(tabs)/(navPanel)/(settings)')
+								}>
+								<Ionicons
+									name='arrow-back'
+									size={24}
+									color={COLORS.white}
+								/>
+							</TouchableOpacity>
+						),
+					}}
 				/>
 			</Tabs>
 		</>

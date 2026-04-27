@@ -10,12 +10,7 @@ export const Home = () => {
 
 	if (loading) {
 		return (
-			<Spinner
-				style={{
-					flex: 1,
-					opacity: 0.7,
-				}}
-			/>
+			<Spinner />
 		);
 	}
 

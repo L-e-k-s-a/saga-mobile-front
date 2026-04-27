@@ -2,15 +2,13 @@ import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { RoutesForAuth } from '@/shared/routes/routes';
 import { useAuthStore } from '@/shared/store';
 import { Button } from '@/shared/ui/buttons/button/Button';
+import { Menu } from '@/shared/ui/menu/menu';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import { FamilyMembers } from './family-members/family-members';
 
-export const Menu = () => {
+export const MenuProfile = () => {
 	const { logout } = useAuthStore();
-	const [isCheckFamilyMembers, setInCheckFamilyMembers] = useState(false)
 	const handleLogout = async () => {
 		try {
 			await logout();
@@ -20,26 +18,23 @@ export const Menu = () => {
 		}
 	};
 
-	const handleCheckFamilyMembers = () => {
-
-	}
-
 	return (
-		<VerLayout styles={styleMenu.menu}>
-			<FamilyMembers />
-			<Button
-				text='Выйти'
-				onPress={handleLogout}
-				addonRight={<Ionicons name='exit' size={24}/>}
-			/>
-		</VerLayout>
+		<Menu
+			content={
+				<>
+					<FamilyMembers />
+					<Button
+						text='Выйти'
+						onPress={handleLogout}
+						addonRight={
+							<Ionicons
+								name='exit'
+								size={24}
+							/>
+						}
+					/>
+				</>
+			}
+		/>
 	);
 };
-
-const styleMenu = StyleSheet.create({
-	menu: {
-		width: '100%',
-		alignItems: 'center',
-		gap: 10
-	},
-});

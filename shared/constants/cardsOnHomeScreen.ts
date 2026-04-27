@@ -1,11 +1,6 @@
-import { ImageSourcePropType } from 'react-native';
-import { RoutesForTabs, TypeRoutesForTabs } from '../routes/routes';
+import { RoutesForTabs } from "../routes/routes";
+import { TypeCardHomeScreen } from "../types/type-card-home-screen";
 
-type TypeCardHomeScreen = {
-	title: string;
-	image: ImageSourcePropType;
-	route: TypeRoutesForTabs;
-};
 
 export const CARDS_HOME_SCREEN: TypeCardHomeScreen[] = [
 	{

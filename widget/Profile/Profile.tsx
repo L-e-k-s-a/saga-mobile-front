@@ -1,4 +1,4 @@
-import { Menu } from '@/features/profile/menu/menu';
+import { MenuProfile } from '@/features/profile/menu/menu-profile';
 import { ProfileView } from '@/features/profile/profile-card/profile-card';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
@@ -9,7 +9,7 @@ export const ProfileWidget = () => {
 		<BackgroundContainer>
 			<AlignContainer>
 				<ProfileView />
-				<Menu />
+				<MenuProfile />
 			</AlignContainer>
 		</BackgroundContainer>
 	);

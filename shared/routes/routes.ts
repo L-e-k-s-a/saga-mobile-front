@@ -9,6 +9,7 @@ export const RoutesForTabs = {
 	GENEALOGY: '/(tabs)/(genealogy)',
 	PETS: '/(tabs)/(pets)',
 	CLUB_BY_INTEREST: '/(tabs)/(clubByInterest)',
+	SETTINGS_FAVORITE: '/(tabs)/(navPanel)/(settings)/settings-favorite'
 } as const
 
 export const RoutesForAuth = {

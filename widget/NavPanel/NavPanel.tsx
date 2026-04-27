@@ -1,4 +1,4 @@
-import { BORDER_RADII } from '@/shared/constants/borderRadii';
+
 import { COLORS } from '@/shared/constants/colors';
 import { StyleSheet, View } from 'react-native';
 
@@ -12,6 +12,6 @@ const styles = StyleSheet.create({
 		height: '8%',
 		width: '60%',
 		backgroundColor: COLORS.ligthGray,
-		borderRadius: BORDER_RADII.px10,
+		borderRadius: 10,
 	},
 });
