@@ -54,8 +54,6 @@ export const CreatePetForm = () => {
 		setForm(prev => ({...prev, petInfo: filtered}))
 	};
 
-	console.log(petInfo)
-
 	return (
 		<VerLayout styles={styleCreatePet.container}>
 			<Input
