@@ -20,6 +20,7 @@ export const MenuSettings = () => {
 						addonRight={<Ionicons name='chevron-forward' size={24} color={COLORS.white}/>}
 						onPress={hanleSettingsFavorite}
                         fullWidth
+						textVariant='h3'
 					/>
 				</>
 			}
