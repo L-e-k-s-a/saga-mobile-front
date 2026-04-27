@@ -9,15 +9,24 @@ type Indicator = {
 }
 
 type IndicatorImportantProps = {
+	typeIndicator: 'task' | 'tradition' 
     setIndicator: (value: string) => void
 }
 
-export const IndicatorImportant = ({setIndicator}: IndicatorImportantProps) => {
-	const indicators = [
+export const IndicatorImportant = ({typeIndicator, setIndicator}: IndicatorImportantProps) => {
+	const indicatorsTask = [
 		{ importance: 'hard', color: COLORS.brown },
 		{ importance: 'middle', color: COLORS.yellow },
 		{ importance: 'low', color: COLORS.green },
 	];
+
+	const indicatorsTradition = [
+        { importance: 'hard', color: COLORS.blue },
+        { importance: 'middle', color: COLORS.violet },
+        { importance: 'low', color: COLORS.turquoise },
+    ];
+
+	const indicators = typeIndicator === 'tradition' ? indicatorsTradition : indicatorsTask
 
     const [activeIndicator, setActiveIndicator] = useState<Indicator | null>(indicators[0]);
 
