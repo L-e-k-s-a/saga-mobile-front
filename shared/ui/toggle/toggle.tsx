@@ -4,18 +4,17 @@ import { Switch } from "react-native"
 
 type ToggleProps = {
     isEnabled: boolean,
-    setIsEnabled: (isEnabled: boolean) => void
+    onValueChange: () => void  
 }
 
-export const Toggle = ({isEnabled, setIsEnabled}: ToggleProps) => {
+export const Toggle = ({isEnabled, onValueChange}: ToggleProps) => {
     return (
         <Switch
             trackColor={{ false: "#767577", true: COLORS.green }}
-            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+            thumbColor={isEnabled ? COLORS.secondary : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
             value={isEnabled}
-            onValueChange={() => setIsEnabled(!isEnabled)}
-            disabled={false}
+            onValueChange={onValueChange} 
         />
     )
 }
