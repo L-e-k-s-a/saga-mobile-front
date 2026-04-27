@@ -1,24 +1,38 @@
-import { COLORS } from "@/shared/constants/colors"
-import { VerLayout } from "@/shared/layouts/VerLayout/VerLayout"
-import { Card } from "@/shared/ui/card/card"
-import { Typography } from "@/shared/ui/typography/typography"
-import { Ionicons } from "@expo/vector-icons"
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native"
-import { Photo } from "./photo/photo"
-
-
-
+import { useImagePicker } from '@/shared/hooks/use-picker-image';
+import { ButtonAdd } from '@/shared/ui/buttons/button-add/button-add';
+import { NoData } from '@/shared/ui/no-data/no-data';
+import { FlatList } from 'react-native';
+import { Photo } from './photo/photo';
+import { useEffect, useState } from 'react';
 
 export const Album = () => {
-    
-    const photos = ['']
+	const { image, pickImage, isLoading } = useImagePicker();
+    const [photos, setPhotos] = useState<string[]>([])
 
-    return (
-        <FlatList 
-            data={photos}
-            renderItem={({item}) => <Photo photo={item}/>}
-        />
+    useEffect(() => {
+		if (image) {
+			setPhotos(prev => [...prev, image]);
+		}
+	}, [image]); 
 
-    )
-}
+	const handleAddPhoto = async () => {
+		await pickImage([3, 1]);
+	};
 
+	return (
+		<>
+			{photos.length > 0 ? (
+				<FlatList
+					data={photos}
+					renderItem={({ item }) => <Photo photo={item} />}
+				/>
+			) : (
+				<NoData
+					title='Ничего нет'
+					desctiption='Добавьте фотографию!'
+				/>
+			)}
+			<ButtonAdd action={handleAddPhoto} />
+		</>
+	);
+};

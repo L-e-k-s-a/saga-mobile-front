@@ -1,39 +1,26 @@
 import { COLORS } from '@/shared/constants/colors';
-import { useImagePicker } from '@/shared/hooks/use-picker-image';
-import { Ionicons } from '@expo/vector-icons';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card } from '@/shared/ui/card/card';
+
+import { Image, StyleSheet } from 'react-native';
 
 type PhotoProps = {
 	photo: string;
+
 };
 
 export const Photo = ({ photo }: PhotoProps) => {
-	const { image, pickImage, isLoading } = useImagePicker();
+
 	return (
-		<TouchableOpacity
-			style={stylePhoto.add}
-			disabled={isLoading}
-			onPress={() => pickImage([1, 1])}>
-			{image ? (
-				<Image style={stylePhoto.image} source={{ uri: image }} />
-			) : (
-				<Ionicons
-					name='add-circle'
-					size={48}
-					color={COLORS.white}
-				/>
-			)}
-		</TouchableOpacity>
-	);
+		<Card style={stylePhoto.container}>
+			<Image source={{uri: photo}} style={stylePhoto.image}/>
+		</Card>
+	)
 };
 
 const stylePhoto = StyleSheet.create({
-	add: {
-		backgroundColor: COLORS.secondary,
+	container: {
 		height: 200,
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: 10,
+		padding: 0
 	},
 	image: {
 		width: '100%',
