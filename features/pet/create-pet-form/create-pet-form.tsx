@@ -10,28 +10,92 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
+type Field = {
+	nameField: string;
+	description: string;
+};
+
+type PetForm = {
+	namePet: string;
+	petInfo: Field[];
+};
+
 export const CreatePetForm = () => {
-    const [field, setField] = useState({
-        nameField: '',
-		description: '',
-	})
-    const [form, setForm] = useState([field]);
 	const [isAddedInfo, setIsAddedInfo] = useState(false);
+
+	const [field, setField] = useState<Field>({
+		nameField: '',
+		description: '',
+	});
+	const [petInfo, setPetInfo] = useState<Field[]>([]);
+	const [form, setForm] = useState<PetForm>({
+		namePet: '',
+		petInfo: [],
+	});
+
+	const disabledAdd = field.nameField === '' || field.description === '';
+	const disabledSave = form.namePet === '';
 
 	const handleAddedInfo = () => {
 		setIsAddedInfo(true);
 	};
 
+	const handleSaveAddedInfo = () => {
+		setIsAddedInfo(false);
+		const newPetInfo = [...petInfo, field];
+		setPetInfo(newPetInfo);
+		setForm((prev) => ({ ...prev, petInfo: newPetInfo }));
+		setField({ nameField: '', description: '' });
+	};
+
+	const handleFieldDelete = (indexDelete: number) => {
+		setPetInfo((prev) => [
+			...prev,
+			prev.filter((_, index) => index !== indexDelete),
+		]);
+	};
+
+	console.log(petInfo)
+
 	return (
 		<VerLayout styles={styleCreatePet.container}>
 			<Input
 				placeholder='Имя питомца'
-				value=''
+				value={form.namePet}
+				onChangeText={(text) => setForm((prev) => ({ ...prev, namePet: text }))}
 				style={styleForm.input}
 			/>
-			<DinamicScrollView
-				maxHeight={300}
-				style={styleCreatePet.containerFields}>
+			<DinamicScrollView style={styleCreatePet.list} maxHeight={150}>
+				{form.petInfo.length > 0 &&
+					form.petInfo.map((item, index) => (
+						<HorLayout style={styleCreatePet.field}>
+							<HorLayout
+								key={item.nameField + index}
+								style={styleCreatePet.fieldLeft}>
+								<Typography
+									style={styleCreatePet.fieldTitle}
+									textColor='secondary'>
+									{item.nameField}:
+								</Typography>
+								<Typography
+									style={styleCreatePet.description}
+									textColor='secondary'>
+									{item.description}
+								</Typography>
+							</HorLayout>
+							<TouchableOpacity
+								style={styleCreatePet.trash}
+								onPress={() => handleFieldDelete(index)}>
+								<Ionicons
+									name='trash'
+									size={24}
+									color={COLORS.white}
+								/>
+							</TouchableOpacity>
+						</HorLayout>
+					))}
+			</DinamicScrollView>
+			<VerLayout styles={styleCreatePet.containerFields}>
 				{isAddedInfo ? (
 					<VerLayout styles={styleCreatePet.add}>
 						<Input
@@ -51,9 +115,10 @@ export const CreatePetForm = () => {
 							}
 						/>
 						<Button
-                            style={styleCreatePet.spacer}
+							style={styleCreatePet.spacer}
 							text='Добавить'
-							onPress={() => setIsAddedInfo(false)}
+							onPress={handleSaveAddedInfo}
+							disabled={disabledAdd}
 						/>
 					</VerLayout>
 				) : (
@@ -74,11 +139,12 @@ export const CreatePetForm = () => {
 						</TouchableOpacity>
 					</HorLayout>
 				)}
-			</DinamicScrollView>
+			</VerLayout>
 			<Button
 				text='Сохранить'
 				onPress={() => {}}
 				fullWidth
+				disabled={disabledSave}
 			/>
 		</VerLayout>
 	);
@@ -100,11 +166,33 @@ const styleCreatePet = StyleSheet.create({
 		padding: 10,
 		borderRadius: 10,
 	},
-    add: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    spacer: {
-        marginTop: 5
-    }
+	add: {
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	list: {
+		gap: 5
+	},
+	spacer: {
+		marginTop: 5,
+	},
+	field: {
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	fieldLeft: {
+		gap: 5,
+	},
+	fieldTitle: {
+		fontWeight: 'bold',
+		fontSize: 16,
+	},
+	description: {
+		fontSize: 16,
+	},
+	trash: {
+		backgroundColor: COLORS.red,
+		padding: 10,
+		borderRadius: 10,
+	},
 });
