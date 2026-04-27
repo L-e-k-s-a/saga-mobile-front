@@ -103,7 +103,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 	};
 
 	return (
-		<VerLayout>
+		<VerLayout styles={styleCreateProductForm.container}>
 			<Input
 				style={styleForm.input}
 				placeholder='Название списка'
@@ -213,9 +213,11 @@ const commonIcon = {
 };
 
 const styleCreateProductForm = StyleSheet.create({
+	container: {
+		gap: 10,
+	},
 	header: {
 		justifyContent: 'space-between',
-		marginVertical: 10
 	},
 	addProduct: {
 		backgroundColor: COLORS.secondary,
