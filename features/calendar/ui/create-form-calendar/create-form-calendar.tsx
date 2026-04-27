@@ -1,5 +1,6 @@
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { useCalendarStore } from '@/shared/store/calendar/calendar-store';
 import { styleForm } from '@/shared/styles/forms';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
@@ -9,6 +10,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 export const CreateFormCalendar = () => {
+	const { selectedDate } = useCalendarStore();
 	const [isTradition, setIsTradition] = useState(false);
 	const [form, setForm] = useState({
 		title: '',
@@ -22,6 +24,14 @@ export const CreateFormCalendar = () => {
 
 	return (
 		<VerLayout styles={styleFormCalendar.container}>
+			<VerLayout styles={styleFormCalendar.date}>
+				{isTradition ? (
+					<Typography textColor='secondary' variant='h3'>Создать традицию</Typography>
+				) : (
+					<Typography textColor='secondary' variant='h3'>Создать напоминание</Typography>
+				)}
+				<Typography textColor='secondary' variant='h3'>{selectedDate}</Typography>
+			</VerLayout>
 			<HorLayout style={styleFormCalendar.header}>
 				<Button
 					text='Напоминание'
@@ -82,6 +92,10 @@ const styleFormCalendar = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '100%',
+	},
+	date: {
+		width: '100%',
+		alignItems: 'center'
 	},
 	header: {
 		gap: 3,
