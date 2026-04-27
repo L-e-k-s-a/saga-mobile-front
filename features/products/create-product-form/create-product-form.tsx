@@ -224,7 +224,8 @@ const styleCreateProductForm = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginLeft: 5,
-		padding: 18,
+		paddingVertical: 18,
+		paddingHorizontal: 35,
 		...common,
 	},
 	containerItems: {
@@ -250,7 +251,7 @@ const styleCreateProductForm = StyleSheet.create({
 	},
 	input: {
 		height: '100%',
-		width: '70%',
+		width: '60%',
 		borderRadius: 10,
 		borderWidth: 1,
 		paddingLeft: 10,
