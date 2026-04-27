@@ -14,6 +14,7 @@ export const CreateFormCalendar = () => {
 	const [isTradition, setIsTradition] = useState(false);
 
 	const [form, setForm] = useState({
+		event: isTradition ? 'tradiiton' : 'reminder',
 		date: selectedDate,
 		title: '',
 		description: '',
@@ -22,6 +23,7 @@ export const CreateFormCalendar = () => {
 
 	useEffect(() => {
 		setForm({
+			event: '',
 			date: selectedDate,
 			title: '',
 			description: '',
@@ -34,8 +36,6 @@ export const CreateFormCalendar = () => {
 	const handleChangeCreateFormCalendar = (field: string, value: string) => {
 		setForm((prev) => ({ ...prev, [field]: value }));
 	};
-
-	console.log(form);
 
 	return (
 		<VerLayout styles={styleFormCalendar.container}>
@@ -94,7 +94,7 @@ export const CreateFormCalendar = () => {
 					<>
 						<Typography textColor='secondary'>Важность напоминания</Typography>
 						<IndicatorImportant
-							typeIndicator='task'
+							typeIndicator='reminder'
 							setIndicator={() => {}}
 						/>
 					</>
