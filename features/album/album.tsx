@@ -24,6 +24,7 @@ export const Album = () => {
 			{photos.length > 0 ? (
 				<FlatList
 					data={photos}
+                    keyExtractor={(item, index) => item + index}
 					renderItem={({ item }) => <Photo photo={item} />}
 				/>
 			) : (
