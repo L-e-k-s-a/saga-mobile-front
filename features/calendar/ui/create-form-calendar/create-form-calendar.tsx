@@ -6,31 +6,58 @@ import { Button } from '@/shared/ui/buttons/button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/typography/typography';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 export const CreateFormCalendar = () => {
 	const { selectedDate } = useCalendarStore();
 	const [isTradition, setIsTradition] = useState(false);
+
 	const [form, setForm] = useState({
+		date: selectedDate,
 		title: '',
 		description: '',
-		importance: '',
+		importance: 'hard',
 	});
+
+	useEffect(() => {
+		setForm({
+			date: selectedDate,
+			title: '',
+			description: '',
+			importance: 'hard'
+		})
+	}, [isTradition])
+
+	const disabledSave = form.title === '';
 
 	const handleChangeCreateFormCalendar = (field: string, value: string) => {
 		setForm((prev) => ({ ...prev, [field]: value }));
 	};
 
+	console.log(form);
+
 	return (
 		<VerLayout styles={styleFormCalendar.container}>
 			<VerLayout styles={styleFormCalendar.date}>
 				{isTradition ? (
-					<Typography textColor='secondary' variant='h3'>Создать традицию</Typography>
+					<Typography
+						textColor='secondary'
+						variant='h3'>
+						Создать традицию
+					</Typography>
 				) : (
-					<Typography textColor='secondary' variant='h3'>Создать напоминание</Typography>
+					<Typography
+						textColor='secondary'
+						variant='h3'>
+						Создать напоминание
+					</Typography>
 				)}
-				<Typography textColor='secondary' variant='h3'>{selectedDate}</Typography>
+				<Typography
+					textColor='secondary'
+					variant='h3'>
+					{selectedDate}
+				</Typography>
 			</VerLayout>
 			<HorLayout style={styleFormCalendar.header}>
 				<Button
@@ -74,13 +101,17 @@ export const CreateFormCalendar = () => {
 				)}
 				<Input
 					placeholder='Дополнительно описание'
-					value=''
+					value={form.description}
 					style={styleForm.input}
+					onChangeText={(text) =>
+						handleChangeCreateFormCalendar('description', text)
+					}
 				/>
 				<Button
 					text='Сохранить'
 					fullWidth
 					onPress={() => {}}
+					disabled={disabledSave}
 				/>
 			</VerLayout>
 		</VerLayout>
@@ -95,7 +126,7 @@ const styleFormCalendar = StyleSheet.create({
 	},
 	date: {
 		width: '100%',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	header: {
 		gap: 3,
