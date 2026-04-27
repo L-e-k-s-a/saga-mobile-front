@@ -54,6 +54,14 @@ export const CreatePetForm = () => {
 		setForm(prev => ({...prev, petInfo: filtered}))
 	};
 
+	const handleCloseField = () => {
+		setField({
+			nameField: '',
+			description: ''
+		})
+		setIsAddedInfo(false)
+	}
+
 	return (
 		<VerLayout styles={styleCreatePet.container}>
 			<Input
@@ -111,12 +119,16 @@ export const CreatePetForm = () => {
 								setField((prev) => ({ ...prev, description: text }))
 							}
 						/>
-						<Button
-							style={styleCreatePet.spacer}
-							text='Добавить'
-							onPress={handleSaveAddedInfo}
-							disabled={disabledAdd}
-						/>
+						<HorLayout style={styleCreatePet.buttons}>
+							<Button
+								text='Добавить'
+								onPress={handleSaveAddedInfo}
+								disabled={disabledAdd}
+							/>
+							<TouchableOpacity style={styleCreatePet.close} onPress={handleCloseField}>
+								<Ionicons name='close' size={24} color={COLORS.white}/>
+							</TouchableOpacity>
+						</HorLayout>
 					</VerLayout>
 				) : (
 					<HorLayout style={styleCreatePet.addField}>
@@ -167,12 +179,18 @@ const styleCreatePet = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	close: {
+		backgroundColor: COLORS.secondary,
+		width: "30%",
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 10,
+		borderWidth: 1
+	},
 	list: {
 		gap: 5
 	},
-	spacer: {
-		marginTop: 5,
-	},
+
 	field: {
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -192,4 +210,9 @@ const styleCreatePet = StyleSheet.create({
 		padding: 10,
 		borderRadius: 10,
 	},
+	buttons: {
+		width: '80%',
+		justifyContent: 'space-between',
+		marginTop: 5,
+	}
 });
