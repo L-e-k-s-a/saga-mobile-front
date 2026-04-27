@@ -17,7 +17,7 @@ export const ProfileView = () => {
         <Card>
             <HorLayout style={styleProfileView.container}>
                 <ProfileImage />
-                <VerLayout>
+                <VerLayout styles={styleProfileView.snp}>
                     <Typography variant="h3" textColor="secondary">{surname}</Typography>
                     <Typography variant="h3" textColor="secondary">{name}</Typography>
                     <Typography variant="h3" textColor="secondary">{patronymic}</Typography>
@@ -31,5 +31,8 @@ const styleProfileView = StyleSheet.create({
     container: {
         alignItems: 'center',
         gap: 10
+    },
+    snp: {
+        gap: 5
     }
 })
