@@ -1,22 +1,48 @@
-import { useQuery } from '@tanstack/react-query';
-import { getInterests } from '../lib/get-interests';
+import { db } from '@/firebase/firebase';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
 export const useGetInterest = (activeFamilyUid: string) => {
-	const { data, isLoading, error, refetch } = useQuery({
-		queryKey: ['clubsInterested', activeFamilyUid],
-		queryFn: async () => {
-			if (!activeFamilyUid) {
-				return;
-			}
-			const interests = await getInterests(activeFamilyUid);
-			return interests;
-		},
-		enabled: !!activeFamilyUid,
-		staleTime: 0,
-		refetchOnMount: true,
-	});
+	const [interests, setInterests] = useState<any[]>();
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<Error | null>(null);
 
-    return {
-        data, isLoading, error, refetch
-    }
+	useEffect(() => {
+		if (!activeFamilyUid) {
+			setIsLoading(false);
+			return;
+		}
+
+		setIsLoading(true);
+		setError(null);
+
+		const queryProduct = query(
+			collection(db, 'clubsInterested'),
+			where('familyId', '==', activeFamilyUid),
+		);
+
+		const unsubscribe = onSnapshot(
+			queryProduct,
+			(snapshot) => {
+				const interestsData = snapshot.docs.map((doc) => ({
+					id: doc.id,
+					...doc.data(),
+				}));
+				setInterests(interestsData);
+				setIsLoading(false);
+			},
+			(err) => {
+				console.error('Error fetching product:', err);
+				setError(err);
+				setIsLoading(false);
+			},
+		);
+		return () => unsubscribe();
+	}, [activeFamilyUid]);
+
+	const refetch = () => {
+		console.log('Data interests is real-time, no need to refetch');
+	};
+
+	return { interests, isLoading, error, refetch };
 };

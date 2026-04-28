@@ -4,26 +4,26 @@ import { Spinner } from "@/shared/ui/spinner/spinner"
 import { FlatList } from "react-native-gesture-handler"
 import { NoData } from "@/shared/ui/no-data/no-data"
 import { CardInterest } from "../card-interest/card-interest"
-import { useEffect } from "react"
 
 
-type CardInterestGroupProps = {
-    refetchTrigger: boolean
-}
-
-export const ClubInterestGroup = ({refetchTrigger}: CardInterestGroupProps) => {
+export const ClubInterestGroup = () => {
     const { activeFamily } = useUserStore()
-    const { data: interestes, isLoading, error, refetch } = useGetInterest(activeFamily)
-    
-    useEffect(() => {
-        refetch()
-    }, [refetchTrigger])
+    const { interests, isLoading, error } = useGetInterest(activeFamily)
+
+    if (!activeFamily) {
+		return (
+			<NoData
+				title='Похоже Вы не состоите в семье'
+				desctiption='Быстрее создайте или вступите в семью!'
+			/>
+		);
+	}
 
     if(error){
         return
     }
 
-    if(!interestes){
+    if(!interests){
         return 
     }
 
@@ -31,11 +31,10 @@ export const ClubInterestGroup = ({refetchTrigger}: CardInterestGroupProps) => {
         return <Spinner />
     }
 
-
     return (
-        interestes.length > 0 ? (
+        interests.length > 0 ? (
             <FlatList 
-                data={interestes}
+                data={interests}
                 keyExtractor={(item) => item.interesId}
                 renderItem={({item}) => <CardInterest interest={item}/>}
             />

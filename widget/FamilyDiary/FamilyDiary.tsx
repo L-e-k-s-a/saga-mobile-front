@@ -16,7 +16,7 @@ export const FamilyDiaryWidget = () => {
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
-				<NoteGroup refetchTrigger={isVisibleModalCreateNote}/>
+				<NoteGroup />
 				<CreateNoteModal
 					isVisible={isVisibleModalCreateNote}
 					setIsVisible={setIsVisibleModalCreateNote}

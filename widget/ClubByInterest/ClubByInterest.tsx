@@ -15,7 +15,7 @@ export const ClubByInterestWidget = () => {
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
-				<ClubInterestGroup refetchTrigger={isVisible}/>
+				<ClubInterestGroup />
 				<CreateInterestModal isVisible={isVisible} setIsVisible={setIsVisible}/>
 				<ButtonAdd action={handleAddThing} />
 			</AlignContainer>

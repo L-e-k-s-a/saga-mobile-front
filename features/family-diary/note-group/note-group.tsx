@@ -7,17 +7,12 @@ import { Spinner } from '@/shared/ui/spinner/spinner';
 import { CardNote } from '../card-note/card-note';
 import { useEffect } from 'react';
 
-type NoteGroupProps = {
-	refetchTrigger: boolean
-}
 
-export const NoteGroup = ({refetchTrigger}: NoteGroupProps) => {
+
+export const NoteGroup = () => {
 	const {activeFamily} = useUserStore()
-	const {data: notes, isLoading, error, refetch} = useGetNote(activeFamily)
+	const {notes, isLoading, error} = useGetNote(activeFamily)
 
-	useEffect(() => {
-		refetch()
-	}, [refetchTrigger])
 
 	if(error){
 		return
