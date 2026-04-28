@@ -8,11 +8,14 @@ export const getMarked = (events: Record<string, any[]>) => {
 
     Object.keys(events).forEach((date) => {
         const eventsOnDate = events[date];
-        const firstEvent = eventsOnDate[0];
         
         mark[date] = {
-            marked: true,
-            dotColor: getImportanceColor(firstEvent.typeEvent, firstEvent.importance)
+            dots: eventsOnDate.map(event => ({
+                key: `${event.id || event.title}`,
+                color: getImportanceColor(event.typeEvent, event.importance),
+                selectedDotColor: 'blue' 
+            })),
+            marked: eventsOnDate.length > 0
         };
     });
 

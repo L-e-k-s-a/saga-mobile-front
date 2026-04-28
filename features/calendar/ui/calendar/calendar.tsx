@@ -23,10 +23,15 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 	if(isLoading){
 		return <Spinner />
 	}
-	
+
+	const transform = transformEvents(events)
+	const marks = getMarked(transform)
+
+	console.log("marks", marks)
+
 	return (
 		<Calendar
-			markedDates={getMarked(transformEvents(events))}
+			markedDates={marks}
 			enableSwipeMonths={true}
 			dayComponent={(props) => (
 				<Day
