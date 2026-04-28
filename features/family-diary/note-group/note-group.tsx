@@ -30,10 +30,6 @@ export const NoteGroup = ({refetchTrigger}: NoteGroupProps) => {
 	if(isLoading){
 		return <Spinner />
 	}
-
-
-	console.log(notes)
-
 	return notes.length > 0 ? (
 		<>
 			<FlatList

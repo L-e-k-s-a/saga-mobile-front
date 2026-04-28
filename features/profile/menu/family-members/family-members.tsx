@@ -3,21 +3,28 @@ import { capitalize } from '@/shared/lib/capitalize';
 import { DropDown } from '@/shared/ui/drop-down/drop-down';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Typography } from '@/shared/ui/typography/typography';
-import { useGetFamilyMembers } from '../hooks/use-get-family-members';
 import { StyleSheet } from 'react-native';
+import { useGetFamilyMembers } from '../hooks/use-get-family-members';
+import { useUserStore } from '@/shared/store/user/user-store';
+import { useEffect } from 'react';
 
 export const FamilyMembers = () => {
-	const { data: familyMembers, isLoading, error, refetch } = useGetFamilyMembers()
-	
-	if(error){
-		return
+	const {
+		data: familyMembers,
+		isLoading,
+		error,
+		refetch,
+	} = useGetFamilyMembers();
+
+	if (error) {
+		return;
 	}
 
-	if(!familyMembers){
-		return 
+	if (!familyMembers) {
+		return;
 	}
 
-	if (isLoading) return <Spinner />
+	if (isLoading) return <Spinner />;
 
 	return (
 		<DropDown
@@ -25,7 +32,9 @@ export const FamilyMembers = () => {
 			content={
 				<VerLayout styles={styleFamilyMember.list}>
 					{familyMembers.map((member, index) => (
-						<Typography variant='h3' key={index}>
+						<Typography
+							variant='h3'
+							key={index}>
 							{capitalize(member.positionInFamily)}: {member.name}
 						</Typography>
 					))}
@@ -38,6 +47,6 @@ export const FamilyMembers = () => {
 const styleFamilyMember = StyleSheet.create({
 	list: {
 		paddingBottom: 10,
-		gap: 5
-	}
-})
+		gap: 5,
+	},
+});
