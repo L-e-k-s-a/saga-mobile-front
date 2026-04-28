@@ -46,6 +46,9 @@ export const Day = ({
 		}
 	};
 
+	const hasMarking = marking?.marked === true;
+	const dotColor = marking?.dotColor;
+
 	return (
 		<TouchableOpacity
 			onPress={handleOnPress}
@@ -57,6 +60,9 @@ export const Day = ({
 					state === 'selected' && styleDay.selected,
 				]}>
 				{date && <Typography textColor='secondary'>{date.day}</Typography>}
+				{hasMarking && (
+					<View style={[styleDay.dot, { backgroundColor: dotColor }]} />
+				)}
 			</View>
 		</TouchableOpacity>
 	);
@@ -73,5 +79,16 @@ const styleDay = StyleSheet.create({
 	},
 	selected: {
 		backgroundColor: COLORS.turquoise,
+	},
+	withMarking: {
+		position: 'relative',
+	},
+	dot: {
+		position: 'absolute',
+		bottom: -4,
+		width: 6,
+		height: 6,
+		borderRadius: 3,
+		alignSelf: 'center',
 	},
 });

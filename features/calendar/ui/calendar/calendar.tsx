@@ -4,6 +4,8 @@ import { Day } from '../day/day';
 import { useGetEvents } from '../../hooks/use-get-events';
 import { useUserStore } from '@/shared/store/user/user-store';
 import { Spinner } from '@/shared/ui/spinner/spinner';
+import { transformEvents } from '../../lib/transform-events';
+import { getMarked } from '../../lib/get-marked';
 
 type CalendarSagaProps = {
 	setModalVisible: (isVisible: boolean) => void;
@@ -21,10 +23,10 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 	if(isLoading){
 		return <Spinner />
 	}
-
-	console.log("events", events)
+	
 	return (
 		<Calendar
+			markedDates={getMarked(transformEvents(events))}
 			enableSwipeMonths={true}
 			dayComponent={(props) => (
 				<Day
