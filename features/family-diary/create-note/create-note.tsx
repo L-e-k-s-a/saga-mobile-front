@@ -1,52 +1,54 @@
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { useUserStore } from '@/shared/store/user/user-store';
+import { Note } from '@/shared/types/note';
 import { Button } from '@/shared/ui/buttons/button/Button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-
+import { useSaveNote } from '../hooks/use-save-note';
 
 type CreateNoteProps = {
-	setIsVisible: (isVisible: boolean) => void
-}
+	setIsVisible: (isVisible: boolean) => void;
+};
 
-export const CreateNote = ({setIsVisible}: CreateNoteProps) => {
-	const [note, setNote] = useState('');
-	const [disabled, setDisabled] = useState(false)
+export const CreateNote = ({ setIsVisible }: CreateNoteProps) => {
+	const { activeFamily } = useUserStore();
+	const { saveNote } = useSaveNote();
+	const [note, setNote] = useState<Note>({
+		familyId: activeFamily,
+		description: '',
+	});
 
-	useEffect(() => {
-		if(note === ''){
-			setDisabled(true)
-		}else{
-			setDisabled(false)
-		}
-	}, [note])
-
+	const disabled = note.description === '';
 
 	const handleSave = () => {
-		setIsVisible(false)
+		saveNote(note);
+		setIsVisible(false);
 	};
 
 	return (
 		<VerLayout styles={styleFamilyDiary.container}>
-				<TextInput
-					style={styleFamilyDiary.textArea}
-					value={note}
-					onChangeText={(text) => setNote(text)}
-					multiline={true}
-				/>
-				<Button
-					text='Сохранить'
-					size='m'
-					onPress={handleSave}
-					disabled={disabled}
-					fullWidth
-				/>
+			<TextInput
+				style={styleFamilyDiary.textArea}
+				value={note.description}
+				onChangeText={(text) =>
+					setNote((prev) => ({ ...prev, description: text }))
+				}
+				multiline={true}
+			/>
+			<Button
+				text='Сохранить'
+				size='m'
+				onPress={handleSave}
+				disabled={disabled}
+				fullWidth
+			/>
 		</VerLayout>
 	);
 };
 
 const styleFamilyDiary = StyleSheet.create({
 	container: {
-		gap: 15
+		gap: 15,
 	},
 	textArea: {
 		height: 400,

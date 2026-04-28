@@ -1,14 +1,15 @@
+import { Note } from '@/shared/types/note';
 import { Card } from '../../../shared/ui/card/card';
 import { Typography } from '../../../shared/ui/typography/typography';
 
 type CardNoteProps = {
-	text: string;
+	note: Note
 };
 
-export const CardNote = ({ text }: CardNoteProps) => {
+export const CardNote = ({ note }: CardNoteProps) => {
 	return (
 		<Card>
-			<Typography>{text}</Typography>
+			<Typography textColor='secondary'>{note.description}</Typography>
 		</Card>
 	);
 };
