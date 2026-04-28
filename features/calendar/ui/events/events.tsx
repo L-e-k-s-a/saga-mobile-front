@@ -5,7 +5,6 @@ type EventsProps ={
 }
 
 export const Events = ({events}: EventsProps) => {
-    console.log(events)
     return (
         <></>
     )

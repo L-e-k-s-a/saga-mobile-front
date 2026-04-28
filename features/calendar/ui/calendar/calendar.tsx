@@ -29,9 +29,7 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 	const transform = transformEvents(events);
 	const marks = getMarked(transform);
 
-	const handleDayPress = (day: DateData) => {
-		console.log('Нажат день:', day.dateString);
-	};
+
 
 	console.log(selectedDateForShow)
 
@@ -43,7 +41,6 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 				dayComponent={(props) => (
 					<Day
 						{...props}
-						onDayPress={handleDayPress}
 						setIsVisibleModal={setModalVisible}
 					/>
 				)}

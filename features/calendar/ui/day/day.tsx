@@ -13,7 +13,6 @@ type DayProps = {
 		dots?: Array<{ color: string }>;
 	};
 	state?: 'selected' | 'disabled' | 'today' | 'inactive' | '';
-	onDayPress: (date: DateData) => void;
 	setIsVisibleModal?: (isVisible: boolean) => void;
 };
 
@@ -21,7 +20,6 @@ export const Day = ({
 	date,
 	marking,
 	state,
-	onDayPress,
 	setIsVisibleModal,
 }: DayProps) => {
 	const { setSelectedDateForCreateEvent, setSelectedDateForShow } = useCalendarStore();
