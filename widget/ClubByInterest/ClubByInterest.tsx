@@ -1,3 +1,4 @@
+import { ClubInterestGroup } from '@/features/club-by-interest/club-interest-group/club-interest-group';
 import { CreateInterestModal } from '@/features/club-by-interest/create-interest-modal/create-interest-modal';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
@@ -14,6 +15,7 @@ export const ClubByInterestWidget = () => {
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
+				<ClubInterestGroup refetchTrigger={isVisible}/>
 				<CreateInterestModal isVisible={isVisible} setIsVisible={setIsVisible}/>
 				<ButtonAdd action={handleAddThing} />
 			</AlignContainer>

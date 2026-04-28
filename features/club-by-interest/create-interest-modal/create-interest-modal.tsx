@@ -12,7 +12,7 @@ export const CreateInterestModal = ({isVisible, setIsVisible}: CreateInterestMod
         <ModalWindow 
             visible={isVisible}
             onClose={() => setIsVisible(false)}
-            content={() => <CreateInterestForm />}
+            content={() => <CreateInterestForm setIsVisible={setIsVisible}/>}
         />
     )
 }
