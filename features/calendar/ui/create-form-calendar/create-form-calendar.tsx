@@ -2,6 +2,8 @@ import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useCalendarStore } from '@/shared/store/calendar/calendar-store';
 import { styleForm } from '@/shared/styles/forms';
+import { ImportanceIndicator } from '@/shared/types/importance-indicator';
+import { ReminderOrTradition } from '@/shared/types/reminder-or-tradition';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { IndicatorImportant } from '@/shared/ui/indicator-important/indicator-important';
 import { Input } from '@/shared/ui/Input/Input';
@@ -13,8 +15,8 @@ export const CreateFormCalendar = () => {
 	const { selectedDate } = useCalendarStore();
 	const [isTradition, setIsTradition] = useState(false);
 
-	const [form, setForm] = useState({
-		event: isTradition ? 'tradiiton' : 'reminder',
+	const [form, setForm] = useState<ReminderOrTradition>({
+		typeEvent: isTradition ? 'tradition' : 'reminder',
 		date: selectedDate,
 		title: '',
 		description: '',
@@ -23,19 +25,25 @@ export const CreateFormCalendar = () => {
 
 	useEffect(() => {
 		setForm({
-			event: '',
+			typeEvent: isTradition ? 'tradition' : 'reminder',
 			date: selectedDate,
 			title: '',
 			description: '',
-			importance: 'hard'
-		})
-	}, [isTradition])
+			importance: 'hard',
+		});
+	}, [isTradition]);
 
 	const disabledSave = form.title === '';
 
 	const handleChangeCreateFormCalendar = (field: string, value: string) => {
 		setForm((prev) => ({ ...prev, [field]: value }));
 	};
+
+	const handleSetIndicator = (value: ImportanceIndicator) => {
+		setForm((prev) => ({ ...prev, importance: value }));
+	};
+
+	console.log(form);
 
 	return (
 		<VerLayout styles={styleFormCalendar.container}>
@@ -82,23 +90,15 @@ export const CreateFormCalendar = () => {
 					value={form.title}
 					onChangeText={(text) => handleChangeCreateFormCalendar('title', text)}
 				/>
-				{isTradition ? (
-					<>
-						<Typography textColor='secondary'>Важность традиции</Typography>
-						<IndicatorImportant
-							typeIndicator='tradition'
-							setIndicator={() => {}}
-						/>
-					</>
-				) : (
-					<>
-						<Typography textColor='secondary'>Важность напоминания</Typography>
-						<IndicatorImportant
-							typeIndicator='reminder'
-							setIndicator={() => {}}
-						/>
-					</>
-				)}
+
+				<Typography textColor='secondary'>
+					{isTradition ? 'Важность традиции' : 'Важность напоминания'}
+				</Typography>
+				<IndicatorImportant
+					typeIndicator={isTradition ? 'tradition' : 'reminder'}
+					setIndicator={handleSetIndicator}
+				/>
+
 				<Input
 					placeholder='Дополнительно описание'
 					value={form.description}

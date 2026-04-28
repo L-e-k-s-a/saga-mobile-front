@@ -1,16 +1,17 @@
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { ImportanceIndicator } from '@/shared/types/importance-indicator';
 import { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 type Indicator = {
-    importance: string,
+    importance: ImportanceIndicator,
     color: string
 }
 
 type IndicatorImportantProps = {
 	typeIndicator: 'task' | 'tradition' | 'reminder'
-    setIndicator: (value: string) => void
+    setIndicator: (value: ImportanceIndicator) => void
 }
 
 export const IndicatorImportant = ({typeIndicator, setIndicator}: IndicatorImportantProps) => {
@@ -18,17 +19,17 @@ export const IndicatorImportant = ({typeIndicator, setIndicator}: IndicatorImpor
 		{ importance: 'hard', color: COLORS.brown },
 		{ importance: 'middle', color: COLORS.yellow },
 		{ importance: 'low', color: COLORS.green },
-	];
+	] as const;
 
 	const indicatorsTradition = [
         { importance: 'hard', color: COLORS.blue },
         { importance: 'middle', color: COLORS.violet },
         { importance: 'low', color: COLORS.turquoise },
-    ];
+    ] as const;
 
 	const indicators = typeIndicator === 'tradition' ? indicatorsTradition : indicatorsTaskAndReminder
 
-    const [activeIndicator, setActiveIndicator] = useState<Indicator | null>(indicators[0]);
+    const [activeIndicator, setActiveIndicator] = useState<Indicator>(indicators[0]);
 
 
 	const handlePress = (indicator: Indicator) => {
