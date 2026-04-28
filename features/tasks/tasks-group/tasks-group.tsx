@@ -2,17 +2,14 @@ import { useUserStore } from '@/shared/store/user/user-store';
 import { Task } from '@/shared/types/task';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spinner/spinner';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FlatList, TouchableOpacity, View } from 'react-native';
 import { CardTask } from '../card-task/card-task';
 import { useGetTasks } from '../hooks/use-get-tasks';
 import { ModalTask } from '../modal-task/modal-task';
 
-type TasksGroupProps = {
-	refetchTrigger: boolean;
-};
 
-export const TasksGroup = ({ refetchTrigger }: TasksGroupProps) => {
+export const TasksGroup = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [selectedTask, setSelectedTask] = useState<Task>({
 		taskId: '',
@@ -25,11 +22,8 @@ export const TasksGroup = ({ refetchTrigger }: TasksGroupProps) => {
 	});
 	const { activeFamily } = useUserStore();
 
-	const { data: tasks, isLoading, error, refetch } = useGetTasks(activeFamily);
+	const { tasks, isLoading, error } = useGetTasks(activeFamily);
 
-	useEffect(() => {
-		refetch();
-	}, [refetchTrigger]);
 
 	if (!activeFamily) {
 		return (

@@ -4,26 +4,15 @@ import { Spinner } from '@/shared/ui/spinner/spinner';
 import { FlatList, TouchableOpacity, View } from 'react-native';
 import { CardProduct } from '../card-product/card-product';
 import { useGetProducts } from '../hooks/use-get-product';
-import { useEffect } from 'react';
-
-type ProductGroupProps = {
-	refetchTrigger: boolean
-}
 
 
-export const ProductGroup = ({refetchTrigger}: ProductGroupProps) => {
+export const ProductGroup = () => {
 	const { activeFamily } = useUserStore();
 
-
-	useEffect(() => {
-		refetch()
-	}, [refetchTrigger])
-
 	const {
-		data: products,
+		products,
 		isLoading,
 		error,
-		refetch,
 	} = useGetProducts(activeFamily);
 	
 	if (!activeFamily) {

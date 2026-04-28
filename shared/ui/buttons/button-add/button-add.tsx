@@ -16,7 +16,7 @@ export const ButtonAdd = ({ action }: ButtonAddProps) => {
 				<Ionicons
 					name='add-circle'
 					size={48}
-					color={COLORS.white}
+					color={COLORS.secondary}
 				/>
 			</TouchableOpacity>
 	);
@@ -26,6 +26,6 @@ const styleButtonAdd = StyleSheet.create({
     buttonAdd: {
         position: 'absolute',
         bottom: 90,
-        right: 20
+        right: 20,
     }
 });
