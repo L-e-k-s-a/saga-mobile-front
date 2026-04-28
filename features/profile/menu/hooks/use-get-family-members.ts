@@ -7,11 +7,10 @@ import { useQuery } from "@tanstack/react-query"
 
 
 export const useGetFamilyMembers = () => {
-    	const { activeFamily } = useUserStore();
     const {familyMembers} = useFamilyStore()
 
     const {data, isLoading, error, refetch} = useQuery({
-        queryKey: ['familyMeembersInProfie', activeFamily],
+        queryKey: ['familyMembersInProfie'],
         queryFn: () => {
             const promises = familyMembers.map( async (member: FamilyMember) => {
                 const person = await getUserFromFirebase(member.userId)

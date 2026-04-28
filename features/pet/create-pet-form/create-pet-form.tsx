@@ -1,7 +1,9 @@
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
+import { Pet, PetInfo } from '@/shared/types/pet';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { Input } from '@/shared/ui/Input/Input';
@@ -9,27 +11,27 @@ import { Typography } from '@/shared/ui/typography/typography';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import { useSavePets } from '../hooks/use-save-pet';
 
-type Field = {
-	nameField: string;
-	description: string;
-};
 
-type PetForm = {
-	namePet: string;
-	petInfo: Field[];
-};
+type CreatePetFormProps = {
+	setIsVisible: (isVisible: boolean) => void
+}
 
-export const CreatePetForm = () => {
+export const CreatePetForm = ({setIsVisible}: CreatePetFormProps) => {
+	const { activeFamily } = useUserStore();
+	const { savePet } = useSavePets()
 	const [isAddedInfo, setIsAddedInfo] = useState(false);
 
-	const [field, setField] = useState<Field>({
+	const [field, setField] = useState<PetInfo>({
 		nameField: '',
 		description: '',
 	});
-	const [petInfo, setPetInfo] = useState<Field[]>([]);
-	const [form, setForm] = useState<PetForm>({
+	const [petInfo, setPetInfo] = useState<PetInfo[]>([]);
+	const [form, setForm] = useState<Pet>({
+		petId: '',
 		namePet: '',
+		familyId: activeFamily,
 		petInfo: [],
 	});
 
@@ -49,17 +51,22 @@ export const CreatePetForm = () => {
 	};
 
 	const handleFieldDelete = (indexDelete: number) => {
-		const filtered = [...petInfo.filter((_, index) => index !== indexDelete)]
+		const filtered = [...petInfo.filter((_, index) => index !== indexDelete)];
 		setPetInfo(filtered);
-		setForm(prev => ({...prev, petInfo: filtered}))
+		setForm((prev) => ({ ...prev, petInfo: filtered }));
 	};
 
 	const handleCloseField = () => {
 		setField({
 			nameField: '',
-			description: ''
-		})
-		setIsAddedInfo(false)
+			description: '',
+		});
+		setIsAddedInfo(false);
+	};
+
+	const handleSaveForm =  () => {
+		savePet(form)
+		setIsVisible(false)
 	}
 
 	return (
@@ -70,7 +77,9 @@ export const CreatePetForm = () => {
 				onChangeText={(text) => setForm((prev) => ({ ...prev, namePet: text }))}
 				style={styleForm.input}
 			/>
-			<DinamicScrollView style={styleCreatePet.list} maxHeight={150}>
+			<DinamicScrollView
+				style={styleCreatePet.list}
+				maxHeight={150}>
 				{form.petInfo.length > 0 &&
 					form.petInfo.map((item, index) => (
 						<HorLayout style={styleCreatePet.field}>
@@ -125,8 +134,14 @@ export const CreatePetForm = () => {
 								onPress={handleSaveAddedInfo}
 								disabled={disabledAdd}
 							/>
-							<TouchableOpacity style={styleCreatePet.close} onPress={handleCloseField}>
-								<Ionicons name='close' size={24} color={COLORS.white}/>
+							<TouchableOpacity
+								style={styleCreatePet.close}
+								onPress={handleCloseField}>
+								<Ionicons
+									name='close'
+									size={24}
+									color={COLORS.white}
+								/>
 							</TouchableOpacity>
 						</HorLayout>
 					</VerLayout>
@@ -151,7 +166,7 @@ export const CreatePetForm = () => {
 			</VerLayout>
 			<Button
 				text='Сохранить'
-				onPress={() => {}}
+				onPress={handleSaveForm}
 				fullWidth
 				disabled={disabledSave}
 			/>
@@ -181,14 +196,14 @@ const styleCreatePet = StyleSheet.create({
 	},
 	close: {
 		backgroundColor: COLORS.secondary,
-		width: "30%",
+		width: '30%',
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 10,
-		borderWidth: 1
+		borderWidth: 1,
 	},
 	list: {
-		gap: 5
+		gap: 5,
 	},
 
 	field: {
@@ -214,5 +229,5 @@ const styleCreatePet = StyleSheet.create({
 		width: '80%',
 		justifyContent: 'space-between',
 		marginTop: 5,
-	}
+	},
 });

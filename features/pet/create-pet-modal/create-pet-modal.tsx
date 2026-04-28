@@ -12,7 +12,7 @@ export const CreatePetModal = ({isVisible, setIsVisible}: CreateInterestModalPro
         <ModalWindow 
             visible={isVisible}
             onClose={() => setIsVisible(false)}
-            content={() => <CreatePetForm />}
+            content={() => <CreatePetForm setIsVisible={setIsVisible}/>}
         />
     )
 }

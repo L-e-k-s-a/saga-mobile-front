@@ -13,7 +13,6 @@ export const FamilyMembers = () => {
 		data: familyMembers,
 		isLoading,
 		error,
-		refetch,
 	} = useGetFamilyMembers();
 
 	if (error) {
