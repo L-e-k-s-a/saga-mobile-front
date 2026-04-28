@@ -22,7 +22,7 @@ export const CreateFormCalendar = ({
 }: CreateFormCalendarProps) => {
 	const { activeFamily } = useUserStore();
 	const { saveEvent } = useSaveEvent();
-	const { selectedDate } = useCalendarStore();
+	const { selectedDateForCreateEvent: selectedDate } = useCalendarStore();
 	const [isTradition, setIsTradition] = useState(false);
 
 	const [form, setForm] = useState<ReminderOrTradition>({

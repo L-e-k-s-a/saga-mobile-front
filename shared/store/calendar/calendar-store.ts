@@ -1,14 +1,18 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 type CalendarStore = {
-    selectedDate: string
+	selectedDateForCreateEvent: string;
+	selectedDateForShow: string;
 
-    setSelectedDate: (date: string) => void
-}
-
+	setSelectedDateForCreateEvent: (date: string) => void;
+    setSelectedDateForShow: (date: string) => void
+ };
 
 export const useCalendarStore = create<CalendarStore>()((set) => ({
-    selectedDate: '',
+	selectedDateForCreateEvent: '',
+	selectedDateForShow: '',
 
-    setSelectedDate: (date: string) => set({selectedDate: date})
-}))
+	setSelectedDateForCreateEvent: (date: string) =>
+		set({ selectedDateForCreateEvent: date }),
+	setSelectedDateForShow: (date: string) => set({ selectedDateForShow: date }),
+}));
