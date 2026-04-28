@@ -16,13 +16,13 @@ export const useGetTasks = (activeFamilyUid: string) => {
     setIsLoading(true);
     setError(null);
 
-    const q = query(
+    const queryTasks = query(
       collection(db, 'tasks'),
       where('familyId', '==', activeFamilyUid)
     );
 
     const unsubscribe = onSnapshot(
-      q,
+      queryTasks,
       (snapshot) => {
         const tasksData = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -42,7 +42,6 @@ export const useGetTasks = (activeFamilyUid: string) => {
   }, [activeFamilyUid]);
 
   const refetch = () => {
-    // with onSnapshot, refetch is not needed as it's real-time
     console.log('Data is real-time, no need to refetch');
   };
 
