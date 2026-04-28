@@ -1,21 +1,50 @@
-import { useQuery } from '@tanstack/react-query';
-import { getTasks } from '../libs/get-tasks';
+import { db } from '@/firebase/firebase';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
 export const useGetTasks = (activeFamilyUid: string) => {
-	const { data, isLoading, error, refetch } = useQuery({
-		queryKey: ['tasks', activeFamilyUid],
-		queryFn: async () => {
-			if (!activeFamilyUid) {
-				return;
-			}
-			const tasks = await getTasks(activeFamilyUid);
-			return tasks;
-		},
-		enabled: !!activeFamilyUid,
-		staleTime: 0,
-		refetchOnMount: true,
-	});
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-	return { data, isLoading, error, refetch };
+  useEffect(() => {
+    if (!activeFamilyUid) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    const q = query(
+      collection(db, 'tasks'),
+      where('familyId', '==', activeFamilyUid)
+    );
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const tasksData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTasks(tasksData);
+        setIsLoading(false);
+      },
+      (err) => {
+        console.error('Error fetching tasks:', err);
+        setError(err);
+        setIsLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [activeFamilyUid]);
+
+  const refetch = () => {
+    // with onSnapshot, refetch is not needed as it's real-time
+    console.log('Data is real-time, no need to refetch');
+  };
+
+  return { data: tasks, isLoading, error, refetch };
 };
-
