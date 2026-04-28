@@ -13,7 +13,7 @@ export const CreateModalCalendar = ({isVisible, setIsVisible}: CreateModalCalend
         <ModalWindow 
             visible={isVisible}
             onClose={() => setIsVisible(false)}
-            content={() => (<CreateFormCalendar />)}
+            content={() => (<CreateFormCalendar setIsVisible={setIsVisible}/>)}
         />
     )
 }

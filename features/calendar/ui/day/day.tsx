@@ -64,7 +64,6 @@ export const Day = ({
 
 const common = {
 	borderRadius: 50,
-	padding: 3,
 };
 
 const styleDay = StyleSheet.create({

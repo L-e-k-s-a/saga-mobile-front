@@ -1,6 +1,7 @@
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useCalendarStore } from '@/shared/store/calendar/calendar-store';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
 import { ImportanceIndicator } from '@/shared/types/importance-indicator';
 import { ReminderOrTradition } from '@/shared/types/reminder-or-tradition';
@@ -10,12 +11,22 @@ import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/typography/typography';
 import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import { useSaveEvent } from '../../hooks/use-save-event';
 
-export const CreateFormCalendar = () => {
+type CreateFormCalendarProps = {
+	setIsVisible: (isVisivle: boolean) => void;
+};
+
+export const CreateFormCalendar = ({
+	setIsVisible,
+}: CreateFormCalendarProps) => {
+	const { activeFamily } = useUserStore();
+	const { saveEvent } = useSaveEvent();
 	const { selectedDate } = useCalendarStore();
 	const [isTradition, setIsTradition] = useState(false);
 
 	const [form, setForm] = useState<ReminderOrTradition>({
+		familyId: activeFamily,
 		typeEvent: isTradition ? 'tradition' : 'reminder',
 		date: selectedDate,
 		title: '',
@@ -25,6 +36,8 @@ export const CreateFormCalendar = () => {
 
 	useEffect(() => {
 		setForm({
+			familyId: activeFamily,
+
 			typeEvent: isTradition ? 'tradition' : 'reminder',
 			date: selectedDate,
 			title: '',
@@ -43,7 +56,10 @@ export const CreateFormCalendar = () => {
 		setForm((prev) => ({ ...prev, importance: value }));
 	};
 
-	console.log(form);
+	const handleSaveEvent = () => {
+		saveEvent(form);
+		setIsVisible(false);
+	};
 
 	return (
 		<VerLayout styles={styleFormCalendar.container}>
@@ -110,7 +126,7 @@ export const CreateFormCalendar = () => {
 				<Button
 					text='Сохранить'
 					fullWidth
-					onPress={() => {}}
+					onPress={handleSaveEvent}
 					disabled={disabledSave}
 				/>
 			</VerLayout>
