@@ -29,7 +29,7 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 		role: '',
 	});
 	const me = useMe();
-	const disabled = formFamily.nameFamily === '' && formFamily.positionInFamily === ''
+	const disabled = formFamily.nameFamily === '' || formFamily.positionInFamily === ''
 
 
 	const handleSaveFamily = async () => {

@@ -24,7 +24,8 @@ export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
 		role: '',
 	});
 	const me = useMe();
-	const disabled = formFamily.inviteCode === '' && formFamily.positionInFamily == ''
+	const disabled = formFamily.inviteCode === '' || formFamily.positionInFamily == ''
+
 	const handleJoinFamily = async () => {
 		const meId = me.uid;
 		const family = await findFamilyByInviteCode(formFamily.inviteCode);
@@ -47,7 +48,7 @@ export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
 		<VerLayout styles={styleCreateFamilyForm.content}>
 			<Input
 				placeholder='Код другой семьи'
-				value={formFamily.inviteCode}
+				value={formFamily.inviteCode.toUpperCase()}
 				style={styleForm.input}
 				onChangeText={(text) => handleFormFamilyChange('inviteCode', text)}
 			/>
