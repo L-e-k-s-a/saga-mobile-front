@@ -26,8 +26,6 @@ export const ModalTask = ({
 	const [isCompleted, setIsCompleted] = useState(task.isCompleted);
 	const importanceTask = getImportanceTask(task);
 
-
-	console.log(task)
 	const handleCompleted = () => {
 		setTaskCompleted(task)
 		setIsVisible(false)
