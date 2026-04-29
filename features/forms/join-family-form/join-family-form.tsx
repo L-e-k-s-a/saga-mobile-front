@@ -29,7 +29,6 @@ export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
 	const handleJoinFamily = async () => {
 		const meId = me.uid;
 		const family = await findFamilyByInviteCode(formFamily.inviteCode);
-
 		if (family) {
 			await addDoc(collection(db, 'familyMembers'), {
 				familyId: family.id,

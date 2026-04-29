@@ -9,11 +9,17 @@ import { useUserStore } from '@/shared/store/user/user-store';
 import { useEffect } from 'react';
 
 export const FamilyMembers = () => {
+	const {activeFamily} = useUserStore()
 	const {
 		data: familyMembers,
 		isLoading,
 		error,
+		refetch
 	} = useGetFamilyMembers();
+
+	useEffect(() => {
+		refetch()
+	}, [activeFamily])
 
 	if (error) {
 		return;

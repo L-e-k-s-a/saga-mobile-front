@@ -14,6 +14,7 @@ type FamilyStore = {
 	setNameFamily: (name: string) => void;
 	setRole: (role: string) => void;
 	setInviteCode: (code: string) => void;
+	setFamilyMembers: (members: FamilyMember[]) => void;
 	setFamily: (family: Family) => void
 };
 

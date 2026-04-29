@@ -10,6 +10,7 @@ import { COLORS } from '@/shared/constants/colors';
 
 export const MenuProfile = () => {
 	const { logout } = useAuthStore();
+	
 	const handleLogout = async () => {
 		try {
 			await logout();

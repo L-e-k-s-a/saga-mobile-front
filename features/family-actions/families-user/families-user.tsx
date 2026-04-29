@@ -1,3 +1,4 @@
+import { getFamilyMembers } from '@/entities/family/hooks/get-family-members';
 import { Family } from '@/entities/family/type/family';
 import { useFamiliesUsers } from '@/entities/user/hooks/use-get-families-user';
 import { COLORS } from '@/shared/constants/colors';
@@ -14,24 +15,31 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 export const FamiliesUser = () => {
 	const { data: families, isLoading, error, refetch } = useFamiliesUsers();
 	const { countFamily, setActiveFamily, activeFamily } = useUserStore();
-	const { setInviteCode, setNameFamily } = useFamilyStore();
+	const { setInviteCode, setNameFamily, setFamilyMembers } = useFamilyStore();
 
-    useEffect(() => {
-        refetch();
-    }, [countFamily]);
+	useEffect(() => {
+		refetch();
+	}, [countFamily]);
 
-    if (error) {
-        return;
-    }
+	if (error) {
+		return;
+	}
 
-    if (!families) {
-        return;
-    }
+	if (!families) {
+		return;
+	}
 
-    if (isLoading) {
-        return <Spinner />;
-    }
+	if (isLoading) {
+		return <Spinner />;
+	}
 
+	const handleChangeFamily = async (family: Family) => {
+		setActiveFamily(family.uid);
+		setNameFamily(family.nameFamily);
+		setInviteCode(family.inviteCode);
+		const familyMembers = await getFamilyMembers(activeFamily) 
+		setFamilyMembers(familyMembers);
+	};
 
 	return families.length !== 0 ? (
 		<DinamicScrollView maxHeight={170}>
@@ -44,11 +52,7 @@ export const FamiliesUser = () => {
 							: { opacity: 0.3 },
 					]}
 					key={family.inviteCode}
-					onPress={() => {
-						setNameFamily(family.nameFamily);
-						setActiveFamily(family.uid);
-						setInviteCode(family.inviteCode);
-					}}>
+					onPress={() => handleChangeFamily(family)}>
 					<Typography
 						variant='h2'
 						textColor='secondary'
