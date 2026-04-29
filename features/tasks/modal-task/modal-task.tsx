@@ -62,7 +62,7 @@ export const ModalTask = ({
 						<Typography
 							textColor='secondary'
 							style={styleModalTask.descriptionText}>
-							{task.description}
+							{task.description !== '' ? task.description : 'Нет доп. информации'}
 						</Typography>
 					</View>
 
