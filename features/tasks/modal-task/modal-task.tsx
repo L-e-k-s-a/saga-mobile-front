@@ -24,6 +24,10 @@ export const ModalTask = ({
 	const importanceTask = getImportanceTask(task);
 
 
+	const handleCompleted = () => {
+		setIsVisible(false)
+	}
+
 	return (
 		<ModalWindow
 			visible={isVisible}
@@ -84,7 +88,7 @@ export const ModalTask = ({
 
 					<Button
 						text={'Выполнена'}
-						onPress={() => {}}
+						onPress={handleCompletedу}
 						disabled={!isCompleted}
 						fullWidth
 					/>

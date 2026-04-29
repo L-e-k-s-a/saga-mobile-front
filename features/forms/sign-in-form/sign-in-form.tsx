@@ -71,7 +71,7 @@ export const SignInForm = () => {
 					value={signInForm.password}
 					onChangeText={(text) => handleChangeSignInForm('password', text)}
 					style={styleForm.input}
-					// isPassword={true}
+					isPassword={true}
 				/>
 				<Button
 					fullWidth
