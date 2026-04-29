@@ -10,5 +10,5 @@ export const generateInviteCode = (): string => {
         const letter = alphabet[Math.floor(Math.random() * lengthAlphabet)]
         code += letter
     }
-    return `${number}-${code}`
+    return `${number}-${code}`.toUpperCase()
 }
