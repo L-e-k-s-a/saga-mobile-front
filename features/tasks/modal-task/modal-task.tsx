@@ -5,9 +5,11 @@ import { Button } from '@/shared/ui/buttons/button/Button';
 import { ModalWindow } from '@/shared/ui/modal/modal-window';
 import { Toggle } from '@/shared/ui/toggle/toggle';
 import { Typography } from '@/shared/ui/typography/typography';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { getImportanceTask } from '../libs/get-importance-task';
+import { updateOneDoc } from '@/shared/lib/updateOneDoc';
+import { useSetTaskCompleted } from '../hooks/use-task-completed';
 
 type ModalTaskProps = {
 	task: Task;
@@ -20,11 +22,14 @@ export const ModalTask = ({
 	isVisible,
 	setIsVisible,
 }: ModalTaskProps) => {
-	const [isCompleted, setIsCompleted] = useState(false);
+	const { setTaskCompleted } = useSetTaskCompleted()
+	const [isCompleted, setIsCompleted] = useState(task.isCompleted);
 	const importanceTask = getImportanceTask(task);
 
 
+	console.log(task)
 	const handleCompleted = () => {
+		setTaskCompleted(task)
 		setIsVisible(false)
 	}
 
@@ -88,7 +93,7 @@ export const ModalTask = ({
 
 					<Button
 						text={'Выполнена'}
-						onPress={handleCompletedу}
+						onPress={handleCompleted}
 						disabled={!isCompleted}
 						fullWidth
 					/>

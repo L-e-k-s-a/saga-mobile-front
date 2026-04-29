@@ -19,7 +19,7 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 	const { activeFamily } = useUserStore()
 	const saveTask = useSaveTask();
 	const [form, setForm] = useState<Task>({
-		taskId: '',
+		id: '',
 		familyId: activeFamily,
 		title: '',
 		description: '',
