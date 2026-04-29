@@ -21,7 +21,6 @@ type EventsProps = {
 };
 
 export const Events = ({ events }: EventsProps) => {
-	console.log(events);
 
 	const reminders: EventForShow[] = [];
 	const traditions: EventForShow[] = [];
@@ -92,7 +91,7 @@ export const Events = ({ events }: EventsProps) => {
 
 const styleEvents = StyleSheet.create({
 	title: {
-        marginTop: 10
+        marginVertical: 10
     },
 	item: {
 		gap: 5,

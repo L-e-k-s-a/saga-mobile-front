@@ -29,9 +29,6 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 	const marks = getMarked(transform);
 
 
-
-	console.log(selectedDateForShow)
-
 	return (
 		<>
 			<Calendar

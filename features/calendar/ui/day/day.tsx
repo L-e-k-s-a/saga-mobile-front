@@ -9,7 +9,7 @@ type DayProps = {
 	date?: DateData;
 	marking?: {
 		marked?: boolean;
-		events?: any[]; // массив событий
+		events?: any[];
 		dots?: Array<{ color: string }>;
 	};
 	state?: 'selected' | 'disabled' | 'today' | 'inactive' | '';
@@ -22,7 +22,7 @@ export const Day = ({
 	state,
 	setIsVisibleModal,
 }: DayProps) => {
-	const { setSelectedDateForCreateEvent, setSelectedDateForShow } = useCalendarStore();
+	const { setSelectedDateForCreateEvent, setSelectedDateForShow, selectedDateForShow } = useCalendarStore();
 
 	const handleOnPress = () => {
 		if (date) {
@@ -52,6 +52,7 @@ export const Day = ({
 
 	const visibleDots = eventDots.slice(0, 3);
 	const remainingCount = eventDots.length - 3;
+	const isSelected = date?.dateString === selectedDateForShow
 
 	return (
 		<TouchableOpacity
@@ -62,7 +63,7 @@ export const Day = ({
 				style={[
 					styleDay.base,
 					state === 'today' && styleDay.today,
-					state === 'selected' && styleDay.selected,
+					isSelected && styleDay.selected,
 				]}>
 				<Typography textColor='secondary'>{date?.day}</Typography>
 
@@ -98,7 +99,7 @@ const styleDay = StyleSheet.create({
 		position: 'relative',
 	},
 	today: {
-		backgroundColor: COLORS.turquoise,
+		backgroundColor: COLORS.teal,
 	},
 	selected: {
 		backgroundColor: COLORS.turquoise,

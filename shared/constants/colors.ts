@@ -14,6 +14,7 @@ export const COLORS = {
     red: "#921818",
     brown: "#560000",
     turquoise: "#0EDBDF",
+    teal: "#00a4a7",
     violet: '#56165C',
     blue: '#0C0AAF'
 
