@@ -17,7 +17,7 @@ export const NoData = ({
 	colorText = 'primary',
 }: NoDataProps) => {
 	return (
-		<VerLayout styles={[style, styleNoData.noDataContainer]}>
+		<VerLayout styles={[styleNoData.noDataContainer, style]}>
 			<Typography
 				variant='h3'
 				style={styleNoData[colorText]}>
@@ -33,6 +33,7 @@ const styleNoData = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+		gap: 10
 	},
 	primary: {
 		color: COLORS.white

@@ -1,10 +1,8 @@
 import { ReminderOrTradition } from '@/shared/types/reminder-or-tradition';
 
-
-
 export const transformEvents = (
 	events: ReminderOrTradition[],
-) => {
+): Record<string, any[]> => {
 	return events.reduce(
 		(acc: Record<string, any[]>, event: ReminderOrTradition) => {
 			const body = {

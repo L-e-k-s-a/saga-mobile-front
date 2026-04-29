@@ -16,7 +16,6 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 	const { activeFamily } = useUserStore();
 	const { selectedDateForShow } = useCalendarStore();
 	const { events, isLoading, error } = useGetEvents(activeFamily);
-	const today = new Date().toISOString().split('T')[0];
 
 	if (error) {
 		return;

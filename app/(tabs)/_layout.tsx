@@ -2,18 +2,25 @@ import { COLORS } from '@/shared/constants/colors';
 import { useActionWithFamily } from '@/shared/hooks/use-action-with-family';
 import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
 import { setupCalendarLocale } from '@/shared/lib/setup-calendar-locale';
+import { useCalendarStore } from '@/shared/store/calendar/calendar-store';
 import { useSettingsStore } from '@/shared/store/settings/settings-store';
 import { Typography } from '@/shared/ui/typography/typography';
 import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 import { Ionicons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
+import { useEffect } from 'react';
 import { Pressable, TouchableOpacity } from 'react-native';
 
 export default function TabsLayout() {
 	setupCalendarLocale();
+	const { initDates } = useCalendarStore();
 	const { isModalVisible, setIsModalVisible, handleModalVisible } =
 		useActionWithFamily();
-	const { favorite } = useSettingsStore()
+	const { favorite } = useSettingsStore();
+
+	useEffect(() => {
+		initDates()
+	}, [])
 
 	return (
 		<>
@@ -74,7 +81,7 @@ export default function TabsLayout() {
 							return (
 								<Pressable
 									onPress={() => {
-										router.navigate(favorite)
+										router.navigate(favorite);
 									}}
 									style={props.style}
 									onPressIn={props.onPressIn}
