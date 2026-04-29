@@ -1,8 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
-import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useFamilyStore } from '@/shared/store/family/family-store';
-import { Input } from '@/shared/ui/Input/Input';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from '../../shared/ui/buttons/button/Button';
@@ -13,12 +11,7 @@ export const FamilyActions = () => {
 	const [isJoin, setIsJoin] = useState(false);
 	const [isCreate, setIsCreate] = useState(false);
 	const [isAdd, setIsAdd] = useState(false);
-	const [codeJoin, setCodeJoin] = useState('');
 	const { inviteCode } = useFamilyStore();
-
-	const handleJoinFamily = () => {
-		setIsJoin(false);
-	};
 
 	return (
 		<VerLayout styles={styleFamilyAction.actions}>
