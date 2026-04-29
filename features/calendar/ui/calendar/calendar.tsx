@@ -1,7 +1,8 @@
 import { useCalendarStore } from '@/shared/store/calendar/calendar-store';
 import { useUserStore } from '@/shared/store/user/user-store';
+import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spinner/spinner';
-import { Calendar, DateData } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import { useGetEvents } from '../../hooks/use-get-events';
 import { getMarked } from '../../lib/get-marked';
 import { transformEvents } from '../../lib/transform-events';
@@ -17,6 +18,15 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 	const { selectedDateForShow } = useCalendarStore();
 	const { events, isLoading, error } = useGetEvents(activeFamily);
 
+	if (!activeFamily) {
+		return (
+			<NoData
+				title='Похоже Вы не состоите в семье'
+				desctiption='Быстрее создайте или вступите в семью!'
+			/>
+		);
+	}
+
 	if (error) {
 		return;
 	}
@@ -27,7 +37,6 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 
 	const transform = transformEvents(events);
 	const marks = getMarked(transform);
-
 
 	return (
 		<>
@@ -45,7 +54,7 @@ export const CalendarSaga = ({ setModalVisible }: CalendarSagaProps) => {
 				firstDay={1}
 				hideExtraDays={true}
 			/>
-			<Events events={transform[selectedDateForShow]}/>
+			<Events events={transform[selectedDateForShow]} />
 		</>
 	);
 };
