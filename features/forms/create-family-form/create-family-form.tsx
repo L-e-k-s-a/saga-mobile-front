@@ -29,19 +29,10 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 		role: '',
 	});
 	const me = useMe();
+	const disabled = formFamily.nameFamily === '' && formFamily.positionInFamily === ''
 
-	const valid = () => {
-		if (formFamily.nameFamily === '' || formFamily.positionInFamily == '') {
-			return false;
-		}
-		return true;
-	};
 
 	const handleSaveFamily = async () => {
-		if (!valid()) {
-			return;
-		}
-
 		const meId = me.uid;
 
 		const inviteCode = generateInviteCode();
@@ -93,6 +84,7 @@ export const CreateFamilyForm = ({ setIsVisible }: CreateFamilyFormProps) => {
 						setIsVisible(false);
 					}}
 					style={styleCreateFamilyForm.buttonSave}
+					disabled={disabled}
 				/>
 				<Button
 					text='Закрыть'

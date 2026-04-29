@@ -24,7 +24,7 @@ export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
 		role: '',
 	});
 	const me = useMe();
-
+	const disabled = formFamily.inviteCode === '' && formFamily.positionInFamily == ''
 	const handleJoinFamily = async () => {
 		const meId = me.uid;
 		const family = await findFamilyByInviteCode(formFamily.inviteCode);
@@ -64,6 +64,7 @@ export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
 						setIsVisible(false);
 					}}
 					style={styleCreateFamilyForm.buttonSave}
+					disabled={disabled}
 				/>
 				<Button
 					text='Закрыть'
