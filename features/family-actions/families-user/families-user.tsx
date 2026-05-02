@@ -9,17 +9,12 @@ import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scrol
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Typography } from '@/shared/ui/typography/typography';
-import { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 export const FamiliesUser = () => {
-	const { data: families, isLoading, error, refetch } = useFamiliesUsers();
-	const { countFamily, setActiveFamily, activeFamily } = useUserStore();
+	const { families, isLoading, error } = useFamiliesUsers();
+	const { setActiveFamily, activeFamily } = useUserStore();
 	const { setInviteCode, setNameFamily, setFamilyMembers } = useFamilyStore();
-
-	useEffect(() => {
-		refetch();
-	}, [countFamily]);
 
 	if (error) {
 		return;
@@ -39,9 +34,8 @@ export const FamiliesUser = () => {
 		setInviteCode(family.inviteCode);
 		const familyMembers = await getFamilyMembers(activeFamily) 
 		setFamilyMembers(familyMembers);
+		console.log(familyMembers)
 	};
-
-	console.log(families)
 
 	return families.length !== 0 ? (
 		<DinamicScrollView maxHeight={170}>

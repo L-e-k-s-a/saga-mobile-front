@@ -58,7 +58,7 @@ export default function TabsLayout() {
 				<Tabs.Screen
 					name='index'
 					options={{
-						title: activeFamily ? nameFamily : 'Создать семью',
+						title: 'Главная',
 						headerTitle: () => (
 							<TouchableOpacity onPress={handleModalVisible}>
 								<Typography variant='h2'>{activeFamily ? nameFamily : 'Создать семью'}</Typography>
