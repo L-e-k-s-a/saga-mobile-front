@@ -1,6 +1,7 @@
 import { getImportanceColor } from '@/features/tasks/libs/get-importance-color';
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { ImportanceIndicator } from '@/shared/types/importance-indicator';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { NoData } from '@/shared/ui/no-data/no-data';
@@ -56,7 +57,9 @@ export const Events = ({ events }: EventsProps) => {
                     ))}
                 </DinamicScrollView >
 			) : (
-				<NoData style={styleEvents.noData} title='На этот день напоминаний нет' desctiption='Добавьте напоминание!'/>
+				<VerLayout styles={styleEvents.noData}>
+					<NoData title='На этот день напоминаний нет' desctiption='Добавьте напоминание!'/>
+				</VerLayout>
 			)}
 			<Typography style={styleEvents.title} variant='h3'>Традиции</Typography>
 			{traditions.length > 0 ? (
@@ -80,8 +83,9 @@ export const Events = ({ events }: EventsProps) => {
                 </DinamicScrollView>
 				
 			) : (
-                
-				<NoData style={styleEvents.noData} title='На этот день традиций нет' desctiption='Добавьте традицию!'/>
+                <VerLayout styles={styleEvents.noData}>
+					<NoData title='На этот день традиций нет' desctiption='Добавьте традицию!'/>
+				</VerLayout>
 			)}
 		</>
 	) : (
@@ -109,6 +113,6 @@ const styleEvents = StyleSheet.create({
 		borderRadius: 20,
 	},
     noData: {
-        flex: 0.5,
+        height: 90
     }
 });
