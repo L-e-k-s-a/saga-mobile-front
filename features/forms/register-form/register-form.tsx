@@ -12,6 +12,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { PersonForm } from '../person-form/person-form';
+import { StyleSheet } from 'react-native';
 
 export const RegisterForm = () => {
 	const [isVisiblePersonForm, setIsVisiblePersonForm] = useState(false);
@@ -99,6 +100,7 @@ export const RegisterForm = () => {
 			<Button
 				text='Заполнить о себе'
 				onPress={handleAbout}
+				style={styleRegisterForm.buttonAbout}
 			/>
 
 			<HorLayout>
@@ -125,3 +127,10 @@ export const RegisterForm = () => {
 		</VerLayout>
 	);
 };
+
+
+const styleRegisterForm = StyleSheet.create({
+	buttonAbout:{
+		width: "70%"
+	}
+})

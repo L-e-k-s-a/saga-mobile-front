@@ -4,6 +4,7 @@ import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-
 import { setupCalendarLocale } from '@/shared/lib/setup-calendar-locale';
 import { useCalendarStore } from '@/shared/store/calendar/calendar-store';
 import { useSettingsStore } from '@/shared/store/settings/settings-store';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { Typography } from '@/shared/ui/typography/typography';
 import { FamilyModalActions } from '@/widget/FamilyModalActions/FamilyModalActions';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,6 +18,7 @@ export default function TabsLayout() {
 	const { isModalVisible, setIsModalVisible, handleModalVisible } =
 		useActionWithFamily();
 	const { favorite } = useSettingsStore();
+	const { activeFamily } = useUserStore()
 
 	useEffect(() => {
 		initDates()
@@ -54,7 +56,7 @@ export default function TabsLayout() {
 				<Tabs.Screen
 					name='index'
 					options={{
-						title: 'Главная',
+						title: activeFamily ? 'Главная' : 'Создать семью',
 						headerTitle: () => (
 							<TouchableOpacity onPress={handleModalVisible}>
 								<Typography variant='h2'>Главная</Typography>
