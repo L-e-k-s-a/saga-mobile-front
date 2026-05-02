@@ -28,7 +28,7 @@ export const RegisterForm = () => {
 		patronymic: '',
 	});
 
-	const disabledRegister = Object.values(form).some((value) => (value = ''));
+	const disabledRegister = Object.values(form).some((value) => value === '');
 
 	const handleFormChange = (field: string, value: any) => {
 		setForm((prev) => ({ ...prev, [field]: value }));
