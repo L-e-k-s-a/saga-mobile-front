@@ -1,5 +1,6 @@
 import { useUserStore } from '@/shared/store/user/user-store';
 import { Task } from '@/shared/types/task';
+import { ButtonAdd } from '@/shared/ui/buttons/button-add/button-add';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { useState } from 'react';
@@ -8,11 +9,10 @@ import { CardTask } from '../card-task/card-task';
 import { useGetTasks } from '../hooks/use-get-tasks';
 import { ModalTask } from '../modal-task/modal-task';
 
-
 export const TasksGroup = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [selectedTask, setSelectedTask] = useState<Task>({
-		taskId: '',
+		id: '',
 		familyId: '',
 		title: '',
 		description: '',
@@ -23,7 +23,6 @@ export const TasksGroup = () => {
 	const { activeFamily } = useUserStore();
 
 	const { tasks, isLoading, error } = useGetTasks(activeFamily);
-
 
 	if (!activeFamily) {
 		return (
@@ -42,33 +41,33 @@ export const TasksGroup = () => {
 		return <Spinner />;
 	}
 
-	return tasks && tasks.length > 0 ? (
+	return (
 		<>
-			<FlatList
-				data={tasks}
-				renderItem={({ item }) => (
-					<TouchableOpacity
-						onPress={() => {
-							setSelectedTask(item);
-							setIsVisible(true);
-						}}>
-						<CardTask task={item} />
-					</TouchableOpacity>
-				)}
-				ListFooterComponent={<View style={{ height: 150 }} />}
-			/>
-			{isVisible && (
-				<ModalTask
-					task={selectedTask}
-					isVisible={isVisible}
-					setIsVisible={setIsVisible}
+			{tasks && tasks.length > 0 ? (
+				<FlatList
+					data={tasks}
+					renderItem={({ item }) => (
+						<TouchableOpacity
+							onPress={() => {
+								setSelectedTask(item);
+								setIsVisible(true);
+							}}>
+							<CardTask task={item} />
+						</TouchableOpacity>
+					)}
+					ListFooterComponent={<View style={{ height: 150 }} />}
+				/>
+			) : (
+				<NoData
+					title='Задач нет'
+					desctiption='Создайте задачу!'
 				/>
 			)}
+			<ModalTask
+				task={selectedTask}
+				isVisible={isVisible}
+				setIsVisible={setIsVisible}
+			/>
 		</>
-	) : (
-		<NoData
-			title='Задач нет'
-			desctiption='Создайте задачу!'
-		/>
 	);
 };

@@ -41,6 +41,8 @@ export const FamiliesUser = () => {
 		setFamilyMembers(familyMembers);
 	};
 
+	console.log(families)
+
 	return families.length !== 0 ? (
 		<DinamicScrollView maxHeight={170}>
 			{families.map((family: Family) => (

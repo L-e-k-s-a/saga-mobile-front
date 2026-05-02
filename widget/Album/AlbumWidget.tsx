@@ -9,8 +9,7 @@ export const AlbumWidget = () => {
 	return (
 		<BackgroundContainer>
 			<AlignContainer>
-				<Album />
-				
+				<Album />		
 			</AlignContainer>
 		</BackgroundContainer>
 	);

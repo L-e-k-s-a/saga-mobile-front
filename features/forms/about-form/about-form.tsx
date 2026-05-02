@@ -22,8 +22,7 @@ export const AboutForm = ({
 	setIsVisibleAboutForm,
 }: PersonFormProps) => {
 
-	const disabledFill = form.name === '' || form.surname === '' || form.patronymic === ''
-
+	const disabledFill = form.name === '' || form.surname === ''
 	return (
 		<ModalWindow
 			visible={isVisibleAboutForm}

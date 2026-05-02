@@ -2,10 +2,12 @@ import { ClubInterestGroup } from '@/features/club-by-interest/club-interest-gro
 import { CreateInterestModal } from '@/features/club-by-interest/create-interest-modal/create-interest-modal';
 import { AlignContainer } from '@/shared/layouts/AlignContainer/AlignContainer';
 import { BackgroundContainer } from '@/shared/layouts/BackgroundContainer/BackgroundContainer';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { ButtonAdd } from '@/shared/ui/buttons/button-add/button-add';
 import { useState } from 'react';
 
 export const ClubByInterestWidget = () => {
+	const { activeFamily } = useUserStore()
 	const [isVisible, setIsVisible] = useState(false)
 
 	const handleAddThing = () => {
@@ -17,7 +19,7 @@ export const ClubByInterestWidget = () => {
 			<AlignContainer>
 				<ClubInterestGroup />
 				<CreateInterestModal isVisible={isVisible} setIsVisible={setIsVisible}/>
-				<ButtonAdd action={handleAddThing} />
+				{ activeFamily && <ButtonAdd action={handleAddThing} />}
 			</AlignContainer>
 		</BackgroundContainer>
 	);
