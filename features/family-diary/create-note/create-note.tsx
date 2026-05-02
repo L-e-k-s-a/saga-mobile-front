@@ -14,6 +14,7 @@ export const CreateNote = ({ setIsVisible }: CreateNoteProps) => {
 	const { activeFamily } = useUserStore();
 	const { saveNote } = useSaveNote();
 	const [note, setNote] = useState<Note>({
+		noteId: '',
 		familyId: activeFamily,
 		description: '',
 	});
@@ -51,7 +52,7 @@ const styleFamilyDiary = StyleSheet.create({
 		gap: 15,
 	},
 	textArea: {
-		height: 400,
+		height: 300,
 		borderWidth: 1,
 		padding: 5,
 		fontSize: 16,

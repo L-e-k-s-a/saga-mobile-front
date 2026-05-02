@@ -3,6 +3,7 @@ import { useActionWithFamily } from '@/shared/hooks/use-action-with-family';
 import { tabsSettingsOptions } from '@/shared/lib/settings-screen/tabs-settings-options';
 import { setupCalendarLocale } from '@/shared/lib/setup-calendar-locale';
 import { useCalendarStore } from '@/shared/store/calendar/calendar-store';
+import { useFamilyStore } from '@/shared/store/family/family-store';
 import { useSettingsStore } from '@/shared/store/settings/settings-store';
 import { useUserStore } from '@/shared/store/user/user-store';
 import { Typography } from '@/shared/ui/typography/typography';
@@ -19,6 +20,7 @@ export default function TabsLayout() {
 		useActionWithFamily();
 	const { favorite } = useSettingsStore();
 	const { activeFamily } = useUserStore()
+	const { nameFamily } = useFamilyStore()
 
 	useEffect(() => {
 		initDates()
@@ -56,10 +58,10 @@ export default function TabsLayout() {
 				<Tabs.Screen
 					name='index'
 					options={{
-						title: activeFamily ? 'Главная' : 'Создать семью',
+						title: activeFamily ? nameFamily : 'Создать семью',
 						headerTitle: () => (
 							<TouchableOpacity onPress={handleModalVisible}>
-								<Typography variant='h2'>Главная</Typography>
+								<Typography variant='h2'>{activeFamily ? nameFamily : 'Создать семью'}</Typography>
 							</TouchableOpacity>
 						),
 						tabBarIcon: ({ color, size }) => (

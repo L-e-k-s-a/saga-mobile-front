@@ -11,8 +11,8 @@ import { router } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
-import { PersonForm } from '../person-form/person-form';
 import { StyleSheet } from 'react-native';
+import { AboutForm } from '../about-form/about-form';
 
 export const RegisterForm = () => {
 	const [isVisiblePersonForm, setIsVisiblePersonForm] = useState(false);
@@ -28,12 +28,10 @@ export const RegisterForm = () => {
 		patronymic: '',
 	});
 
+	const disabledRegister = Object.values(form).some((value) => (value = ''));
+
 	const handleFormChange = (field: string, value: any) => {
 		setForm((prev) => ({ ...prev, [field]: value }));
-	};
-
-	const handleAbout = () => {
-		setIsVisiblePersonForm(!isVisiblePersonForm);
 	};
 
 	const handleClearForm = () => {
@@ -63,7 +61,7 @@ export const RegisterForm = () => {
 				patronymic: form.patronymic,
 				fullName: `${form.surname} ${form.name} ${form.patronymic}`,
 				createAt: new Date(),
-				activeFamily: ''
+				activeFamily: '',
 			});
 			handleClearForm();
 		} catch (err) {
@@ -99,7 +97,7 @@ export const RegisterForm = () => {
 			</VerLayout>
 			<Button
 				text='Заполнить о себе'
-				onPress={handleAbout}
+				onPress={() => setIsVisiblePersonForm(true)}
 				style={styleRegisterForm.buttonAbout}
 			/>
 
@@ -113,24 +111,22 @@ export const RegisterForm = () => {
 					variant='secondary'
 					text='Зарегистрироваться'
 					onPress={handleRegister}
+					disabled={disabledRegister}
 					fullWidth
 				/>
 			</VerLayout>
-			{isVisiblePersonForm && (
-				<PersonForm
-					form={form}
-					onFormChange={handleFormChange}
-					isVisiblePersonForm={isVisiblePersonForm}
-					onAbout={handleAbout}
-				/>
-			)}
+			<AboutForm
+				form={form}
+				onFormChange={handleFormChange}
+				isVisibleAboutForm={isVisiblePersonForm}
+				setIsVisibleAboutForm={setIsVisiblePersonForm}
+			/>
 		</VerLayout>
 	);
 };
 
-
 const styleRegisterForm = StyleSheet.create({
-	buttonAbout:{
-		width: "70%"
-	}
-})
+	buttonAbout: {
+		width: '70%',
+	},
+});
