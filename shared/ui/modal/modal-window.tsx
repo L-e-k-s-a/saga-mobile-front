@@ -64,7 +64,7 @@ export const ModalWindow = ({
 			transparent={true}
 			onRequestClose={onClose}
 			onShow={handleShow} 
-			animationType="none">
+			animationType="fade">
 			<VerLayout styles={styleModal.modalOverlay}>
 				<Animated.View
 					style={[
