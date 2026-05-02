@@ -7,10 +7,13 @@ export const styleModal = StyleSheet.create({
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 		justifyContent: 'center',
 		alignItems: 'center',
+		position: 'relative'
 	},
 	modalContent: {
+		position: 'absolute',
 		maxHeight: '90%',
-		width: '85%'
+		width: '85%',
+		zIndex: 1000
 	},
 	dragIndicatorContainer: {
 		width: '100%',

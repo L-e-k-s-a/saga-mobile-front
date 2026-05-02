@@ -8,6 +8,7 @@ import {
   Modal,
   PanResponder,
   Platform,
+  Pressable,
   View,
 } from 'react-native';
 import { Card } from '../card/card';
@@ -17,7 +18,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 type ModalWindowProps = {
   visible: boolean;
   content: () => ReactNode;
-  onClose?: () => void;
+  onClose: () => void;
 };
 
 export const ModalWindow = ({
@@ -112,26 +113,27 @@ export const ModalWindow = ({
       onShow={handleShow}
       animationType="fade"
     >
-      <VerLayout styles={styleModal.modalOverlay}>
-        <Animated.View
-          style={[
-            {
-              transform: [{ translateY: combinedTranslateY }],
-            },
-            styleModal.modalContent,
-          ]}
-        >
-          <Card>
-            <View
-              {...panResponder.panHandlers}
-              style={styleModal.dragIndicatorContainer}
-            >
-              <View style={styleModal.dragIndicator} />
-            </View>
-            {content()}
-          </Card>
-        </Animated.View>
-      </VerLayout>
+      <Pressable style={styleModal.modalOverlay} onPress={onClose}>
+        <Pressable onPress={() => {}} style={styleModal.modalContent}>
+          <Animated.View
+            style={[
+              {
+                transform: [{ translateY: combinedTranslateY }],
+              },
+            ]}
+          >
+            <Card>
+              <View
+                {...panResponder.panHandlers}
+                style={styleModal.dragIndicatorContainer}
+              >
+                <View style={styleModal.dragIndicator} />
+              </View>
+              {content()}
+            </Card>
+          </Animated.View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 };
