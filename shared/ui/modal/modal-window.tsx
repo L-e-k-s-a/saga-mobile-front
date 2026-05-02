@@ -26,26 +26,24 @@ export const ModalWindow = ({
   onClose,
 }: ModalWindowProps) => {
   const translateY = useRef(new Animated.Value(0)).current;
-  const keyboardOffset = useRef(new Animated.Value(0)).current; // ← смещение для клавиатуры
+  const keyboardOffset = useRef(new Animated.Value(0)).current;
   const isClosing = useRef(false);
 
   const handleShow = () => {
     isClosing.current = false;
     translateY.setValue(0);
-    keyboardOffset.setValue(0); // ← сбрасываем смещение клавиатуры при открытии
+    keyboardOffset.setValue(0);
   };
 
-  // Подписка на события клавиатуры
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
       (event) => {
         const keyboardHeight = event.endCoordinates.height;
         
-        // Плавно поднимаем окно на высоту клавиатуры
         Animated.timing(keyboardOffset, {
-          toValue: -keyboardHeight / 2, // ← делим на 2, чтобы окно было по центру оставшегося пространства
-          duration: event.duration || 250, // ← используем скорость анимации клавиатуры
+          toValue: -keyboardHeight / 2, 
+          duration: event.duration || 250, 
           useNativeDriver: true,
         }).start();
       }
@@ -54,7 +52,6 @@ export const ModalWindow = ({
     const hideSubscription = Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
       (event) => {
-        // Возвращаем окно на место
         Animated.timing(keyboardOffset, {
           toValue: 0,
           duration: event.duration || 250,
@@ -77,7 +74,6 @@ export const ModalWindow = ({
           Math.abs(gestureState.dy) > 5,
         onPanResponderMove: (_, gestureState) => {
           if (gestureState.dy > 0 && !isClosing.current) {
-            // Скрываем клавиатуру при свайпе вниз
             Keyboard.dismiss();
             translateY.setValue(gestureState.dy);
           }
@@ -85,7 +81,6 @@ export const ModalWindow = ({
         onPanResponderRelease: (_, gestureState) => {
           if (gestureState.dy > 70 && !isClosing.current) {
             isClosing.current = true;
-            // Скрываем клавиатуру перед закрытием
             Keyboard.dismiss();
             Animated.timing(translateY, {
               toValue: SCREEN_HEIGHT,
@@ -107,7 +102,6 @@ export const ModalWindow = ({
     [onClose, translateY]
   );
 
-  // Комбинируем смещение от жеста и от клавиатуры
   const combinedTranslateY = Animated.add(translateY, keyboardOffset);
 
   return (
@@ -122,7 +116,7 @@ export const ModalWindow = ({
         <Animated.View
           style={[
             {
-              transform: [{ translateY: combinedTranslateY }], // ← используем комбинированное смещение
+              transform: [{ translateY: combinedTranslateY }],
             },
             styleModal.modalContent,
           ]}
