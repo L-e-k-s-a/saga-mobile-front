@@ -6,12 +6,14 @@ import { StyleSheet } from 'react-native';
 import { Button } from '../../shared/ui/buttons/button/Button';
 import { CreateFamilyForm } from '../forms/create-family-form/create-family-form';
 import { JoinFamilyForm } from '../forms/join-family-form/join-family-form';
+import { useUserStore } from '@/shared/store/user/user-store';
 
 export const FamilyActions = () => {
 	const [isJoin, setIsJoin] = useState(false);
 	const [isCreate, setIsCreate] = useState(false);
 	const [isAdd, setIsAdd] = useState(false);
 	const { inviteCode } = useFamilyStore();
+	const { activeFamily } = useUserStore()
 
 	return (
 		<VerLayout styles={styleFamilyAction.actions}>
@@ -27,7 +29,7 @@ export const FamilyActions = () => {
 			{isAdd ? (
 				<Button
 					style={[styleFamilyAction.button, styleFamilyAction.item]}
-					text={inviteCode.toUpperCase()}
+					text={activeFamily ? inviteCode.toUpperCase() : 'Необходимо вступить в семью'}
 					onPress={() => setIsAdd(false)}
 				/>
 			) : (
