@@ -10,6 +10,8 @@ type StackScreenSettingsOptions = {
 	headerTintColor: string;
 	headerTitleAlign: HeaderAlign;
 	headerShadowVisible: boolean;
+	headerBackTitle: string,
+	headerBackButtonDisplayMode: 'minimal',
 	headerStyle: NativeStackNavigationOptions['headerStyle'];
 };
 
@@ -25,6 +27,8 @@ export const stackScreenSettingsOptions = (
 		headerTintColor: COLORS.white,
 		headerTitleAlign: headerAlign,
 		headerShadowVisible: false,
+		headerBackTitle: '',
+		headerBackButtonDisplayMode: 'minimal',
 		headerStyle: {
 			backgroundColor: COLORS.primary,
 		},

@@ -1,5 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { VariantTypography } from '@/shared/types/variant-typography';
 import { ReactNode } from 'react';
 import {
 	StyleProp,
@@ -8,7 +9,6 @@ import {
 	ViewStyle,
 } from 'react-native';
 import { Typography } from '../../typography/typography';
-import { VariantTypography } from '@/shared/types/variant-typography';
 
 type VariantsBtn = 'primary' | 'secondary';
 
@@ -37,13 +37,6 @@ export const Button = ({
 	textVariant = 'div',
 	onPress,
 }: ButtonProps) => {
-	const getStyleText = () => {
-		if (variant === 'primary') {
-			return buttonStyle['textPrimary'];
-		} else if (variant === 'secondary') {
-			return buttonStyle['textSecondary'];
-		}
-	};
 	return (
 		<TouchableOpacity
 			disabled={disabled}
@@ -56,7 +49,7 @@ export const Button = ({
 			]}
 			onPress={onPress}>
 			<HorLayout style={addonRight ? buttonStyle.withAddon : undefined}>
-				<Typography variant={textVariant} style={[getStyleText()]}>{text}</Typography>
+				<Typography variant={textVariant}>{text}</Typography>
 				{addonRight}
 			</HorLayout>
 		</TouchableOpacity>
@@ -94,12 +87,6 @@ const buttonStyle = StyleSheet.create({
 	},
 	fw: {
 		width: '100%',
-	},
-	textPrimary: {
-		color: COLORS.white,
-	},
-	textSecondary: {
-		color: COLORS.black,
 	},
 	withAddon: {
 		width: '100%',

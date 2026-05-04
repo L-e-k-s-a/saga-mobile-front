@@ -13,7 +13,7 @@ export default function RootLayout() {
 			<QueryClientProvider client={client}>
 				<Stack screenOptions={{ headerShown: false }}>
 					<Stack.Protected guard={!isAuth}>
-						<Stack.Screen name='(auth)' />
+						<Stack.Screen name='(auth)'/>
 					</Stack.Protected>
 
 					<Stack.Protected guard={isAuth}>

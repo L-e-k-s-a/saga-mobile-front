@@ -29,12 +29,13 @@ export const FamiliesUser = () => {
 	}
 
 	const handleChangeFamily = async (family: Family) => {
+		console.log("family", family)
 		setActiveFamily(family.uid);
 		setNameFamily(family.nameFamily);
 		setInviteCode(family.inviteCode);
 		const familyMembers = await getFamilyMembers(activeFamily) 
 		setFamilyMembers(familyMembers);
-		console.log(familyMembers)
+		console.log("familyMembers", familyMembers)
 	};
 
 	return families.length !== 0 ? (

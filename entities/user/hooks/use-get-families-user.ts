@@ -24,7 +24,6 @@ export const useFamiliesUsers = () => {
 
 		const unsubscribes: Unsubscribe[] = [];
 
-		// Подписываемся на изменения в familyMembers
 		const familyMembersQuery = query(
 			collection(db, 'familyMembers'),
 			where('userId', '==', me.uid)
@@ -33,7 +32,6 @@ export const useFamiliesUsers = () => {
 		const unsubscribeFamilyMembers = onSnapshot(
 			familyMembersQuery,
 			(membersSnapshot) => {
-				// Отписываемся от старых подписок на семьи
 				unsubscribes.forEach(unsub => unsub());
 				unsubscribes.length = 0;
 
@@ -48,7 +46,6 @@ export const useFamiliesUsers = () => {
 					return;
 				}
 
-				// Создаем подписки на каждую семью
 				const familiesMap = new Map<string, Family>();
 
 				membersData.forEach(member => {
@@ -66,7 +63,6 @@ export const useFamiliesUsers = () => {
 									familyMembers: familyData.familyMembers || []
 								});
 								
-								// Преобразуем Map в массив
 								setFamilies(Array.from(familiesMap.values()));
 							} else {
 								familiesMap.delete(member.familyId);
