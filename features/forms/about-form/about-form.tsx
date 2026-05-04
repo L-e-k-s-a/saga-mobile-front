@@ -33,12 +33,12 @@ export const AboutForm = ({
 						<Typography
 							variant='h3'
 							style={styles.label}>
-							Имя
+							Фамилия
 						</Typography>
 						<Input
-							value={form.name}
-							onChangeText={(text) => onFormChange('name', text)}
-							placeholder='Имя'
+							value={form.surname}
+							onChangeText={(text) => onFormChange('surname', text)}
+							placeholder='Фамилия'
 							style={styleForm.input}
 						/>
 					</VerLayout>
@@ -46,12 +46,12 @@ export const AboutForm = ({
 						<Typography
 							variant='h3'
 							style={styles.label}>
-							Фамилия
+							Имя
 						</Typography>
 						<Input
-							value={form.surname}
-							onChangeText={(text) => onFormChange('surname', text)}
-							placeholder='Фамилия'
+							value={form.name}
+							onChangeText={(text) => onFormChange('name', text)}
+							placeholder='Имя'
 							style={styleForm.input}
 						/>
 					</VerLayout>
