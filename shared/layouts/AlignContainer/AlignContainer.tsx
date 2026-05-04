@@ -33,7 +33,6 @@ export const AlignContainer = ({ children }: AlignContainerProps) => {
       }
     })
     .onEnd((event) => {
-      // Если потянули достаточно сильно — отскакиваем с эффектом
       if (Math.abs(event.velocityY) > 500) {
         translateY.value = withSpring(0, {
           damping: 15,
@@ -41,7 +40,6 @@ export const AlignContainer = ({ children }: AlignContainerProps) => {
           mass: 0.5,
         });
       } else {
-        // Плавно возвращаем в исходное положение
         translateY.value = withSpring(0, {
           damping: 20,
           stiffness: 200,
