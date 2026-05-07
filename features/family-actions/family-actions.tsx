@@ -65,7 +65,7 @@ const styleFamilyAction = StyleSheet.create({
 	},
 	input: {
 		borderWidth: 0.5,
-		backgroundColor: COLORS.primaryColorBackgroundInput,
+		backgroundColor: COLORS.white,
 		borderRadius: 10,
 		height: 52,
 		width: '65%',

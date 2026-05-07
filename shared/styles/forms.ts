@@ -15,7 +15,7 @@ export const styleForm = StyleSheet.create({
 	},
 	input: {
 		borderWidth: 0.5,
-		backgroundColor: COLORS.primaryColorBackgroundInput,
+		backgroundColor: COLORS.white,
 		borderRadius: 10,
 		height: 52,
 		width: '100%',
@@ -34,18 +34,18 @@ export const styleForm = StyleSheet.create({
 		marginTop: 16,
 	},
 	label: {
-		color: COLORS.primaryColorText,
+		color: COLORS.white,
 		fontSize: 14,
 		fontWeight: '500',
 	},
 	actionLabel: {
-		color: COLORS.primaryColorText,
+		color: COLORS.white,
 		fontSize: 16,
 		fontWeight: '600',
 		marginBottom: 8,
 	},
 	buttonText: {
-		color: COLORS.primaryColorText,
+		color: COLORS.white,
 		fontSize: 16,
 		fontWeight: '600',
 	},
