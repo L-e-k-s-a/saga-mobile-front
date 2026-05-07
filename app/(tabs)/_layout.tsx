@@ -39,7 +39,7 @@ export default function TabsLayout() {
 						position: 'absolute',
 						marginHorizontal: 40,
 						marginBottom: 20,
-						backgroundColor: COLORS.ligthGray,
+						backgroundColor: COLORS.secondary,
 						borderTopWidth: 0,
 						height: 60,
 						paddingBottom: 8,
@@ -50,7 +50,7 @@ export default function TabsLayout() {
 					headerTitleAlign: 'center',
 					headerTintColor: COLORS.white,
 					headerStyle: {
-						backgroundColor: COLORS.darkGray,
+						backgroundColor: COLORS.primary,
 						borderBottomWidth: 0,
 						borderBottomColor: 'transparent',
 					},

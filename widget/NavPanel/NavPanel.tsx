@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 		margin: 'auto',
 		height: '8%',
 		width: '60%',
-		backgroundColor: COLORS.ligthGray,
+		backgroundColor: COLORS.secondary,
 		borderRadius: 10,
 	},
 });

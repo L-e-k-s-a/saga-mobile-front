@@ -12,6 +12,6 @@ export const BackgroundContainer = ({ children }: BackgroundContainerProps) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: COLORS.darkGray,
+		backgroundColor: COLORS.primary,
 	},
 });
