@@ -48,62 +48,59 @@ const DraggableFigure: React.FC<{
 	onMoveEnd: (id: string, x: number, y: number) => void;
 	enabled: boolean;
 }> = ({ figure, isSelected, isConnecting, isMoving, onMoveStart, onMoveEnd, enabled }) => {
-	const translateX = useSharedValue(0);
-	const translateY = useSharedValue(0);
+	// Используем shared values для позиции вместо пропсов
+	const posX = useSharedValue(figure.x);
+	const posY = useSharedValue(figure.y);
 	const startX = useSharedValue(0);
 	const startY = useSharedValue(0);
+	const startPosX = useSharedValue(0);
+	const startPosY = useSharedValue(0);
+
+	// Обновляем позицию при изменении пропсов (если фигуру переместили извне)
+	React.useEffect(() => {
+		posX.value = figure.x;
+		posY.value = figure.y;
+	}, [figure.x, figure.y]);
 
 	const panGesture = Gesture.Pan()
 		.onStart((event) => {
 			'worklet';
 			startX.value = event.absoluteX;
 			startY.value = event.absoluteY;
-			translateX.value = 0;
-			translateY.value = 0;
+			startPosX.value = posX.value;
+			startPosY.value = posY.value;
 			runOnJS(onMoveStart)(figure.id);
 		})
 		.onUpdate((event) => {
 			'worklet';
-			translateX.value = event.absoluteX - startX.value;
-			translateY.value = event.absoluteY - startY.value;
+			posX.value = startPosX.value + (event.absoluteX - startX.value);
+			posY.value = startPosY.value + (event.absoluteY - startY.value);
 		})
-		.onEnd((event) => {
+		.onEnd(() => {
 			'worklet';
-			const finalX = figure.x + translateX.value;
-			const finalY = figure.y + translateY.value;
-			translateX.value = 0;
-			translateY.value = 0;
-			runOnJS(onMoveEnd)(figure.id, finalX, finalY);
+			// Просто сохраняем финальную позицию без сброса
+			runOnJS(onMoveEnd)(figure.id, posX.value, posY.value);
 		})
 		.enabled(enabled);
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
-			transform: [
-				{ translateX: translateX.value },
-				{ translateY: translateY.value },
-			],
+			position: 'absolute',
+			left: posX.value,
+			top: posY.value,
+			width: figure.width,
+			height: figure.height,
+			backgroundColor: isSelected && isConnecting ? '#E3F2FD' : '#4CAF50',
+			borderRadius: figure.type === 'circle' ? figure.width / 2 : 8,
+			borderWidth: 2,
+			borderColor: isSelected && isConnecting ? '#2196F3' : '#388E3C',
+			opacity: isMoving ? 0.7 : 1,
 		};
 	});
 
 	return (
 		<GestureDetector gesture={panGesture}>
-			<Animated.View
-				style={[
-					{
-						position: 'absolute',
-						left: figure.x,
-						top: figure.y,
-						width: figure.width,
-						height: figure.height,
-						backgroundColor: isSelected && isConnecting ? '#E3F2FD' : '#4CAF50',
-						borderRadius: figure.type === 'circle' ? figure.width / 2 : 8,
-						borderWidth: 2,
-						borderColor: isSelected && isConnecting ? '#2196F3' : '#388E3C',
-						opacity: isMoving ? 0.7 : 1,
-					},
-					animatedStyle,
-				]}>
+			<Animated.View style={animatedStyle}>
 				<View
 					style={{
 						flex: 1,
@@ -123,7 +120,6 @@ const DraggableFigure: React.FC<{
 		</GestureDetector>
 	);
 };
-
 export const Genealogy: React.FC<GenealogyProps> = ({
 	initialFigures = [],
 	initialLines = [],
