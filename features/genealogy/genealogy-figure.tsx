@@ -1,9 +1,13 @@
 import { COLORS } from '@/shared/constants/colors';
 import { ICONS } from '@/shared/icons/icons';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { styleForm } from '@/shared/styles/forms';
+import { Button } from '@/shared/ui/buttons/button/Button';
+import { Input } from '@/shared/ui/Input/Input';
+import { ModalWindow } from '@/shared/ui/modal/modal-window';
 import { Typography } from '@/shared/ui/typography/typography';
-import { StyleSheet, TouchableOpacity, View, Modal, TextInput } from 'react-native';
 import { useEffect, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export type Shape = 'rectangle' | 'circle' | 'line' | 'move' | 'trash' | 'hand';
 
@@ -14,7 +18,6 @@ type GenealogyFigureProps = {
 	onCancelConnection?: () => void;
 };
 
-// Пропсы для модального окна
 interface EditModalProps {
 	visible: boolean;
 	onClose: () => void;
@@ -29,18 +32,16 @@ const shapes = [
 	{ type: 'line' as Shape, icon: ICONS.line, label: 'Линия' },
 ] as const;
 
-// Компонент модального окна для редактирования
-export const EditFigureModal = ({ 
-	visible, 
-	onClose, 
-	onSave, 
-	initialTitle = '', 
-	initialDescription = '' 
+export const EditFigureModal = ({
+	visible,
+	onClose,
+	onSave,
+	initialTitle = '',
+	initialDescription = '',
 }: EditModalProps) => {
 	const [title, setTitle] = useState(initialTitle);
 	const [description, setDescription] = useState(initialDescription);
 
-	// Обновляем состояния при изменении initial пропсов
 	useEffect(() => {
 		if (visible) {
 			setTitle(initialTitle);
@@ -54,54 +55,47 @@ export const EditFigureModal = ({
 	};
 
 	return (
-		<Modal
+		<ModalWindow
 			visible={visible}
-			transparent={true}
-			animationType="slide"
-			onRequestClose={onClose}>
-			<View style={modalStyles.overlay}>
-				<View style={modalStyles.modalContainer}>
+			onClose={onClose}
+			content={() => (
+				<View>
 					<View style={modalStyles.modalHeader}>
-						<Typography variant="h3">Редактировать фигуру</Typography>
+						<Typography
+							variant='h3'
+							textColor='secondary'>
+							Информация
+						</Typography>
 					</View>
-					
+
 					<View style={modalStyles.inputContainer}>
-						<Typography style={modalStyles.label}>Заголовок</Typography>
-						<TextInput
-							style={modalStyles.input}
+						<Input
+							style={styleForm.input}
 							value={title}
 							onChangeText={setTitle}
-							placeholder="Введите заголовок..."
-							maxLength={50}
-							placeholderTextColor="#999"
+							placeholder='Ваш родственник'
 						/>
 					</View>
 
 					<View style={modalStyles.inputContainer}>
-						<Typography style={modalStyles.label}>Описание</Typography>
-						<TextInput
+						<Input
 							style={[modalStyles.input, modalStyles.textArea]}
 							value={description}
 							onChangeText={setDescription}
-							placeholder="Введите описание..."
+							placeholder='Более подробное описание'
 							multiline
-							numberOfLines={4}
-							maxLength={200}
-							placeholderTextColor="#999"
 						/>
 					</View>
 
-					<View style={modalStyles.modalButtons}>
-						<TouchableOpacity style={modalStyles.cancelButton} onPress={onClose}>
-							<Typography style={modalStyles.cancelButtonText}>Отмена</Typography>
-						</TouchableOpacity>
-						<TouchableOpacity style={modalStyles.saveButton} onPress={handleSave}>
-							<Typography style={modalStyles.saveButtonText}>Сохранить</Typography>
-						</TouchableOpacity>
-					</View>
+					<Button
+						style={modalStyles.saveButton}
+						onPress={handleSave}
+						fullWidth
+						text='Сохранить'
+					/>
 				</View>
-			</View>
-		</Modal>
+			)}
+		/>
 	);
 };
 
@@ -163,12 +157,6 @@ export const GenealogyFigure = ({
 };
 
 const modalStyles = StyleSheet.create({
-	overlay: {
-		flex: 1,
-		backgroundColor: 'rgba(0,0,0,0.5)',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
 	modalContainer: {
 		backgroundColor: COLORS.white,
 		borderRadius: 12,
@@ -198,19 +186,6 @@ const modalStyles = StyleSheet.create({
 	textArea: {
 		minHeight: 80,
 		textAlignVertical: 'top',
-	},
-	modalButtons: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		marginTop: 20,
-		gap: 10,
-	},
-	cancelButton: {
-		flex: 1,
-		padding: 12,
-		backgroundColor: '#f5f5f5',
-		borderRadius: 8,
-		alignItems: 'center',
 	},
 	cancelButtonText: {
 		color: '#666',
