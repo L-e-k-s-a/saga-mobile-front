@@ -1,19 +1,20 @@
 import React, { useState, useRef } from 'react';
 import {
   View,
-  TouchableOpacity,
-  PanResponder,
-  GestureResponderEvent,
-  LayoutChangeEvent,
-  ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
+import { PanGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  runOnJS,
+} from 'react-native-reanimated';
 import { GenealogyToolbar, Shape } from './genealogy-toolbar';
 
 // Типы фигур
 type FigureType = 'rectangle' | 'circle';
 
-// Интерфейс фигуры
 interface Figure {
   id: string;
   type: FigureType;
@@ -23,7 +24,6 @@ interface Figure {
   height: number;
 }
 
-// Интерфейс линии
 interface Line {
   id: string;
   fromId: string;
@@ -48,77 +48,157 @@ export const Genealogy: React.FC<GenealogyProps> = ({
   const [selectedFigureId, setSelectedFigureId] = useState<string | null>(null);
   
   // Для перемещения канваса
-  const [canvasOffset, setCanvasOffset] = useState({ x: 0, y: 0 });
-  const [isDraggingCanvas, setIsDraggingCanvas] = useState(false);
-  const dragStartRef = useRef({ x: 0, y: 0 });
+  const canvasOffsetX = useSharedValue(0);
+  const canvasOffsetY = useSharedValue(0);
+  const startOffsetX = useSharedValue(0);
+  const startOffsetY = useSharedValue(0);
   
   // Для перемещения фигур
-  const [draggedFigure, setDraggedFigure] = useState<{ id: string; startX: number; startY: number; offsetX: number; offsetY: number } | null>(null);
+  const [selectedFigureForMove, setSelectedFigureForMove] = useState<string | null>(null);
+  const figureStartPosition = useRef({ x: 0, y: 0 });
+  const panStartPosition = useRef({ x: 0, y: 0 });
   
   const canvasSize = { width: SCREEN_WIDTH * 3, height: SCREEN_HEIGHT * 3 };
-  const scrollViewRef = useRef<ScrollView>(null);
+  
+  // Минимальные и максимальные отступы
+  const minOffsetX = -(canvasSize.width - SCREEN_WIDTH);
+  const minOffsetY = -(canvasSize.height - SCREEN_HEIGHT);
+  const maxOffsetX = 0;
+  const maxOffsetY = 0;
 
-  // Генерация уникального ID
+  // Refs для жестов
+  const tapRef = useRef(null);
+  const panRef = useRef(null);
+
+  // Генерация ID
   const generateId = () => `${Date.now()}-${Math.random()}`;
 
-  // Обработка нажатия на канвас
-  const handleCanvasPress = (event: GestureResponderEvent) => {
-    // Получаем координаты относительно канваса
-    const { pageX, pageY } = event.nativeEvent;
-    const canvasX = pageX - canvasOffset.x;
-    const canvasY = pageY - canvasOffset.y;
+  // Получение координат относительно канваса
+  const getCanvasCoordinates = (x: number, y: number) => {
+    return {
+      x: x - canvasOffsetX.value,
+      y: y - canvasOffsetY.value,
+    };
+  };
+
+  // Поиск фигуры
+  const findFigureAtPosition = (x: number, y: number) => {
+    return figures.find(figure => {
+      const inX = x >= figure.x && x <= figure.x + figure.width;
+      const inY = y >= figure.y && y <= figure.y + figure.height;
+      return inX && inY;
+    });
+  };
+
+  // Обработка начала жеста панорамирования
+  const onPanGestureEvent = (event: any) => {
+    const { translationX, translationY, state } = event.nativeEvent;
+    
+    if (state === State.ACTIVE) {
+      if (selectedFigureForMove) {
+        // Перемещаем выбранную фигуру
+        const newX = figureStartPosition.current.x + translationX;
+        const newY = figureStartPosition.current.y + translationY;
+        
+        setFigures(prev => prev.map(figure =>
+          figure.id === selectedFigureForMove
+            ? { ...figure, x: newX, y: newY }
+            : figure
+        ));
+      } else {
+        // Перемещаем канвас
+        let newOffsetX = startOffsetX.value + translationX;
+        let newOffsetY = startOffsetY.value + translationY;
+        
+        newOffsetX = Math.min(maxOffsetX, Math.max(minOffsetX, newOffsetX));
+        newOffsetY = Math.min(maxOffsetY, Math.max(minOffsetY, newOffsetY));
+        
+        canvasOffsetX.value = newOffsetX;
+        canvasOffsetY.value = newOffsetY;
+      }
+    }
+    
+    if (state === State.END || state === State.CANCELLED) {
+      // Сбрасываем перемещение фигуры
+      if (selectedFigureForMove) {
+        runOnJS(setSelectedFigureForMove)(null);
+      }
+      // Сохраняем текущие отступы для следующего жеста
+      startOffsetX.value = canvasOffsetX.value;
+      startOffsetY.value = canvasOffsetY.value;
+    }
+  };
+
+  // Обработка начала панорамирования
+  const onPanHandlerStart = (event: any) => {
+    const { x, y } = event.nativeEvent;
+    const { x: canvasX, y: canvasY } = getCanvasCoordinates(x, y);
+    
+    // В режиме move проверяем, нажали ли на фигуру
+    if (selectedShape === 'move') {
+      const figure = findFigureAtPosition(canvasX, canvasY);
+      if (figure) {
+        setSelectedFigureForMove(figure.id);
+        figureStartPosition.current = { x: figure.x, y: figure.y };
+        panStartPosition.current = { x: canvasX, y: canvasY };
+        return;
+      }
+    }
+    
+    // Иначе сохраняем начальную позицию канваса
+    startOffsetX.value = canvasOffsetX.value;
+    startOffsetY.value = canvasOffsetY.value;
+  };
+
+  // Обработка тапа
+  const onTapHandler = (event: any) => {
+    const { state, x, y } = event.nativeEvent;
+    
+    if (state !== State.ACTIVE) return;
+    
+    const { x: canvasX, y: canvasY } = getCanvasCoordinates(x, y);
     
     // Режим удаления
     if (selectedShape === 'trash') {
-      const figureToDelete = figures.find(figure => {
-        const inX = canvasX >= figure.x && canvasX <= figure.x + figure.width;
-        const inY = canvasY >= figure.y && canvasY <= figure.y + figure.height;
-        return inX && inY;
-      });
-      
+      const figureToDelete = findFigureAtPosition(canvasX, canvasY);
       if (figureToDelete) {
         setFigures(prev => prev.filter(f => f.id !== figureToDelete.id));
         setLines(prev => prev.filter(line => 
           line.fromId !== figureToDelete.id && line.toId !== figureToDelete.id
         ));
       }
-      return true;
+      return;
     }
     
-    // Режим линии (соединения)
+    // Режим линии
     if (selectedShape === 'line') {
-      const clickedFigure = figures.find(figure => {
-        const inX = canvasX >= figure.x && canvasX <= figure.x + figure.width;
-        const inY = canvasY >= figure.y && canvasY <= figure.y + figure.height;
-        return inX && inY;
-      });
-      
+      const clickedFigure = findFigureAtPosition(canvasX, canvasY);
       if (clickedFigure) {
         if (!isConnecting) {
           setIsConnecting(true);
           setSelectedFigureId(clickedFigure.id);
-        } else {
-          if (selectedFigureId && selectedFigureId !== clickedFigure.id) {
-            const lineExists = lines.some(
-              line => 
-                (line.fromId === selectedFigureId && line.toId === clickedFigure.id) ||
-                (line.fromId === clickedFigure.id && line.toId === selectedFigureId)
-            );
-            
-            if (!lineExists) {
-              const newLine: Line = {
-                id: generateId(),
-                fromId: selectedFigureId,
-                toId: clickedFigure.id,
-              };
-              setLines(prev => [...prev, newLine]);
-            }
+        } else if (selectedFigureId && selectedFigureId !== clickedFigure.id) {
+          const lineExists = lines.some(
+            line => 
+              (line.fromId === selectedFigureId && line.toId === clickedFigure.id) ||
+              (line.fromId === clickedFigure.id && line.toId === selectedFigureId)
+          );
+          
+          if (!lineExists) {
+            setLines(prev => [...prev, {
+              id: generateId(),
+              fromId: selectedFigureId,
+              toId: clickedFigure.id,
+            }]);
           }
+          setIsConnecting(false);
+          setSelectedFigureId(null);
+        } else if (selectedFigureId === clickedFigure.id) {
           setIsConnecting(false);
           setSelectedFigureId(null);
         }
       }
-      return true;
+      return;
     }
     
     // Режим создания фигур
@@ -136,85 +216,16 @@ export const Genealogy: React.FC<GenealogyProps> = ({
       };
       
       setFigures(prev => [...prev, newFigure]);
-      return true;
     }
-    
-    return true;
   };
 
-  // PanResponder для перемещения канваса и фигур
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (e) => {
-        const { pageX, pageY } = e.nativeEvent;
-        const canvasX = pageX - canvasOffset.x;
-        const canvasY = pageY - canvasOffset.y;
-        
-        // Проверяем, нажали ли на фигуру в режиме перемещения
-        if (selectedShape === 'move') {
-          const figure = figures.find(f => {
-            const inX = canvasX >= f.x && canvasX <= f.x + f.width;
-            const inY = canvasY >= f.y && canvasY <= f.y + f.height;
-            return inX && inY;
-          });
-          
-          if (figure) {
-            setDraggedFigure({
-              id: figure.id,
-              startX: figure.x,
-              startY: figure.y,
-              offsetX: canvasX - figure.x,
-              offsetY: canvasY - figure.y,
-            });
-            return;
-          }
-        }
-        
-        // Иначе перемещаем канвас
-        setIsDraggingCanvas(true);
-        dragStartRef.current = { x: pageX - canvasOffset.x, y: pageY - canvasOffset.y };
-      },
-      onPanResponderMove: (e) => {
-        const { pageX, pageY } = e.nativeEvent;
-        
-        // Перемещение фигуры
-        if (draggedFigure) {
-          const newX = pageX - canvasOffset.x - draggedFigure.offsetX;
-          const newY = pageY - canvasOffset.y - draggedFigure.offsetY;
-          
-          setFigures(prev => prev.map(figure =>
-            figure.id === draggedFigure.id
-              ? { ...figure, x: newX, y: newY }
-              : figure
-          ));
-          return;
-        }
-        
-        // Перемещение канваса
-        if (isDraggingCanvas) {
-          const newOffsetX = pageX - dragStartRef.current.x;
-          const newOffsetY = pageY - dragStartRef.current.y;
-          
-          setCanvasOffset({
-            x: Math.min(0, Math.max(-(canvasSize.width - SCREEN_WIDTH), newOffsetX)),
-            y: Math.min(0, Math.max(-(canvasSize.height - SCREEN_HEIGHT), newOffsetY)),
-          });
-        }
-      },
-      onPanResponderRelease: () => {
-        setIsDraggingCanvas(false);
-        setDraggedFigure(null);
-      },
-    })
-  ).current;
-
-  // Отмена режима соединения
-  const handleCancelConnection = () => {
-    setIsConnecting(false);
-    setSelectedFigureId(null);
-  };
+  // Анимированный стиль для канваса
+  const animatedCanvasStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: canvasOffsetX.value },
+      { translateY: canvasOffsetY.value },
+    ],
+  }));
 
   // Отрисовка линий
   const renderLines = () => {
@@ -243,7 +254,6 @@ export const Genealogy: React.FC<GenealogyProps> = ({
             height: 3,
             backgroundColor: '#2196F3',
             transform: [{ rotate: `${angle}rad` }],
-            transformOrigin: 'left center',
           }}
         />
       );
@@ -265,6 +275,12 @@ export const Genealogy: React.FC<GenealogyProps> = ({
           borderRadius: figure.type === 'circle' ? figure.width / 2 : 8,
           borderWidth: 2,
           borderColor: selectedFigureId === figure.id && isConnecting ? '#2196F3' : '#388E3C',
+          opacity: selectedFigureForMove === figure.id ? 0.7 : 1,
+          shadowColor: selectedFigureForMove === figure.id ? '#000' : 'transparent',
+          shadowOffset: { width: 0, height: 5 },
+          shadowOpacity: 0.3,
+          shadowRadius: 5,
+          elevation: selectedFigureForMove === figure.id ? 5 : 0,
         }}
         activeOpacity={1}
         onPress={() => {
@@ -312,32 +328,44 @@ export const Genealogy: React.FC<GenealogyProps> = ({
     ));
   };
 
+  // Отмена режима соединения
+  const handleCancelConnection = () => {
+    setIsConnecting(false);
+    setSelectedFigureId(null);
+  };
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
-      <ScrollView
-        ref={scrollViewRef}
-        scrollEnabled={false}
-        contentContainerStyle={{
-          width: canvasSize.width,
-          height: canvasSize.height,
-        }}
+    <View style={{ flex: 1, backgroundColor: '#f0f0f0', overflow: 'hidden' }}>
+      <PanGestureHandler
+        ref={panRef}
+        onGestureEvent={onPanGestureEvent}
+        onHandlerStateChange={onPanHandlerStart}
+        simultaneousHandlers={[tapRef]}
       >
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{
-            width: canvasSize.width,
-            height: canvasSize.height,
-            backgroundColor: '#ffffff',
-            position: 'relative',
-            transform: [{ translateX: canvasOffset.x }, { translateY: canvasOffset.y }],
-          }}
-          onPress={handleCanvasPress}
-          {...panResponder.panHandlers}
-        >
-          {renderLines()}
-          {renderFigures()}
-        </TouchableOpacity>
-      </ScrollView>
+        <Animated.View style={{ flex: 1 }}>
+          <TapGestureHandler
+            ref={tapRef}
+            onHandlerStateChange={onTapHandler}
+            numberOfTaps={1}
+            simultaneousHandlers={[panRef]}
+          >
+            <Animated.View
+              style={[
+                {
+                  width: canvasSize.width,
+                  height: canvasSize.height,
+                  backgroundColor: '#ffffff',
+                  position: 'relative',
+                },
+                animatedCanvasStyle,
+              ]}
+            >
+              {renderLines()}
+              {renderFigures()}
+            </Animated.View>
+          </TapGestureHandler>
+        </Animated.View>
+      </PanGestureHandler>
       
       <GenealogyToolbar
         selectedShape={selectedShape}
@@ -346,6 +374,9 @@ export const Genealogy: React.FC<GenealogyProps> = ({
           if (shape !== 'line') {
             setIsConnecting(false);
             setSelectedFigureId(null);
+          }
+          if (shape !== 'move') {
+            setSelectedFigureForMove(null);
           }
         }}
         isConnecting={isConnecting}
