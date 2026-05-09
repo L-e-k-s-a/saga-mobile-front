@@ -6,27 +6,21 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export type Shape = 'rectangle' | 'circle' | 'line' | 'move' | 'trash';
 
-type GenealogyToolbarProps = {
+type GenealogyToolsProps = {
 	selectedShape: Shape;
 	setSelectedShape: (shape: Shape) => void;
-	isConnecting?: boolean;
-	onCancelConnection?: () => void;
 };
 
 const shapes = [
-	{ type: 'rectangle' as Shape, icon: ICONS.rectangle, label: 'Блок' },
-	{ type: 'circle' as Shape, icon: ICONS.circle, label: 'Круг' },
-	{ type: 'line' as Shape, icon: ICONS.line, label: 'Линия' },
 	{ type: 'trash' as Shape, icon: ICONS.trash, label: 'Стереть' },
 	{ type: 'move' as Shape, icon: ICONS.move, label: 'Двигать' },
+    { type: 'hand' as Shape, icon: ICONS.hand, label: 'Перемещение' }
 ] as const;
 
-export const GenealogyToolbar = ({
+export const GenealogyTools = ({
 	selectedShape,
 	setSelectedShape,
-	isConnecting = false,
-	onCancelConnection,
-}: GenealogyToolbarProps) => {
+}: GenealogyToolsProps) => {
 	return (
 		<View style={styles.container}>
 			<Typography
@@ -35,24 +29,6 @@ export const GenealogyToolbar = ({
 				style={styles.title}>
 				Инструменты
 			</Typography>
-			
-			{isConnecting && (
-				<View style={styles.connectionBanner}>
-					<Typography style={styles.connectionText}>
-						🔗 Выберите вторую фигуру для соединения
-					</Typography>
-					{onCancelConnection && (
-						<TouchableOpacity 
-							style={styles.cancelButton}
-							onPress={onCancelConnection}
-						>
-							<Typography style={styles.cancelButtonText}>
-								✕ Отмена
-							</Typography>
-						</TouchableOpacity>
-					)}
-				</View>
-			)}
 
 			{selectedShape === 'move' && (
 				<View style={styles.moveBanner}>
@@ -61,7 +37,7 @@ export const GenealogyToolbar = ({
 					</Typography>
 				</View>
 			)}
-			
+
 			<HorLayout style={styles.shapes}>
 				{shapes.map((shape) => (
 					<TouchableOpacity
@@ -69,17 +45,13 @@ export const GenealogyToolbar = ({
 						style={[
 							styles.tool,
 							selectedShape === shape.type && styles.toolActive,
-							shape.type === 'line' && isConnecting && styles.toolConnecting,
-							shape.type === 'move' && selectedShape === 'move' && styles.toolMoveActive,
+							shape.type === 'move' &&
+								selectedShape === 'move' &&
+								styles.toolMoveActive,
 						]}
 						onPress={() => setSelectedShape(shape.type)}>
 						<View style={{ width: 24, height: 24 }}>{shape.icon}</View>
-						<Typography style={[
-							styles.toolLabel,
-							selectedShape === shape.type && styles.toolLabelActive
-						]}>
-							{shape.type === 'line' && isConnecting ? 'Соединение...' : shape.label}
-						</Typography>
+                        <Typography style={styles.toolLabel}>{shape.label}</Typography>
 					</TouchableOpacity>
 				))}
 			</HorLayout>
@@ -92,6 +64,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		left: 10,
 		right: 10,
+        bottom: 100,
 		backgroundColor: COLORS.white,
 		borderRadius: 10,
 		padding: 16,
@@ -100,7 +73,7 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.15,
 		shadowRadius: 12,
 		elevation: 8,
-		zIndex: 10
+		zIndex: 10,
 	},
 	title: {
 		width: '100%',

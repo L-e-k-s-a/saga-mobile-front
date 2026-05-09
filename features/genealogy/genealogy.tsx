@@ -7,12 +7,13 @@ import {
 	State,
 	TapGestureHandler,
 } from 'react-native-gesture-handler';
-import Animated, { 
-	runOnJS, 
-	useSharedValue, 
-	useAnimatedStyle 
+import Animated, {
+	runOnJS,
+	useAnimatedStyle,
+	useSharedValue,
 } from 'react-native-reanimated';
-import { GenealogyToolbar, Shape } from './genealogy-toolbar';
+import { GenealogyFigure, Shape } from './genealogy-figure';
+import { GenealogyTools } from './genealogy-tools';
 
 type FigureType = 'rectangle' | 'circle';
 
@@ -47,7 +48,15 @@ const DraggableFigure: React.FC<{
 	onMoveStart: (id: string) => void;
 	onMoveEnd: (id: string, x: number, y: number) => void;
 	enabled: boolean;
-}> = ({ figure, isSelected, isConnecting, isMoving, onMoveStart, onMoveEnd, enabled }) => {
+}> = ({
+	figure,
+	isSelected,
+	isConnecting,
+	isMoving,
+	onMoveStart,
+	onMoveEnd,
+	enabled,
+}) => {
 	// Используем shared values для позиции вместо пропсов
 	const posX = useSharedValue(figure.x);
 	const posY = useSharedValue(figure.y);
@@ -340,15 +349,14 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 								height: canvasSize.height,
 								backgroundColor: '#ffffff',
 								position: 'relative',
-							}}
-						>
+							}}>
 							{renderLines()}
 							{renderFigures()}
 						</View>
 					</TapGestureHandler>
 				</ScrollView>
 
-				<GenealogyToolbar
+				<GenealogyFigure
 					selectedShape={selectedShape}
 					setSelectedShape={(shape) => {
 						setSelectedShape(shape);
@@ -362,6 +370,15 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 					}}
 					isConnecting={isConnecting}
 					onCancelConnection={handleCancelConnection}
+				/>
+				<GenealogyTools
+					selectedShape={selectedShape}
+					setSelectedShape={(shape) => {
+						setSelectedShape(shape);
+						if (shape !== 'move') {
+							setMovingFigureId(null);
+						}
+					}}
 				/>
 			</View>
 		</GestureHandlerRootView>
