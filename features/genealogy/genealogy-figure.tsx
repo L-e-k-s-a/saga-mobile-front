@@ -2,9 +2,10 @@ import { COLORS } from '@/shared/constants/colors';
 import { ICONS } from '@/shared/icons/icons';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { Typography } from '@/shared/ui/typography/typography';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Modal, TextInput } from 'react-native';
+import { useEffect, useState } from 'react';
 
-export type Shape = 'rectangle' | 'circle' | 'line' | 'move' | 'trash';
+export type Shape = 'rectangle' | 'circle' | 'line' | 'move' | 'trash' | 'hand';
 
 type GenealogyFigureProps = {
 	selectedShape: Shape;
@@ -13,11 +14,96 @@ type GenealogyFigureProps = {
 	onCancelConnection?: () => void;
 };
 
+// Пропсы для модального окна
+interface EditModalProps {
+	visible: boolean;
+	onClose: () => void;
+	onSave: (title: string, description: string) => void;
+	initialTitle?: string;
+	initialDescription?: string;
+}
+
 const shapes = [
 	{ type: 'rectangle' as Shape, icon: ICONS.rectangle, label: 'Блок' },
 	{ type: 'circle' as Shape, icon: ICONS.circle, label: 'Круг' },
 	{ type: 'line' as Shape, icon: ICONS.line, label: 'Линия' },
 ] as const;
+
+// Компонент модального окна для редактирования
+export const EditFigureModal = ({ 
+	visible, 
+	onClose, 
+	onSave, 
+	initialTitle = '', 
+	initialDescription = '' 
+}: EditModalProps) => {
+	const [title, setTitle] = useState(initialTitle);
+	const [description, setDescription] = useState(initialDescription);
+
+	// Обновляем состояния при изменении initial пропсов
+	useEffect(() => {
+		if (visible) {
+			setTitle(initialTitle);
+			setDescription(initialDescription);
+		}
+	}, [visible, initialTitle, initialDescription]);
+
+	const handleSave = () => {
+		onSave(title, description);
+		onClose();
+	};
+
+	return (
+		<Modal
+			visible={visible}
+			transparent={true}
+			animationType="slide"
+			onRequestClose={onClose}>
+			<View style={modalStyles.overlay}>
+				<View style={modalStyles.modalContainer}>
+					<View style={modalStyles.modalHeader}>
+						<Typography variant="h3">Редактировать фигуру</Typography>
+					</View>
+					
+					<View style={modalStyles.inputContainer}>
+						<Typography style={modalStyles.label}>Заголовок</Typography>
+						<TextInput
+							style={modalStyles.input}
+							value={title}
+							onChangeText={setTitle}
+							placeholder="Введите заголовок..."
+							maxLength={50}
+							placeholderTextColor="#999"
+						/>
+					</View>
+
+					<View style={modalStyles.inputContainer}>
+						<Typography style={modalStyles.label}>Описание</Typography>
+						<TextInput
+							style={[modalStyles.input, modalStyles.textArea]}
+							value={description}
+							onChangeText={setDescription}
+							placeholder="Введите описание..."
+							multiline
+							numberOfLines={4}
+							maxLength={200}
+							placeholderTextColor="#999"
+						/>
+					</View>
+
+					<View style={modalStyles.modalButtons}>
+						<TouchableOpacity style={modalStyles.cancelButton} onPress={onClose}>
+							<Typography style={modalStyles.cancelButtonText}>Отмена</Typography>
+						</TouchableOpacity>
+						<TouchableOpacity style={modalStyles.saveButton} onPress={handleSave}>
+							<Typography style={modalStyles.saveButtonText}>Сохранить</Typography>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</View>
+		</Modal>
+	);
+};
 
 export const GenealogyFigure = ({
 	selectedShape,
@@ -76,6 +162,73 @@ export const GenealogyFigure = ({
 	);
 };
 
+const modalStyles = StyleSheet.create({
+	overlay: {
+		flex: 1,
+		backgroundColor: 'rgba(0,0,0,0.5)',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	modalContainer: {
+		backgroundColor: COLORS.white,
+		borderRadius: 12,
+		padding: 20,
+		width: '90%',
+		maxWidth: 400,
+	},
+	modalHeader: {
+		marginBottom: 20,
+		alignItems: 'center',
+	},
+	inputContainer: {
+		marginBottom: 16,
+	},
+	label: {
+		marginBottom: 8,
+		fontWeight: '500',
+	},
+	input: {
+		borderWidth: 1,
+		borderColor: '#ddd',
+		borderRadius: 8,
+		padding: 10,
+		fontSize: 16,
+		backgroundColor: '#fff',
+	},
+	textArea: {
+		minHeight: 80,
+		textAlignVertical: 'top',
+	},
+	modalButtons: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginTop: 20,
+		gap: 10,
+	},
+	cancelButton: {
+		flex: 1,
+		padding: 12,
+		backgroundColor: '#f5f5f5',
+		borderRadius: 8,
+		alignItems: 'center',
+	},
+	cancelButtonText: {
+		color: '#666',
+		fontWeight: '500',
+	},
+	saveButton: {
+		flex: 1,
+		padding: 12,
+		backgroundColor: COLORS.secondary,
+		borderRadius: 8,
+		alignItems: 'center',
+	},
+	saveButtonText: {
+		color: '#fff',
+		fontWeight: '500',
+	},
+});
+
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
@@ -110,19 +263,6 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		marginBottom: 8,
 	},
-	moveBanner: {
-		backgroundColor: '#FFF3E0',
-		borderRadius: 8,
-		padding: 12,
-		marginBottom: 12,
-		borderLeftWidth: 4,
-		borderLeftColor: '#FF9800',
-	},
-	moveText: {
-		fontSize: 14,
-		color: '#E65100',
-		fontWeight: '500',
-	},
 	cancelButton: {
 		backgroundColor: '#FF5252',
 		borderRadius: 6,
@@ -155,12 +295,6 @@ const styles = StyleSheet.create({
 	toolConnecting: {
 		backgroundColor: '#2196F3' + '20',
 		outlineColor: '#2196F3',
-		outlineWidth: 3,
-		outlineStyle: 'solid',
-	},
-	toolMoveActive: {
-		backgroundColor: '#FF9800' + '20',
-		outlineColor: '#FF9800',
 		outlineWidth: 3,
 		outlineStyle: 'solid',
 	},

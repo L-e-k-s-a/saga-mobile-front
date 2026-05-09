@@ -3,8 +3,7 @@ import { ICONS } from '@/shared/icons/icons';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { Typography } from '@/shared/ui/typography/typography';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-
-export type Shape = 'rectangle' | 'circle' | 'line' | 'move' | 'trash';
+import { Shape } from './genealogy-figure';
 
 type GenealogyToolsProps = {
 	selectedShape: Shape;
@@ -14,7 +13,7 @@ type GenealogyToolsProps = {
 const shapes = [
 	{ type: 'trash' as Shape, icon: ICONS.trash, label: 'Стереть' },
 	{ type: 'move' as Shape, icon: ICONS.move, label: 'Двигать' },
-    { type: 'hand' as Shape, icon: ICONS.hand, label: 'Перемещение' }
+	{ type: 'hand' as Shape, icon: ICONS.hand, label: 'Рука' }
 ] as const;
 
 export const GenealogyTools = ({
@@ -38,6 +37,14 @@ export const GenealogyTools = ({
 				</View>
 			)}
 
+			{selectedShape === 'hand' && (
+				<View style={styles.handBanner}>
+					<Typography style={styles.handText}>
+						👆 Нажмите на фигуру, чтобы редактировать текст
+					</Typography>
+				</View>
+			)}
+
 			<HorLayout style={styles.shapes}>
 				{shapes.map((shape) => (
 					<TouchableOpacity
@@ -48,10 +55,19 @@ export const GenealogyTools = ({
 							shape.type === 'move' &&
 								selectedShape === 'move' &&
 								styles.toolMoveActive,
+							shape.type === 'hand' &&
+								selectedShape === 'hand' &&
+								styles.toolHandActive,
 						]}
 						onPress={() => setSelectedShape(shape.type)}>
 						<View style={{ width: 24, height: 24 }}>{shape.icon}</View>
-                        <Typography style={styles.toolLabel}>{shape.label}</Typography>
+						<Typography 
+							style={[
+								styles.toolLabel,
+								selectedShape === shape.type && styles.toolLabelActive
+							]}>
+							{shape.label}
+						</Typography>
 					</TouchableOpacity>
 				))}
 			</HorLayout>
@@ -64,7 +80,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		left: 10,
 		right: 10,
-        bottom: 100,
+		bottom: 100,
 		backgroundColor: COLORS.white,
 		borderRadius: 10,
 		padding: 16,
@@ -80,20 +96,6 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		marginBottom: 10,
 	},
-	connectionBanner: {
-		backgroundColor: '#E3F2FD',
-		borderRadius: 8,
-		padding: 12,
-		marginBottom: 12,
-		borderLeftWidth: 4,
-		borderLeftColor: '#2196F3',
-	},
-	connectionText: {
-		fontSize: 14,
-		color: '#1976D2',
-		fontWeight: '500',
-		marginBottom: 8,
-	},
 	moveBanner: {
 		backgroundColor: '#FFF3E0',
 		borderRadius: 8,
@@ -107,16 +109,18 @@ const styles = StyleSheet.create({
 		color: '#E65100',
 		fontWeight: '500',
 	},
-	cancelButton: {
-		backgroundColor: '#FF5252',
-		borderRadius: 6,
-		padding: 8,
-		alignItems: 'center',
+	handBanner: {
+		backgroundColor: '#E8F5E9',
+		borderRadius: 8,
+		padding: 12,
+		marginBottom: 12,
+		borderLeftWidth: 4,
+		borderLeftColor: '#4CAF50',
 	},
-	cancelButtonText: {
-		color: 'white',
-		fontSize: 13,
-		fontWeight: '600',
+	handText: {
+		fontSize: 14,
+		color: '#2E7D32',
+		fontWeight: '500',
 	},
 	shapes: {
 		gap: 10,
@@ -136,15 +140,15 @@ const styles = StyleSheet.create({
 		outlineWidth: 3,
 		outlineStyle: 'solid',
 	},
-	toolConnecting: {
-		backgroundColor: '#2196F3' + '20',
-		outlineColor: '#2196F3',
-		outlineWidth: 3,
-		outlineStyle: 'solid',
-	},
 	toolMoveActive: {
 		backgroundColor: '#FF9800' + '20',
 		outlineColor: '#FF9800',
+		outlineWidth: 3,
+		outlineStyle: 'solid',
+	},
+	toolHandActive: {
+		backgroundColor: '#4CAF50' + '20',
+		outlineColor: '#4CAF50',
 		outlineWidth: 3,
 		outlineStyle: 'solid',
 	},
@@ -152,6 +156,7 @@ const styles = StyleSheet.create({
 		fontSize: 11,
 		color: '#999',
 		fontWeight: '500',
+		marginTop: 4,
 	},
 	toolLabelActive: {
 		color: COLORS.secondary,

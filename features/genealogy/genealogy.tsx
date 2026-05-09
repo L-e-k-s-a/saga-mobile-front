@@ -12,11 +12,13 @@ import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
 } from 'react-native-reanimated';
-import { GenealogyFigure, Shape } from './genealogy-figure';
+import { GenealogyFigure, EditFigureModal, Shape } from './genealogy-figure';
 import { GenealogyTools } from './genealogy-tools';
+import { Typography } from '@/shared/ui/typography/typography';
 
 type FigureType = 'rectangle' | 'circle';
 
+// Обновляем интерфейс Figure, добавляя текст
 interface Figure {
 	id: string;
 	type: FigureType;
@@ -24,6 +26,8 @@ interface Figure {
 	y: number;
 	width: number;
 	height: number;
+	title?: string;
+	description?: string;
 }
 
 interface Line {
@@ -39,7 +43,7 @@ interface GenealogyProps {
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-// Компонент для отрисовки одной фигуры с возможностью перетаскивания
+// Компонент для отрисовки одной фигуры с возможностью перетаскивания и редактирования
 const DraggableFigure: React.FC<{
 	figure: Figure;
 	isSelected: boolean;
@@ -47,6 +51,8 @@ const DraggableFigure: React.FC<{
 	isMoving: boolean;
 	onMoveStart: (id: string) => void;
 	onMoveEnd: (id: string, x: number, y: number) => void;
+	onPress?: (id: string) => void;
+	onLongPress?: (id: string) => void;
 	enabled: boolean;
 }> = ({
 	figure,
@@ -55,9 +61,10 @@ const DraggableFigure: React.FC<{
 	isMoving,
 	onMoveStart,
 	onMoveEnd,
+	onPress,
+	onLongPress,
 	enabled,
 }) => {
-	// Используем shared values для позиции вместо пропсов
 	const posX = useSharedValue(figure.x);
 	const posY = useSharedValue(figure.y);
 	const startX = useSharedValue(0);
@@ -65,12 +72,29 @@ const DraggableFigure: React.FC<{
 	const startPosX = useSharedValue(0);
 	const startPosY = useSharedValue(0);
 
-	// Обновляем позицию при изменении пропсов (если фигуру переместили извне)
 	React.useEffect(() => {
 		posX.value = figure.x;
 		posY.value = figure.y;
 	}, [figure.x, figure.y]);
 
+	// Жест для нажатия (только когда не в режиме перемещения)
+	const tapGesture = Gesture.Tap()
+		.numberOfTaps(1)
+		.onEnd(() => {
+			if (onPress) {
+				runOnJS(onPress)(figure.id);
+			}
+		});
+
+	// Жест для долгого нажатия
+	const longPressGesture = Gesture.LongPress()
+		.onStart(() => {
+			if (onLongPress) {
+				runOnJS(onLongPress)(figure.id);
+			}
+		});
+
+	// Жест для перетаскивания (только в режиме move)
 	const panGesture = Gesture.Pan()
 		.onStart((event) => {
 			'worklet';
@@ -86,11 +110,14 @@ const DraggableFigure: React.FC<{
 			posY.value = startPosY.value + (event.absoluteY - startY.value);
 		})
 		.onEnd(() => {
-			'worklet';
-			// Просто сохраняем финальную позицию без сброса
 			runOnJS(onMoveEnd)(figure.id, posX.value, posY.value);
 		})
 		.enabled(enabled);
+
+	// В режиме move используем pan жест, иначе - tap + longPress
+	const activeGesture = enabled 
+		? panGesture 
+		: Gesture.Race(tapGesture, longPressGesture);
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
@@ -108,27 +135,43 @@ const DraggableFigure: React.FC<{
 	});
 
 	return (
-		<GestureDetector gesture={panGesture}>
+		<GestureDetector gesture={activeGesture}>
 			<Animated.View style={animatedStyle}>
 				<View
 					style={{
 						flex: 1,
 						justifyContent: 'center',
 						alignItems: 'center',
+						padding: 8,
 					}}>
-					<View
-						style={{
-							width: 30,
-							height: 30,
-							backgroundColor: 'rgba(255,255,255,0.3)',
-							borderRadius: figure.type === 'circle' ? 15 : 4,
-						}}
-					/>
+					{/* Отображаем заголовок, если есть */}
+					{figure.title ? (
+						<Typography 
+							style={{
+								color: 'white',
+								fontWeight: 'bold',
+								fontSize: 14,
+								textAlign: 'center',
+								marginBottom: 4,
+							}}>
+							{figure.title}
+						</Typography>
+					) : (
+						<View
+							style={{
+								width: 30,
+								height: 30,
+								backgroundColor: 'rgba(255,255,255,0.3)',
+								borderRadius: figure.type === 'circle' ? 15 : 4,
+							}}
+						/>
+					)}
 				</View>
 			</Animated.View>
 		</GestureDetector>
 	);
 };
+
 export const Genealogy: React.FC<GenealogyProps> = ({
 	initialFigures = [],
 	initialLines = [],
@@ -139,16 +182,121 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 	const [isConnecting, setIsConnecting] = useState(false);
 	const [selectedFigureId, setSelectedFigureId] = useState<string | null>(null);
 	const [movingFigureId, setMovingFigureId] = useState<string | null>(null);
+	
+	// Состояния для модального окна редактирования
+	const [editModalVisible, setEditModalVisible] = useState(false);
+	const [editingFigureId, setEditingFigureId] = useState<string | null>(null);
+	const [editingTitle, setEditingTitle] = useState('');
+	const [editingDescription, setEditingDescription] = useState('');
 
 	const scrollViewRef = useRef<ScrollView>(null);
 	const scrollPosition = useRef({ x: 0, y: 0 });
 	const canvasLayoutRef = useRef({ x: 0, y: 0 });
 
 	const canvasSize = { width: SCREEN_WIDTH * 3, height: SCREEN_HEIGHT * 3 };
-
 	const tapRef = useRef(null);
 
 	const generateId = () => `${Date.now()}-${Math.random()}`;
+
+	// Функция для обработки клика по фигуре в режиме line
+	const handleLineModePress = (figureId: string) => {
+		if (!isConnecting) {
+			setIsConnecting(true);
+			setSelectedFigureId(figureId);
+		} else if (selectedFigureId && selectedFigureId !== figureId) {
+			const lineExists = lines.some(
+				(line) =>
+					(line.fromId === selectedFigureId && line.toId === figureId) ||
+					(line.fromId === figureId && line.toId === selectedFigureId),
+			);
+
+			if (!lineExists) {
+				setLines((prev) => [
+					...prev,
+					{
+						id: generateId(),
+						fromId: selectedFigureId,
+						toId: figureId,
+					},
+				]);
+			}
+			setIsConnecting(false);
+			setSelectedFigureId(null);
+		} else if (selectedFigureId === figureId) {
+			setIsConnecting(false);
+			setSelectedFigureId(null);
+		}
+	};
+
+	// Функция для обработки клика по фигуре в режиме trash
+	const handleTrashModePress = (figureId: string) => {
+		setFigures((prev) => prev.filter((f) => f.id !== figureId));
+		setLines((prev) =>
+			prev.filter(
+				(line) =>
+					line.fromId !== figureId && line.toId !== figureId,
+			),
+		);
+	};
+
+	// Функция для открытия модального окна редактирования в режиме hand
+	const handleHandModePress = (figureId: string) => {
+		const figure = figures.find(f => f.id === figureId);
+		if (figure) {
+			setEditingFigureId(figureId);
+			setEditingTitle(figure.title || '');
+			setEditingDescription(figure.description || '');
+			setEditModalVisible(true);
+		}
+	};
+
+	// Функция для обработки долгого нажатия в режиме hand (удаление)
+	const handleHandModeLongPress = (figureId: string) => {
+		setFigures((prev) => prev.filter((f) => f.id !== figureId));
+		setLines((prev) =>
+			prev.filter(
+				(line) =>
+					line.fromId !== figureId && line.toId !== figureId,
+			),
+		);
+	};
+
+	// Общий обработчик нажатия на фигуру
+	const handleFigurePress = (figureId: string) => {
+		switch (selectedShape) {
+			case 'line':
+				handleLineModePress(figureId);
+				break;
+			case 'trash':
+				handleTrashModePress(figureId);
+				break;
+			case 'hand':
+				handleHandModePress(figureId);
+				break;
+			default:
+				break;
+		}
+	};
+
+	// Общий обработчик долгого нажатия
+	const handleFigureLongPress = (figureId: string) => {
+		if (selectedShape === 'hand') {
+			handleHandModeLongPress(figureId);
+		}
+	};
+
+	// Функция сохранения текста в фигуре
+	const handleSaveFigureText = (title: string, description: string) => {
+		if (editingFigureId) {
+			setFigures(prev =>
+				prev.map(figure =>
+					figure.id === editingFigureId
+						? { ...figure, title, description }
+						: figure
+				)
+			);
+		}
+	};
 
 	const findFigureAtPosition = (x: number, y: number) => {
 		return figures.find((figure) => {
@@ -170,6 +318,8 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 			x: x - size.width / 2,
 			y: y - size.height / 2,
 			...size,
+			title: '',
+			description: '',
 		};
 
 		setFigures((prev) => [...prev, newFigure]);
@@ -181,8 +331,8 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 		});
 	};
 
-	// Обработка тапа
-	const onTapHandler = (event: any) => {
+	// Обработка тапа на канвасе (только для создания фигур)
+	const onCanvasTap = (event: any) => {
 		const { state, x, y } = event.nativeEvent;
 
 		if (state !== State.ACTIVE) return;
@@ -190,61 +340,26 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 		const canvasX = x;
 		const canvasY = y;
 
-		// Режим удаления
+		// Режим удаления - удаляем фигуру если кликнули по ней
 		if (selectedShape === 'trash') {
 			const figureToDelete = findFigureAtPosition(canvasX, canvasY);
 			if (figureToDelete) {
-				setFigures((prev) => prev.filter((f) => f.id !== figureToDelete.id));
-				setLines((prev) =>
-					prev.filter(
-						(line) =>
-							line.fromId !== figureToDelete.id &&
-							line.toId !== figureToDelete.id,
-					),
-				);
+				handleTrashModePress(figureToDelete.id);
 			}
 			return;
 		}
 
-		// Режим линии
+		// Режим линии - не создаем фигуры на пустом месте
 		if (selectedShape === 'line') {
-			const clickedFigure = findFigureAtPosition(canvasX, canvasY);
-			if (clickedFigure) {
-				if (!isConnecting) {
-					setIsConnecting(true);
-					setSelectedFigureId(clickedFigure.id);
-				} else if (selectedFigureId && selectedFigureId !== clickedFigure.id) {
-					const lineExists = lines.some(
-						(line) =>
-							(line.fromId === selectedFigureId &&
-								line.toId === clickedFigure.id) ||
-							(line.fromId === clickedFigure.id &&
-								line.toId === selectedFigureId),
-					);
-
-					if (!lineExists) {
-						setLines((prev) => [
-							...prev,
-							{
-								id: generateId(),
-								fromId: selectedFigureId,
-								toId: clickedFigure.id,
-							},
-						]);
-					}
-					setIsConnecting(false);
-					setSelectedFigureId(null);
-				} else if (selectedFigureId === clickedFigure.id) {
-					setIsConnecting(false);
-					setSelectedFigureId(null);
-				}
-			}
 			return;
 		}
 
-		// Режим создания фигур
-		if (selectedShape === 'rectangle' || selectedShape === 'circle') {
-			createFigureAtPosition(canvasX, canvasY);
+		// Режим создания фигур (только на пустом месте, не на фигуре)
+		if ((selectedShape === 'rectangle' || selectedShape === 'circle')) {
+			const clickedFigure = findFigureAtPosition(canvasX, canvasY);
+			if (!clickedFigure) {
+				createFigureAtPosition(canvasX, canvasY);
+			}
 		}
 	};
 
@@ -315,6 +430,8 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 				isMoving={movingFigureId === figure.id}
 				onMoveStart={handleMoveStart}
 				onMoveEnd={handleMoveEnd}
+				onPress={() => handleFigurePress(figure.id)}
+				onLongPress={() => handleFigureLongPress(figure.id)}
 				enabled={selectedShape === 'move'}
 			/>
 		));
@@ -340,7 +457,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 					style={{ flex: 1 }}>
 					<TapGestureHandler
 						ref={tapRef}
-						onHandlerStateChange={onTapHandler}
+						onHandlerStateChange={onCanvasTap}
 						numberOfTaps={1}>
 						<View
 							onLayout={onCanvasLayout}
@@ -371,6 +488,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 					isConnecting={isConnecting}
 					onCancelConnection={handleCancelConnection}
 				/>
+				
 				<GenealogyTools
 					selectedShape={selectedShape}
 					setSelectedShape={(shape) => {
@@ -379,6 +497,15 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 							setMovingFigureId(null);
 						}
 					}}
+				/>
+
+				{/* Модальное окно редактирования */}
+				<EditFigureModal
+					visible={editModalVisible}
+					onClose={() => setEditModalVisible(false)}
+					onSave={handleSaveFigureText}
+					initialTitle={editingTitle}
+					initialDescription={editingDescription}
 				/>
 			</View>
 		</GestureHandlerRootView>
