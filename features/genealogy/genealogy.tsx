@@ -13,8 +13,6 @@ import {
 	Gesture,
 	GestureDetector,
 	GestureHandlerRootView,
-	State,
-	TapGestureHandler,
 } from 'react-native-gesture-handler';
 import Animated, {
 	runOnJS,
@@ -202,7 +200,6 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 	const canvasLayoutRef = useRef({ x: 0, y: 0 });
 
 	const canvasSize = { width: SCREEN_WIDTH * 3, height: SCREEN_HEIGHT * 3 };
-	const tapRef = useRef(null);
 
 	const generateId = () => `${Date.now()}-${Math.random()}`;
 
@@ -334,11 +331,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 	};
 
 	// Обработка тапа на канвасе (только для создания фигур)
-	const onCanvasTap = (event: any) => {
-		const { state, x, y } = event.nativeEvent;
-
-		if (state !== State.ACTIVE) return;
-
+	const handleCanvasTap = (x: number, y: number) => {
 		const canvasX = x;
 		const canvasY = y;
 
@@ -364,6 +357,14 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 			}
 		}
 	};
+
+	// Создаем жест для канваса
+	const canvasTapGesture = Gesture.Tap()
+		.numberOfTaps(1)
+		.onEnd((event) => {
+			const { x, y } = event;
+			runOnJS(handleCanvasTap)(x, y);
+		});
 
 	const handleScroll = (event: any) => {
 		scrollPosition.current = {
@@ -457,11 +458,8 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 						height: canvasSize.height,
 					}}
 					style={{ flex: 1 }}>
-					<TapGestureHandler
-						ref={tapRef}
-						onHandlerStateChange={onCanvasTap}
-						numberOfTaps={1}>
-						<View
+					<GestureDetector gesture={canvasTapGesture}>
+						<Animated.View
 							onLayout={onCanvasLayout}
 							style={{
 								width: canvasSize.width,
@@ -471,8 +469,8 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 							}}>
 							{renderLines()}
 							{renderFigures()}
-						</View>
-					</TapGestureHandler>
+						</Animated.View>
+					</GestureDetector>
 				</ScrollView>
 
 				{!isHide && <GenealogyFigure
