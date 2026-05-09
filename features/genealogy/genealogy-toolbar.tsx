@@ -1,29 +1,31 @@
 import { COLORS } from '@/shared/constants/colors';
+import { ICONS } from '@/shared/icons/icons';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { Typography } from '@/shared/ui/typography/typography';
+import { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-export type Shape = 'rect' | 'circle' | 'line' | 'text';
+export type Shape = 'rectangle' | 'circle' | 'line';
 
-type GenealogyToolbarProps = {
-	selectedShape: Shape | null;
-	onSelectedShape: (shape: Shape) => void;
-};
+type GenealogyToolbarProps = {};
 
 const shapes = [
-	{ type: 'rect', icon: '1', label: 'Блок' },
-	{ type: 'circle', icon: '2', label: 'Круг' },
-	{ type: 'line', icon: '3', label: 'Линия' },
-	{ type: 'text', icon: '4', label: 'Текст' },
+	{ type: 'rectangle', icon: ICONS.rectangle, label: 'Блок' },
+	{ type: 'circle', icon: ICONS.circle, label: 'Круг' },
+	{ type: 'line', icon: ICONS.line, label: 'Линия' },
 ] as const;
 
-export const GenealogyToolbar = ({
-	selectedShape,
-	onSelectedShape,
-}: GenealogyToolbarProps) => {
+export const GenealogyToolbar = ({}: GenealogyToolbarProps) => {
+	const [selectedShape, setSelectedShape] = useState<Shape>('rectangle');
+	console.log(selectedShape)
 	return (
 		<View style={styles.container}>
-			<Typography variant='h3' textColor='secondary' style={styles.title}>Инструменты</Typography>
+			<Typography
+				variant='h3'
+				textColor='secondary'
+				style={styles.title}>
+				Инструменты
+			</Typography>
 			<HorLayout style={styles.shapes}>
 				{shapes.map((shape) => (
 					<TouchableOpacity
@@ -32,21 +34,13 @@ export const GenealogyToolbar = ({
 							styles.tool,
 							selectedShape === shape.type && styles.toolActive,
 						]}
-						onPress={() => onSelectedShape(shape.type)}>
-						<Typography
-							style={[
-								styles.toolIcon,
-								selectedShape === shape.type && styles.toolIconActive,
-							]}>
+						onPress={() => setSelectedShape(shape.type)}>
+						<View
+							style={{ width: 24, height: 24 }}
+>
 							{shape.icon}
-						</Typography>
-						<Typography
-							style={[
-								styles.toolLabel,
-								selectedShape === shape.type && styles.toolLabelActive,
-							]}>
-							{shape.label}
-						</Typography>
+						</View>
+						<Typography style={styles.toolLabel}>{shape.label}</Typography>
 					</TouchableOpacity>
 				))}
 			</HorLayout>
@@ -56,9 +50,8 @@ export const GenealogyToolbar = ({
 
 const styles = StyleSheet.create({
 	container: {
-		position: 'absolute',
-		left: 16,
-		right: 16,
+		position: 'relative',
+		marginHorizontal: 10,
 		backgroundColor: COLORS.white,
 		borderRadius: 10,
 		padding: 16,
@@ -70,14 +63,14 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		width: '100%',
-        textAlign: 'center',
-        marginBottom: 10
+		textAlign: 'center',
+		marginBottom: 10,
 	},
-    shapes: {
-        gap: 10,
-        width: '100%',
-        justifyContent: 'center'
-    },
+	shapes: {
+		gap: 10,
+		width: '100%',
+		justifyContent: 'center',
+	},
 	tool: {
 		alignItems: 'center',
 		padding: 12,
@@ -89,6 +82,7 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.secondary + '20',
 		borderWidth: 1,
 		borderColor: COLORS.secondary,
+		borderStyle: 'solid',
 	},
 	toolIcon: {
 		fontSize: 24,
