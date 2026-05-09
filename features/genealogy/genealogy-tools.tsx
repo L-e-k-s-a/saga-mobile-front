@@ -29,22 +29,6 @@ export const GenealogyTools = ({
 				Инструменты
 			</Typography>
 
-			{selectedShape === 'move' && (
-				<View style={styles.moveBanner}>
-					<Typography style={styles.moveText}>
-						✋ Зажмите и перетащите фигуру для перемещения
-					</Typography>
-				</View>
-			)}
-
-			{selectedShape === 'hand' && (
-				<View style={styles.handBanner}>
-					<Typography style={styles.handText}>
-						👆 Нажмите на фигуру, чтобы редактировать текст
-					</Typography>
-				</View>
-			)}
-
 			<HorLayout style={styles.shapes}>
 				{shapes.map((shape) => (
 					<TouchableOpacity

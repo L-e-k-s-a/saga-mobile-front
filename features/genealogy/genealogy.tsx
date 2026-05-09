@@ -520,7 +520,8 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 const styles = StyleSheet.create({
 	eye: {
 		position: 'absolute',
-		top: '20%',
-		left: '8%',
+		top: '18%',
+		left: '7%',
+		padding: 10
 	},
 });

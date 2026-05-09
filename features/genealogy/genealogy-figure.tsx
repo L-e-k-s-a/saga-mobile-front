@@ -116,9 +116,6 @@ export const GenealogyFigure = ({
 
 			{isConnecting && (
 				<View style={styles.connectionBanner}>
-					<Typography style={styles.connectionText}>
-						🔗 Выберите вторую фигуру для соединения
-					</Typography>
 					{onCancelConnection && (
 						<TouchableOpacity
 							style={styles.cancelButton}
