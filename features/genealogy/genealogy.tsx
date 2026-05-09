@@ -227,7 +227,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
     ],
   }));
 
-  // Отрисовка линий
+  // Отрисовка линий - теперь правильно привязана к координатам фигур
   const renderLines = () => {
     return lines.map(line => {
       const fromFigure = figures.find(f => f.id === line.fromId);
@@ -235,25 +235,30 @@ export const Genealogy: React.FC<GenealogyProps> = ({
       
       if (!fromFigure || !toFigure) return null;
       
-      const fromX = fromFigure.x + fromFigure.width / 2;
-      const fromY = fromFigure.y + fromFigure.height / 2;
-      const toX = toFigure.x + toFigure.width / 2;
-      const toY = toFigure.y + toFigure.height / 2;
+      // Вычисляем центр фигур
+      const fromCenterX = fromFigure.x + fromFigure.width / 2;
+      const fromCenterY = fromFigure.y + fromFigure.height / 2;
+      const toCenterX = toFigure.x + toFigure.width / 2;
+      const toCenterY = toFigure.y + toFigure.height / 2;
       
-      const angle = Math.atan2(toY - fromY, toX - fromX);
-      const length = Math.sqrt(Math.pow(toX - fromX, 2) + Math.pow(toY - fromY, 2));
+      // Вычисляем угол и длину линии
+      const dx = toCenterX - fromCenterX;
+      const dy = toCenterY - fromCenterY;
+      const angle = Math.atan2(dy, dx);
+      const length = Math.sqrt(dx * dx + dy * dy);
       
       return (
         <View
           key={line.id}
           style={{
             position: 'absolute',
-            left: fromX,
-            top: fromY,
+            left: fromCenterX,
+            top: fromCenterY,
             width: length,
             height: 3,
             backgroundColor: '#2196F3',
             transform: [{ rotate: `${angle}rad` }],
+            transformOrigin: 'left center',
           }}
         />
       );
@@ -328,6 +333,18 @@ export const Genealogy: React.FC<GenealogyProps> = ({
     ));
   };
 
+  // Временная линия при соединении (показываем от выбранной фигуры до текущей позиции)
+  const renderTempLine = () => {
+    if (!isConnecting || !selectedFigureId) return null;
+    
+    const fromFigure = figures.find(f => f.id === selectedFigureId);
+    if (!fromFigure) return null;
+    
+    // Здесь можно было бы добавить временную линию от фигуры до курсора,
+    // но для этого нужно отслеживать позицию тапа/перемещения
+    return null;
+  };
+
   // Отмена режима соединения
   const handleCancelConnection = () => {
     setIsConnecting(false);
@@ -361,6 +378,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
               ]}
             >
               {renderLines()}
+              {renderTempLine()}
               {renderFigures()}
             </Animated.View>
           </TapGestureHandler>
