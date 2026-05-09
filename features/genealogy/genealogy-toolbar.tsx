@@ -17,7 +17,6 @@ const shapes = [
 
 export const GenealogyToolbar = ({}: GenealogyToolbarProps) => {
 	const [selectedShape, setSelectedShape] = useState<Shape>('rectangle');
-	console.log(selectedShape)
 	return (
 		<View style={styles.container}>
 			<Typography
