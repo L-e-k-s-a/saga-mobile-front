@@ -9,7 +9,7 @@ import { Typography } from '@/shared/ui/typography/typography';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-export type Shape = 'rectangle' | 'circle' | 'line' | 'move' | 'trash' | 'hand';
+export type Shape = 'rectangle' | 'circle' | 'line' | 'move' | 'trash' | 'hand' | 'eye';
 
 type GenealogyFigureProps = {
 	selectedShape: Shape;
@@ -139,7 +139,7 @@ export const GenealogyFigure = ({
 							shape.type === 'line' && isConnecting && styles.toolConnecting,
 						]}
 						onPress={() => setSelectedShape(shape.type)}>
-						<View style={{ width: 24, height: 24 }}>{shape.icon}</View>
+						<View>{shape.icon}</View>
 						<Typography
 							style={[
 								styles.toolLabel,

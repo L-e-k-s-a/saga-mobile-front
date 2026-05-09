@@ -1,5 +1,14 @@
+import { Typography } from '@/shared/ui/typography/typography';
+import { Ionicons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
-import { Dimensions, LayoutChangeEvent, ScrollView, View } from 'react-native';
+import {
+	Dimensions,
+	LayoutChangeEvent,
+	ScrollView,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import {
 	Gesture,
 	GestureDetector,
@@ -12,9 +21,9 @@ import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
 } from 'react-native-reanimated';
-import { GenealogyFigure, EditFigureModal, Shape } from './genealogy-figure';
+import { EditFigureModal, GenealogyFigure, Shape } from './genealogy-figure';
 import { GenealogyTools } from './genealogy-tools';
-import { Typography } from '@/shared/ui/typography/typography';
+import { COLORS } from '@/shared/constants/colors';
 
 type FigureType = 'rectangle' | 'circle';
 
@@ -87,12 +96,11 @@ const DraggableFigure: React.FC<{
 		});
 
 	// Жест для долгого нажатия
-	const longPressGesture = Gesture.LongPress()
-		.onStart(() => {
-			if (onLongPress) {
-				runOnJS(onLongPress)(figure.id);
-			}
-		});
+	const longPressGesture = Gesture.LongPress().onStart(() => {
+		if (onLongPress) {
+			runOnJS(onLongPress)(figure.id);
+		}
+	});
 
 	// Жест для перетаскивания (только в режиме move)
 	const panGesture = Gesture.Pan()
@@ -115,8 +123,8 @@ const DraggableFigure: React.FC<{
 		.enabled(enabled);
 
 	// В режиме move используем pan жест, иначе - tap + longPress
-	const activeGesture = enabled 
-		? panGesture 
+	const activeGesture = enabled
+		? panGesture
 		: Gesture.Race(tapGesture, longPressGesture);
 
 	const animatedStyle = useAnimatedStyle(() => {
@@ -146,7 +154,7 @@ const DraggableFigure: React.FC<{
 					}}>
 					{/* Отображаем заголовок, если есть */}
 					{figure.title ? (
-						<Typography 
+						<Typography
 							style={{
 								color: 'white',
 								fontWeight: 'bold',
@@ -182,7 +190,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 	const [isConnecting, setIsConnecting] = useState(false);
 	const [selectedFigureId, setSelectedFigureId] = useState<string | null>(null);
 	const [movingFigureId, setMovingFigureId] = useState<string | null>(null);
-	
+	const [isHide, setIsHide] = useState(false);
 	// Состояния для модального окна редактирования
 	const [editModalVisible, setEditModalVisible] = useState(false);
 	const [editingFigureId, setEditingFigureId] = useState<string | null>(null);
@@ -232,16 +240,13 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 	const handleTrashModePress = (figureId: string) => {
 		setFigures((prev) => prev.filter((f) => f.id !== figureId));
 		setLines((prev) =>
-			prev.filter(
-				(line) =>
-					line.fromId !== figureId && line.toId !== figureId,
-			),
+			prev.filter((line) => line.fromId !== figureId && line.toId !== figureId),
 		);
 	};
 
 	// Функция для открытия модального окна редактирования в режиме hand
 	const handleHandModePress = (figureId: string) => {
-		const figure = figures.find(f => f.id === figureId);
+		const figure = figures.find((f) => f.id === figureId);
 		if (figure) {
 			setEditingFigureId(figureId);
 			setEditingTitle(figure.title || '');
@@ -254,10 +259,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 	const handleHandModeLongPress = (figureId: string) => {
 		setFigures((prev) => prev.filter((f) => f.id !== figureId));
 		setLines((prev) =>
-			prev.filter(
-				(line) =>
-					line.fromId !== figureId && line.toId !== figureId,
-			),
+			prev.filter((line) => line.fromId !== figureId && line.toId !== figureId),
 		);
 	};
 
@@ -288,12 +290,12 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 	// Функция сохранения текста в фигуре
 	const handleSaveFigureText = (title: string, description: string) => {
 		if (editingFigureId) {
-			setFigures(prev =>
-				prev.map(figure =>
+			setFigures((prev) =>
+				prev.map((figure) =>
 					figure.id === editingFigureId
 						? { ...figure, title, description }
-						: figure
-				)
+						: figure,
+				),
 			);
 		}
 	};
@@ -355,7 +357,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 		}
 
 		// Режим создания фигур (только на пустом месте, не на фигуре)
-		if ((selectedShape === 'rectangle' || selectedShape === 'circle')) {
+		if (selectedShape === 'rectangle' || selectedShape === 'circle') {
 			const clickedFigure = findFigureAtPosition(canvasX, canvasY);
 			if (!clickedFigure) {
 				createFigureAtPosition(canvasX, canvasY);
@@ -473,7 +475,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 					</TapGestureHandler>
 				</ScrollView>
 
-				<GenealogyFigure
+				{!isHide && <GenealogyFigure
 					selectedShape={selectedShape}
 					setSelectedShape={(shape) => {
 						setSelectedShape(shape);
@@ -487,9 +489,9 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 					}}
 					isConnecting={isConnecting}
 					onCancelConnection={handleCancelConnection}
-				/>
-				
-				<GenealogyTools
+				/>}
+
+				{!isHide && <GenealogyTools
 					selectedShape={selectedShape}
 					setSelectedShape={(shape) => {
 						setSelectedShape(shape);
@@ -497,7 +499,7 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 							setMovingFigureId(null);
 						}
 					}}
-				/>
+				/>}
 
 				{/* Модальное окно редактирования */}
 				<EditFigureModal
@@ -507,7 +509,18 @@ export const Genealogy: React.FC<GenealogyProps> = ({
 					initialTitle={editingTitle}
 					initialDescription={editingDescription}
 				/>
+				<TouchableOpacity onPress={() => setIsHide(!isHide)} style={styles.eye}>
+					<Ionicons name={isHide ? 'eye-off' : 'eye'} color={COLORS.secondary} size={32}/>
+				</TouchableOpacity>
 			</View>
 		</GestureHandlerRootView>
 	);
 };
+
+const styles = StyleSheet.create({
+	eye: {
+		position: 'absolute',
+		top: '20%',
+		left: '8%',
+	},
+});
