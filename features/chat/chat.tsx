@@ -1,5 +1,6 @@
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { useMe } from '@/shared/store/me/useMe';
 import { styleForm } from '@/shared/styles/forms';
 import { Message } from '@/shared/types/message';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
@@ -21,13 +22,14 @@ import { useChat } from './hooks/use-chat';
 const { height } = Dimensions.get('window');
 export const Chat = () => {
 	const { messages, loading, user, handleSend } = useChat();
+	const me = useMe();
 	const [inputText, setInputText] = useState('');
 	const keyboardOffset = useRef(new Animated.Value(0)).current;
 
 	const sendMessage = () => {
-        handleSend(inputText)
-        setInputText('')
-    };
+		handleSend(inputText);
+		setInputText('');
+	};
 
 	useEffect(() => {
 		const showSubscription = Keyboard.addListener(
@@ -64,7 +66,16 @@ export const Chat = () => {
 			<View style={styleChat.messages}>
 				<DinamicScrollView maxHeight={height - 300}>
 					{messages?.map((message: Message) => (
-						<Typography>{message.text}</Typography>
+						<View key={message.createAt} style={styleChat.containerMessage}>
+							<Typography
+								style={
+									me.uid === message.senderId
+										? styleChat.messageCurrentUser
+										: styleChat.message
+								}>
+								{message.text}
+							</Typography>
+						</View>
 					))}
 				</DinamicScrollView>
 			</View>
@@ -91,12 +102,35 @@ export const Chat = () => {
 	);
 };
 
+const messageCommon = {
+	width: '60%',
+	marginTop: 10,
+	paddingVertical: 5,
+	borderRadius: 10,
+} as const;
+
 const styleChat = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
 	messages: {
 		height: height - 300,
+	},
+	containerMessage: {
+		width: '100%',
+	},
+	message: {
+		backgroundColor: COLORS.secondary,
+		alignSelf: 'flex-start',
+		paddingStart: 10,
+		...messageCommon,
+	},
+	messageCurrentUser: {
+		backgroundColor: COLORS.teal,
+		alignSelf: 'flex-end',
+		textAlign: 'right',
+		paddingEnd: 10,
+		...messageCommon,
 	},
 	sendContainer: {
 		alignItems: 'center',

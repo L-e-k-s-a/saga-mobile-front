@@ -18,7 +18,6 @@ export const useChat = () => {
 		}
 
 		const unsubscribe = subscribeToMessages(activeFamily, (newMessages) => {
-			console.log('Messages received:', newMessages);
 			setMessages(newMessages);
 			setLoading(false);
 		});
