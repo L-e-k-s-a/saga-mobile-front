@@ -26,6 +26,7 @@ export const subscribeToMessages = (familyId: string,callback: (messages: Messag
                     text: data.text,
                     senderId: data.senderId,
                     role: data.role,
+                    name: data.name,
                     createAt: data.createAt || Date.now()
                 })
             })

@@ -7,6 +7,7 @@ export const sendMessage = async (
 	text: string,
 	senderId: string,
 	role: string,
+	name: string,
     familyId: string
 ) => {
 	try {
@@ -17,6 +18,7 @@ export const sendMessage = async (
 			text,
 			senderId,
 			role,
+			name,
 			createAt: Date.now(),
 		});
 	} catch (error) {

@@ -1,10 +1,13 @@
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
+import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useMe } from '@/shared/store/me/useMe';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
 import { Message } from '@/shared/types/message';
 import { DinamicScrollView } from '@/shared/ui/dinamic-scroll-view/dinamic-scroll-view';
 import { Input } from '@/shared/ui/Input/Input';
+import { NoData } from '@/shared/ui/no-data/no-data';
 import { Typography } from '@/shared/ui/typography/typography';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
@@ -18,9 +21,6 @@ import {
 	View,
 } from 'react-native';
 import { useChat } from './hooks/use-chat';
-import { useFamilyStore } from '@/shared/store/family/family-store';
-import { useUserStore } from '@/shared/store/user/user-store';
-import { NoData } from '@/shared/ui/no-data/no-data';
 
 const { height } = Dimensions.get('window');
 export const Chat = () => {
@@ -28,12 +28,13 @@ export const Chat = () => {
 	const me = useMe();
 	const [inputText, setInputText] = useState('');
 	const keyboardOffset = useRef(new Animated.Value(0)).current;
-	const { activeFamily } = useUserStore()
+	const { activeFamily } = useUserStore();
 
 	const sendMessage = () => {
 		handleSend(inputText);
 		setInputText('');
 	};
+
 
 	useEffect(() => {
 		const showSubscription = Keyboard.addListener(
@@ -65,7 +66,6 @@ export const Chat = () => {
 		};
 	}, [keyboardOffset]);
 
-
 	if (!activeFamily) {
 		return (
 			<NoData
@@ -80,14 +80,19 @@ export const Chat = () => {
 			<View style={styleChat.messages}>
 				<DinamicScrollView maxHeight={height - 300}>
 					{messages?.map((message: Message) => (
-						<View key={message.createAt} style={styleChat.containerMessage}>
+						<View
+							key={message.createAt}
+							style={styleChat.containerMessage}>
 							<Typography
 								style={
 									me.uid === message.senderId
 										? styleChat.messageCurrentUser
 										: styleChat.message
 								}>
-								{message.text}
+								<VerLayout>
+									<Typography variant='h3'>{message.name}</Typography>
+									<Typography>{message.text}</Typography>
+								</VerLayout>
 							</Typography>
 						</View>
 					))}

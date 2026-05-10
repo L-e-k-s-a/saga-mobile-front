@@ -11,7 +11,7 @@ export const useChat = () => {
 	const [loading, setLoading] = useState(true);
 	const user = useMe();
 	const { role } = useFamilyStore();
-    const { activeFamily } = useUserStore()
+    const { activeFamily, name } = useUserStore()
 	useEffect(() => {
 		if (!user.uid) {
 			return;
@@ -31,7 +31,7 @@ export const useChat = () => {
 		}
 
 		try {
-			await sendMessage(text.trim(), user.uid, role, activeFamily);
+			await sendMessage(text.trim(), user.uid, role, name, activeFamily);
 		} catch (error) {
 			console.error('Faild to send message', error);
 		}
