@@ -29,13 +29,11 @@ export const FamiliesUser = () => {
 	}
 
 	const handleChangeFamily = async (family: Family) => {
-		console.log("family", family)
 		setActiveFamily(family.uid);
 		setNameFamily(family.nameFamily);
 		setInviteCode(family.inviteCode);
 		const familyMembers = await getFamilyMembers(activeFamily) 
 		setFamilyMembers(familyMembers);
-		console.log("familyMembers", familyMembers)
 	};
 
 	return families.length !== 0 ? (
@@ -64,6 +62,7 @@ export const FamiliesUser = () => {
 			title='Беда!'
 			desctiption='У Вас ещё нет не одной семьи'
 			colorText='secondary'
+			style={styleFamilyModal.noData}
 		/>
 	);
 };
@@ -79,4 +78,7 @@ const styleFamilyModal = StyleSheet.create({
 		width: '100%',
 		textAlign: 'center',
 	},
+	noData: {
+		height: 170
+	}
 });
