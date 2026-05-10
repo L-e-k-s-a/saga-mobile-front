@@ -1,25 +1,26 @@
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { capitalize } from '@/shared/lib/capitalize';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { DropDown } from '@/shared/ui/drop-down/drop-down';
+import { NoData } from '@/shared/ui/no-data/no-data';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Typography } from '@/shared/ui/typography/typography';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useGetFamilyMembers } from '../hooks/use-get-family-members';
-import { useUserStore } from '@/shared/store/user/user-store';
-import { useEffect } from 'react';
 
 export const FamilyMembers = () => {
-	const {activeFamily} = useUserStore()
+	const { activeFamily } = useUserStore();
 	const {
 		data: familyMembers,
 		isLoading,
 		error,
-		refetch
+		refetch,
 	} = useGetFamilyMembers();
 
 	useEffect(() => {
-		refetch()
-	}, [activeFamily])
+		refetch();
+	}, [activeFamily]);
 
 	if (error) {
 		return;
@@ -35,15 +36,23 @@ export const FamilyMembers = () => {
 		<DropDown
 			title='Члены семьи'
 			content={
-				<VerLayout styles={styleFamilyMember.list}>
-					{familyMembers.map((member, index) => (
-						<Typography
-							variant='h3'
-							key={index}>
-							{capitalize(member.positionInFamily)}: {member.name}
-						</Typography>
-					))}
-				</VerLayout>
+				familyMembers.length > 0 ? (
+					<VerLayout styles={styleFamilyMember.list}>
+						{familyMembers.map((member, index) => (
+							<Typography
+								variant='h3'
+								key={index}>
+								{capitalize(member.positionInFamily)}: {member.name}
+							</Typography>
+						))}
+					</VerLayout>
+				) : (
+					<NoData
+						title='Никого нет!'
+						desctiption='Вступите в семьи или добавьте кого-то в свою'
+						style={styleFamilyMember.noData}
+					/>
+				)
 			}
 		/>
 	);
@@ -53,5 +62,9 @@ const styleFamilyMember = StyleSheet.create({
 	list: {
 		paddingBottom: 10,
 		gap: 5,
+	},
+	noData: {
+
+		height: 100
 	},
 });

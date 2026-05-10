@@ -18,6 +18,9 @@ import {
 	View,
 } from 'react-native';
 import { useChat } from './hooks/use-chat';
+import { useFamilyStore } from '@/shared/store/family/family-store';
+import { useUserStore } from '@/shared/store/user/user-store';
+import { NoData } from '@/shared/ui/no-data/no-data';
 
 const { height } = Dimensions.get('window');
 export const Chat = () => {
@@ -25,6 +28,7 @@ export const Chat = () => {
 	const me = useMe();
 	const [inputText, setInputText] = useState('');
 	const keyboardOffset = useRef(new Animated.Value(0)).current;
+	const { activeFamily } = useUserStore()
 
 	const sendMessage = () => {
 		handleSend(inputText);
@@ -60,6 +64,16 @@ export const Chat = () => {
 			hideSubscription.remove();
 		};
 	}, [keyboardOffset]);
+
+
+	if (!activeFamily) {
+		return (
+			<NoData
+				title='Похоже Вы не состоите в семье'
+				desctiption='Быстрее создайте или вступите в семью!'
+			/>
+		);
+	}
 
 	return (
 		<View style={styleChat.container}>
