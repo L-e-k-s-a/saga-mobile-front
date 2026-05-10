@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import { useChat } from './hooks/use-chat';
 
-const { height } = Dimensions.get('screen');
+const { height } = Dimensions.get('window');
 export const Chat = () => {
 	const { messages, loading, user, handleSend } = useChat();
 	const [inputText, setInputText] = useState('');

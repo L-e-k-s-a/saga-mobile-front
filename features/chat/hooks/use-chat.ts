@@ -4,19 +4,21 @@ import { Message } from '@/shared/types/message';
 import { useEffect, useState } from 'react';
 import { sendMessage } from '../lib/send-message';
 import { subscribeToMessages } from '../lib/subscribe-to-messages';
+import { useUserStore } from '@/shared/store/user/user-store';
 
 export const useChat = () => {
 	const [messages, setMessages] = useState<Message[]>();
 	const [loading, setLoading] = useState(true);
 	const user = useMe();
 	const { role } = useFamilyStore();
-
+    const { activeFamily } = useUserStore()
 	useEffect(() => {
 		if (!user.uid) {
 			return;
 		}
 
-		const unsubscribe = subscribeToMessages((newMessages) => {
+		const unsubscribe = subscribeToMessages(activeFamily, (newMessages) => {
+			console.log('Messages received:', newMessages);
 			setMessages(newMessages);
 			setLoading(false);
 		});
@@ -30,7 +32,7 @@ export const useChat = () => {
 		}
 
 		try {
-			await sendMessage(text.trim(), user.uid, role);
+			await sendMessage(text.trim(), user.uid, role, activeFamily);
 		} catch (error) {
 			console.error('Faild to send message', error);
 		}

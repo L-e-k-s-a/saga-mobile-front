@@ -7,8 +7,8 @@ import { MESSAGES_PATH } from "./send-message";
 
 
 
-export const subscribeToMessages = (callback: (messages: Message[]) => void) => {
-    const messageRef = ref(realtime, MESSAGES_PATH)
+export const subscribeToMessages = (familyId: string,callback: (messages: Message[]) => void) => {
+    const messageRef = ref(realtime, `${MESSAGES_PATH}/${familyId}`)
 
     const messageQuery = query(
         messageRef,
