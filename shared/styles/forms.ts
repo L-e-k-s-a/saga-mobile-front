@@ -21,7 +21,6 @@ export const styleForm = StyleSheet.create({
 		width: '100%',
 		paddingHorizontal: 16,
 		fontSize: 16,
-		marginTop: 8,
 	},
 	submitSection: {
 		width: '100%',

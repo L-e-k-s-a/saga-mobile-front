@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { useSaveProduct } from '../hooks/use-save-product';
 import { styleForm } from '@/shared/styles/forms';
+import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
 
 type CreateProductFormProps = {
 	setIsVisible: (isVisible: boolean) => void;
@@ -22,7 +23,6 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 	const { activeFamily } = useUserStore();
 	const saveProduct = useSaveProduct();
 	const [nameProduct, setNameProduct] = useState('');
-	const [disabled, setDisabled] = useState(true);
 	const [editItem, setEditItem] = useState({
 		isEdit: false,
 		value: '',
@@ -35,13 +35,8 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 		productList: [],
 	});
 
-	useEffect(() => {
-		if (form.productList.length !== 0 && form.nameList !== '') {
-			setDisabled(false);
-		} else {
-			setDisabled(true);
-		}
-	}, [form]);
+	const disabledSave = form.productList.length === 0 && form.nameList === ''
+	const disabledAdd = nameProduct === ''
 
 	const handleSaveProducts = () => {
 		saveProduct(form);
@@ -112,16 +107,18 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 			/>
 			<HorLayout style={styleCreateProductForm.header}>
 				<Input
-					style={styleCreateProductForm.input}
+					style={[styleForm.input, styleCreateProductForm.input]}
 					placeholder='Продукт или товар'
 					value={nameProduct}
 					onChangeText={(text) => setNameProduct(text)}
 				/>
 				<TouchableOpacity
-					style={styleCreateProductForm.addProduct}
-					onPress={handleAddProduct}>
+					style={[styleCreateProductForm.addProduct, disabledAdd && {opacity: 0.6}]}
+					onPress={handleAddProduct}
+					disabled={disabledAdd}
+					>
 					<Ionicons
-						name='arrow-up'
+						name='add'
 						color={COLORS.white}
 						size={24}
 					/>
@@ -136,7 +133,7 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 							<HorLayout key={index} style={styleCreateProductForm.item}>
 								{editItem.isEdit && editItem.index === index ? (
 									<Input
-										style={styleCreateProductForm.input}
+										style={[styleForm.input, styleCreateProductForm.input]}
 										value={editItem.value}
 										onChangeText={(text) => {
 											setEditItem((prev) => ({ ...prev, value: text }));
@@ -191,13 +188,14 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 						title='Ничего нет'
 						desctiption='Добавьте продукт или товар'
 						colorText='secondary'
+						style={styleCreateProductForm.noData}
 					/>
 				)}
 			</VerLayout>
 			<Button
 				text='Сохранить'
 				onPress={handleSaveProducts}
-				disabled={disabled}
+				disabled={disabledSave}
 				fullWidth
 			/>
 		</VerLayout>
@@ -223,14 +221,16 @@ const styleCreateProductForm = StyleSheet.create({
 		backgroundColor: COLORS.secondary,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginLeft: 5,
-		paddingVertical: 18,
+		paddingVertical: 12,
 		paddingHorizontal: 35,
 		...common,
 	},
 	containerItems: {
 		gap: 5,
 		paddingBottom: 10,
+	},
+	input: {
+		width: '60%'
 	},
 	item: {
 		justifyContent: 'space-between',
@@ -249,16 +249,11 @@ const styleCreateProductForm = StyleSheet.create({
 		...commonIcon,
 		...common,
 	},
-	input: {
-	
-		width: '60%',
-		borderRadius: 10,
-		borderWidth: 1,
-		paddingLeft: 10,
-		marginRight: 10
-	},
 	text: {
 		width: '60%',
 		flexWrap: 'wrap',
 	},
+	noData: {
+		height: 100
+	}
 });
