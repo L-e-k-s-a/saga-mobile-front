@@ -42,6 +42,8 @@ export const EditFigureModal = ({
 	const [title, setTitle] = useState(initialTitle);
 	const [description, setDescription] = useState(initialDescription);
 
+	const disabled = title.trim() === ''
+
 	useEffect(() => {
 		if (visible) {
 			setTitle(initialTitle);
@@ -92,6 +94,7 @@ export const EditFigureModal = ({
 						onPress={handleSave}
 						fullWidth
 						text='Сохранить'
+						disabled={disabled}
 					/>
 				</View>
 			)}

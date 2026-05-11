@@ -35,7 +35,7 @@ export const PetsGroup = () => {
         pets.length > 0 ? (
             <FlatList 
                 data={pets}
-                keyExtractor={item => item.description}
+                keyExtractor={(item, index) => item.title + index}
                 renderItem={({item}) => <CardPet pet={item}/>}
             />
         ) : (
