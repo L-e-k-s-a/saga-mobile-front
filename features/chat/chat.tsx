@@ -1,6 +1,5 @@
 import { COLORS } from '@/shared/constants/colors';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
-import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 import { useMe } from '@/shared/store/me/useMe';
 import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
@@ -10,7 +9,7 @@ import { Input } from '@/shared/ui/Input/Input';
 import { NoData } from '@/shared/ui/no-data/no-data';
 import { Typography } from '@/shared/ui/typography/typography';
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	Animated,
 	Dimensions,
@@ -35,6 +34,13 @@ export const Chat = () => {
 		setInputText('');
 	};
 
+	const getTime = useCallback((timestamp: number) => {
+		const date = new Date(timestamp);
+		const hours = date.getHours();
+		const minutes = date.getMinutes();
+		const time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+		return time
+	}, []);
 
 	useEffect(() => {
 		const showSubscription = Keyboard.addListener(
@@ -83,17 +89,18 @@ export const Chat = () => {
 						<View
 							key={message.createAt}
 							style={styleChat.containerMessage}>
-							<Typography
+							<View
 								style={
 									me.uid === message.senderId
 										? styleChat.messageCurrentUser
 										: styleChat.message
 								}>
-								<VerLayout>
-									<Typography variant='h3'>{message.name}</Typography>
-									<Typography>{message.text}</Typography>
-								</VerLayout>
-							</Typography>
+								<Typography variant='h3'>{message.name}</Typography>
+								<Typography>{message.text}</Typography>
+								<Typography>
+									{getTime(message.createAt)}
+								</Typography>
+							</View>
 						</View>
 					))}
 				</DinamicScrollView>
@@ -122,10 +129,10 @@ export const Chat = () => {
 };
 
 const messageCommon = {
-	width: '60%',
 	marginTop: 10,
 	paddingVertical: 5,
 	borderRadius: 10,
+	paddingHorizontal: 10,
 } as const;
 
 const styleChat = StyleSheet.create({
@@ -147,7 +154,7 @@ const styleChat = StyleSheet.create({
 	messageCurrentUser: {
 		backgroundColor: COLORS.teal,
 		alignSelf: 'flex-end',
-		textAlign: 'right',
+		alignItems: 'flex-end',
 		paddingEnd: 10,
 		...messageCommon,
 	},
@@ -162,6 +169,5 @@ const styleChat = StyleSheet.create({
 		padding: 10,
 		backgroundColor: COLORS.secondary,
 		borderRadius: 10,
-		marginTop: 8,
 	},
 });

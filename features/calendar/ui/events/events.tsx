@@ -57,7 +57,7 @@ export const Events = ({ events }: EventsProps) => {
                     ))}
                 </DinamicScrollView >
 			) : (
-				<VerLayout styles={styleEvents.noData}>
+				<VerLayout styles={styleEvents.noDataEvent}>
 					<NoData title='На этот день напоминаний нет' desctiption='Добавьте напоминание!'/>
 				</VerLayout>
 			)}
@@ -83,13 +83,13 @@ export const Events = ({ events }: EventsProps) => {
                 </DinamicScrollView>
 				
 			) : (
-                <VerLayout styles={styleEvents.noData}>
+                <VerLayout styles={styleEvents.noDataEvent}>
 					<NoData title='На этот день традиций нет' desctiption='Добавьте традицию!'/>
 				</VerLayout>
 			)}
 		</>
 	) : (
-		<NoData title='Ничего нет' desctiption='Добавьте напоминание или традицию!'/>
+		<NoData title='Ничего нет' desctiption='Добавьте напоминание или традицию!' style={styleEvents.noData}/>
 	);
 };
 
@@ -112,7 +112,10 @@ const styleEvents = StyleSheet.create({
 		height: 20,
 		borderRadius: 20,
 	},
-    noData: {
+    noDataEvent: {
         height: 90
-    }
+    },
+	noData: {
+		height: 300
+	}
 });

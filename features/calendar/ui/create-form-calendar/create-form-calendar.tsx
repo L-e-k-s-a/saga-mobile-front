@@ -46,7 +46,7 @@ export const CreateFormCalendar = ({
 		});
 	}, [isTradition]);
 
-	const disabledSave = form.title === '';
+	const disabledSave = form.title.trim() === '';
 
 	const handleChangeCreateFormCalendar = (field: string, value: string) => {
 		setForm((prev) => ({ ...prev, [field]: value }));
@@ -146,6 +146,7 @@ const styleFormCalendar = StyleSheet.create({
 	},
 	header: {
 		gap: 3,
+		marginVertical: 8,
 	},
 	body: {
 		width: '100%',
