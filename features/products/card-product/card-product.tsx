@@ -10,9 +10,8 @@ import { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { useUpdateProduct } from '../hooks/use-update-product';
 
-
 type CardProductProps = {
-	product: ProductAndOrder
+	product: ProductAndOrder;
 };
 
 export type SelectedItem = {
@@ -29,12 +28,12 @@ export const CardProduct = ({ product }: CardProductProps) => {
 
 	const select = (index: number, name: string) => {
 		if (confirmedItems.includes(index)) return;
-		
-		setSelectedItems(prev => {
-			const isAlreadySelected = prev.some(item => item.index === index);
-			
+
+		setSelectedItems((prev) => {
+			const isAlreadySelected = prev.some((item) => item.index === index);
+
 			if (isAlreadySelected) {
-				return prev.filter(item => item.index !== index);
+				return prev.filter((item) => item.index !== index);
 			} else {
 				return [...prev, { name, index }];
 			}
@@ -43,17 +42,19 @@ export const CardProduct = ({ product }: CardProductProps) => {
 
 	const handleConfirm = async () => {
 		if (selectedItems.length === 0) return;
-		
+
 		setIsLoading(true);
 		try {
 			await updateProduct({
 				id: product.productId,
-				productList: selectedItems
+				productList: selectedItems,
 			});
-			
-			setConfirmedItems(prev => [...prev, ...selectedItems.map(item => item.index)]);
+
+			setConfirmedItems((prev) => [
+				...prev,
+				...selectedItems.map((item) => item.index),
+			]);
 			setSelectedItems([]);
-			
 		} catch (error) {
 			console.error('Ошибка при подтверждении товаров:', error);
 		} finally {
@@ -61,21 +62,22 @@ export const CardProduct = ({ product }: CardProductProps) => {
 		}
 	};
 
-	const isSelected = (index: number) => selectedItems.some(item => item.index === index);
+	const isSelected = (index: number) =>
+		selectedItems.some((item) => item.index === index);
 	const isConfirmed = (index: number) => confirmedItems.includes(index);
 
 	const renderCheckboxList = () => (
 		<>
 			{product.productList.map((productItem: Product, index: number) => {
 				const isItemConfirmed = isConfirmed(index) || productItem.isConfirm;
-				
+
 				return (
-					<Checkbox 
+					<Checkbox
 						key={index}
 						label={productItem.productName}
 						checked={isSelected(index) || isItemConfirmed}
 						onPress={() => select(index, productItem.productName)}
-						disabled={isItemConfirmed || isLoading} 
+						disabled={isItemConfirmed || isLoading}
 					/>
 				);
 			})}
@@ -97,22 +99,17 @@ export const CardProduct = ({ product }: CardProductProps) => {
 					style={styleCardProduct.title}>
 					{product.nameList}
 				</Typography>
-				{product.productList.length > 3 && (
-					<TouchableOpacity onPress={() => setIsDrop(!isDrop)}>
-						<Ionicons
-							name={isDrop ? 'chevron-up' : 'chevron-down'}
-							color={COLORS.secondary}
-							size={24}
-						/>
-					</TouchableOpacity>
-				)}
+
+				<TouchableOpacity onPress={() => setIsDrop(!isDrop)}>
+					<Ionicons
+						name={isDrop ? 'chevron-up' : 'chevron-down'}
+						color={COLORS.secondary}
+						size={24}
+					/>
+				</TouchableOpacity>
 			</HorLayout>
-			
-			{product.productList.length <= 3 ? (
-				renderCheckboxList()
-			) : (
-				isDrop && renderCheckboxList()
-			)}
+
+			{isDrop && renderCheckboxList()}
 		</Card>
 	);
 };
