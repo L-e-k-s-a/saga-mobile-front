@@ -70,8 +70,8 @@ export const RegisterForm = () => {
 	};
 
 	return (
-		<VerLayout styles={styleForm.form}>
-			<VerLayout styles={styleForm.section}>
+		<VerLayout styles={[styleForm.form]}>
+			<VerLayout styles={[styleForm.section, styleRegisterForm.section]}>
 				<Input
 					value={form.loginPerson}
 					onChangeText={(text) => handleFormChange('loginPerson', text)}
@@ -126,6 +126,9 @@ export const RegisterForm = () => {
 };
 
 const styleRegisterForm = StyleSheet.create({
+	section: {
+		gap: 10
+	},
 	buttonAbout: {
 		width: '70%',
 	},
