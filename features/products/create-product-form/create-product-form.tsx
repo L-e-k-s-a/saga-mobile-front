@@ -35,8 +35,8 @@ export const CreateProductForm = ({ setIsVisible }: CreateProductFormProps) => {
 		productList: [],
 	});
 
-	const disabledSave = form.productList.length === 0 && form.nameList === ''
-	const disabledAdd = nameProduct === ''
+	const disabledSave = form.productList.length === 0 && form.nameList.trim() === ''
+	const disabledAdd = nameProduct.trim() === ''
 
 	const handleSaveProducts = () => {
 		saveProduct(form);

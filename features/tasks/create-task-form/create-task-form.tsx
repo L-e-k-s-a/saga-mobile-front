@@ -27,7 +27,7 @@ export const CreateTaskForm = ({ setIsVisible }: CreateTaskFormProps) => {
 		executors: [],
 	});
 
-	const disabled = form.title === ''
+	const disabled = form.title.trim() === ''
 
 	const handleChangeCreateTaskForm = (field: string, value: string) => {
 		setForm((prev) => ({ ...prev, [field]: value }));

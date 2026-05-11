@@ -54,7 +54,6 @@ export const CardProduct = ({ product }: CardProductProps) => {
 			setConfirmedItems(prev => [...prev, ...selectedItems.map(item => item.index)]);
 			setSelectedItems([]);
 			
-			console.log('Товары успешно подтверждены');
 		} catch (error) {
 			console.error('Ошибка при подтверждении товаров:', error);
 		} finally {
