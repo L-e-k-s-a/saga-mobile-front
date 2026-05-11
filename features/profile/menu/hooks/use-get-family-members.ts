@@ -27,7 +27,6 @@ export const useGetFamilyMembers = () => {
         staleTime: 0,
 		refetchOnMount: true,
     })
-    console.log('data', data )
     return {
         data, isLoading, error, refetch
     }
