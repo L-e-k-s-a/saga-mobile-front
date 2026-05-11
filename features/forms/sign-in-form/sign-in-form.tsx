@@ -23,10 +23,11 @@ export const SignInForm = () => {
 		login: '',
 		password: '',
 	});
+	const {activeFamily} = useUserStore()
 
 	useEffect(() => {
-		saveFamily();
-	}, [loading]);
+		saveFamily(activeFamily);
+	}, [loading, activeFamily]);
 
 	const handleChangeSignInForm = (field: string, value: string) => {
 		setSignInForm((prev) => ({ ...prev, [field]: value }));

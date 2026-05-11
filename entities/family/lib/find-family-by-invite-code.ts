@@ -1,10 +1,10 @@
 import { db } from '@/firebase/firebase';
-import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 export const findFamilyByInviteCode = async (inviteCode: string) => {
 	const queryFamily = query(
 		collection(db, 'families'),
-		where('inviteCode', '==', inviteCode),
+		where('inviteCode', '==', inviteCode.toUpperCase()),
 	);
 
     const querySnap = await getDocs(queryFamily);

@@ -2,7 +2,7 @@ import { FamiliesUser } from '@/features/family-actions/families-user/families-u
 import { FamilyActions } from '@/features/family-actions/family-actions';
 import { COLORS } from '@/shared/constants/colors';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 type FamilyModalActionsProps = {
 	isVisibleModal: boolean;
 	setIsVisibleModal: (isVisible: boolean) => void;
@@ -16,9 +16,7 @@ export const FamilyModalActions = ({
 		isVisibleModal && (
 			<>
 				<VerLayout styles={styleFamilyModal.modal}>
-	
-						<FamiliesUser />
-					
+					<FamiliesUser />
 					<FamilyActions />
 				</VerLayout>
 				<Pressable

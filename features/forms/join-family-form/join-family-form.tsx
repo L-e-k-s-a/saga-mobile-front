@@ -1,14 +1,17 @@
+import { useSaveFamily } from '@/entities/family/hooks/use-save-family';
 import { findFamilyByInviteCode } from '@/entities/family/lib/find-family-by-invite-code';
 import { db } from '@/firebase/firebase';
 import { HorLayout } from '@/shared/layouts/HorLayout/HorLayout';
 import { VerLayout } from '@/shared/layouts/VerLayout/VerLayout';
 
 import { useMe } from '@/shared/store/me/useMe';
+import { useUserStore } from '@/shared/store/user/user-store';
 import { styleForm } from '@/shared/styles/forms';
 import { JoinFamilyFormType } from '@/shared/types/join-family-form-type';
 import { Button } from '@/shared/ui/buttons/button/Button';
 import { DropDownPositionInFamily } from '@/shared/ui/drop-down-position-in-family/drop-down-position-in-family';
 import { Input } from '@/shared/ui/Input/Input';
+import { useToast } from 'expo-toast';
 import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
@@ -18,17 +21,21 @@ type JoinFamilyFormProps = {
 };
 
 export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
+	const { setActiveFamily } = useUserStore();
+	const { saveFamily } = useSaveFamily()
+	const toast = useToast();
 	const [formFamily, setFormFamily] = useState<JoinFamilyFormType>({
 		inviteCode: '',
 		positionInFamily: '',
 		role: '',
 	});
 	const me = useMe();
-	const disabled = formFamily.inviteCode === '' || formFamily.positionInFamily == ''
-
+	const disabled =
+		formFamily.inviteCode === '' || formFamily.positionInFamily == '';
 	const handleJoinFamily = async () => {
 		const meId = me.uid;
 		const family = await findFamilyByInviteCode(formFamily.inviteCode);
+
 		if (family) {
 			await addDoc(collection(db, 'familyMembers'), {
 				familyId: family.id,
@@ -36,6 +43,10 @@ export const JoinFamilyForm = ({ setIsVisible }: JoinFamilyFormProps) => {
 				positionInFamily: formFamily.positionInFamily,
 				role: formFamily.role,
 			});
+			setActiveFamily(family.id);
+			saveFamily(family.id)
+		} else {
+			toast.show(`Семьи с кодом ${formFamily.inviteCode} не существует`);
 		}
 	};
 

@@ -1,9 +1,17 @@
 import { Family } from '@/entities/family/type/family';
+import { db } from '@/firebase/firebase';
 import { useMe } from '@/shared/store/me/useMe';
 import { useUserStore } from '@/shared/store/user/user-store';
+import {
+	collection,
+	doc,
+	onSnapshot,
+	query,
+	Unsubscribe,
+	where,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { collection, doc, onSnapshot, query, where, Unsubscribe } from 'firebase/firestore';
-import { db } from '@/firebase/firebase';
+
 
 export const useFamiliesUsers = () => {
 	const [families, setFamilies] = useState<Family[]>([]);
@@ -23,74 +31,92 @@ export const useFamiliesUsers = () => {
 		setError(null);
 
 		const unsubscribes: Unsubscribe[] = [];
+		const familyUnsubscribes = new Map<string, Unsubscribe>(); 
+		let currentFamilyIds = new Set<string>();
 
 		const familyMembersQuery = query(
 			collection(db, 'familyMembers'),
-			where('userId', '==', me.uid)
+			where('userId', '==', me.uid),
 		);
 
 		const unsubscribeFamilyMembers = onSnapshot(
 			familyMembersQuery,
 			(membersSnapshot) => {
-				unsubscribes.forEach(unsub => unsub());
-				unsubscribes.length = 0;
+				const newFamilyIds = new Set(
+					membersSnapshot.docs.map((doc) => doc.data().familyId),
+				);
 
-				const membersData = membersSnapshot.docs.map(doc => ({
-					id: doc.id,
-					familyId: doc.data().familyId
-				}));
+				currentFamilyIds.forEach((oldId) => {
+					if (!newFamilyIds.has(oldId)) {
+						const unsubscribe = familyUnsubscribes.get(oldId);
+						if (unsubscribe) {
+							unsubscribe(); 
+							familyUnsubscribes.delete(oldId);
+							
+							const index = unsubscribes.indexOf(unsubscribe);
+							if (index !== -1) {
+								unsubscribes.splice(index, 1);
+							}
+						}
+					}
+				});
 
-				if (membersData.length === 0) {
+				newFamilyIds.forEach((newId) => {
+					if (!currentFamilyIds.has(newId)) {
+						const familyDocRef = doc(db, 'families', newId);
+
+						const unsubscribeFamily = onSnapshot(
+							familyDocRef,
+							(familySnapshot) => {
+								if (familySnapshot.exists()) {
+									const familyData = familySnapshot.data();
+									setFamilies((prev) => {
+										const newFamilies = prev.filter((f) => f.uid !== newId);
+										return [
+											...newFamilies,
+											{
+												uid: familySnapshot.id,
+												nameFamily: familyData.nameFamily,
+												inviteCode: familyData.inviteCode,
+												familyMembers: familyData.familyMembers || [],
+											},
+										];
+									});
+								} else {
+									setFamilies((prev) => prev.filter((f) => f.uid !== newId));
+								}
+								setIsLoading(false);
+							},
+							(err) => {
+								console.error(`Error loading family ${newId}:`, err);
+								setError(err);
+								setIsLoading(false);
+							},
+						);
+
+						familyUnsubscribes.set(newId, unsubscribeFamily);
+						unsubscribes.push(unsubscribeFamily);
+					}
+				});
+
+				currentFamilyIds = newFamilyIds;
+
+				if (newFamilyIds.size === 0) {
 					setFamilies([]);
 					setIsLoading(false);
-					return;
 				}
-
-				const familiesMap = new Map<string, Family>();
-
-				membersData.forEach(member => {
-					const familyDocRef = doc(db, 'families', member.familyId);
-					
-					const unsubscribeFamily = onSnapshot(
-						familyDocRef,
-						(familySnapshot) => {
-							if (familySnapshot.exists()) {
-								const familyData = familySnapshot.data();
-								familiesMap.set(familySnapshot.id, {
-									uid: familySnapshot.id,
-									nameFamily: familyData.nameFamily,
-									inviteCode: familyData.inviteCode,
-									familyMembers: familyData.familyMembers || []
-								});
-								
-								setFamilies(Array.from(familiesMap.values()));
-							} else {
-								familiesMap.delete(member.familyId);
-								setFamilies(Array.from(familiesMap.values()));
-							}
-							setIsLoading(false);
-						},
-						(err) => {
-							console.error(`Error loading family ${member.familyId}:`, err);
-							setError(err);
-							setIsLoading(false);
-						}
-					);
-					
-					unsubscribes.push(unsubscribeFamily);
-				});
 			},
 			(err) => {
-				console.error("Error in familyMembers subscription:", err);
+				console.error('Error in familyMembers subscription:', err);
 				setError(err);
 				setIsLoading(false);
-			}
+			},
 		);
 
 		unsubscribes.push(unsubscribeFamilyMembers);
 
 		return () => {
-			unsubscribes.forEach(unsub => unsub());
+			unsubscribes.forEach((unsub) => unsub());
 		};
 	}, [me.uid, countFamily]);
 

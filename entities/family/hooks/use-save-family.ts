@@ -6,8 +6,7 @@ import { getFamilyUser } from './get-family-user';
 
 export const useSaveFamily = () => {
 	const { setFamily } = useFamilyStore();
-	const { activeFamily } = useUserStore();
-	const saveFamily = async () => {
+	const saveFamily = async (activeFamily: string) => {
 		if (!activeFamily) {
 			return null;
 		}
