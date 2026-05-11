@@ -35,8 +35,8 @@ export const CreatePetForm = ({setIsVisible}: CreatePetFormProps) => {
 		petInfo: [],
 	});
 
-	const disabledAdd = field.nameField === '' || field.description === '';
-	const disabledSave = form.namePet === '';
+	const disabledAdd = field.nameField.trim() === '' || field.description.trim() === '';
+	const disabledSave = form.namePet.trim() === '';
 
 	const handleAddedInfo = () => {
 		setIsAddedInfo(true);
@@ -82,7 +82,7 @@ export const CreatePetForm = ({setIsVisible}: CreatePetFormProps) => {
 				maxHeight={150}>
 				{form.petInfo.length > 0 &&
 					form.petInfo.map((item, index) => (
-						<HorLayout style={styleCreatePet.field}>
+						<HorLayout key={item.nameField + index} style={styleCreatePet.field}>
 							<HorLayout
 								key={item.nameField + index}
 								style={styleCreatePet.fieldLeft}>
@@ -114,7 +114,7 @@ export const CreatePetForm = ({setIsVisible}: CreatePetFormProps) => {
 					<VerLayout styles={styleCreatePet.add}>
 						<Input
 							style={styleForm.input}
-							placeholder='Название поля'
+							placeholder='Информация'
 							value={field.nameField}
 							onChangeText={(text) =>
 								setField((prev) => ({ ...prev, nameField: text }))
@@ -122,7 +122,7 @@ export const CreatePetForm = ({setIsVisible}: CreatePetFormProps) => {
 						/>
 						<Input
 							style={styleForm.input}
-							placeholder='Описание'
+							placeholder='Значение'
 							value={field.description}
 							onChangeText={(text) =>
 								setField((prev) => ({ ...prev, description: text }))
@@ -193,6 +193,7 @@ const styleCreatePet = StyleSheet.create({
 	add: {
 		justifyContent: 'center',
 		alignItems: 'center',
+		gap: 10
 	},
 	close: {
 		backgroundColor: COLORS.secondary,

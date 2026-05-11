@@ -19,7 +19,7 @@ export const CreateNote = ({ setIsVisible }: CreateNoteProps) => {
 		description: '',
 	});
 
-	const disabled = note.description === '';
+	const disabled = note.description.trim() === '';
 
 	const handleSave = () => {
 		saveNote(note);
