@@ -250,7 +250,7 @@ const styleCreateProductForm = StyleSheet.create({
 		...common,
 	},
 	input: {
-		height: '100%',
+	
 		width: '60%',
 		borderRadius: 10,
 		borderWidth: 1,
