@@ -64,8 +64,8 @@ export const Events = ({ events }: EventsProps) => {
 			<Typography style={styleEvents.title} variant='h3'>Традиции</Typography>
 			{traditions.length > 0 ? (
                 <DinamicScrollView style={styleEvents.list} maxHeight={200}>
-                    {traditions.map((tradition) => (
-                        <HorLayout style={styleEvents.item}>
+                    {traditions.map((tradition, index) => (
+                        <HorLayout key={tradition.title + index} style={styleEvents.item}>
 							<View
 								style={[
 									{
