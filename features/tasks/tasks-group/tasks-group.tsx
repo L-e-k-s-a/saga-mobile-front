@@ -12,7 +12,6 @@ import { ModalTask } from '../modal-task/modal-task';
 export const TasksGroup = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [selectedTask, setSelectedTask] = useState<Task>({
-		id: '',
 		familyId: '',
 		title: '',
 		description: '',
@@ -40,6 +39,7 @@ export const TasksGroup = () => {
 	if (isLoading) {
 		return <Spinner />;
 	}
+
 
 	return (
 		<>
